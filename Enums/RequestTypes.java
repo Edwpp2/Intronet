@@ -1,0 +1,5 @@
+package Enums;
+
+public enum RequestTypes {
+    ADDCOURSE,REMOVECOURSE,ADDSTUDET,REMOVESTUDENT,ANOTHER,DROPCOURSE
+}
