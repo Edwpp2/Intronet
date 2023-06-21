@@ -20,8 +20,8 @@ public class Manager extends User{
     public void removeStudentFromCourse(Student student,Course course){
         course.removeStudentFromCourse(student);
     }
-    public void AddNews(String content){
-        Intronet.news.add(new News(content));
+    public void AddNews(String title,String content){
+        Intronet.news.add(new News(title,content));
     }
     public void addTeacherToCourse(Teacher teacher,Course course){
         course.setTeacher(teacher);
