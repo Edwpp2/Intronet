@@ -9,21 +9,24 @@ public class Manager extends User{
         Intronet.courses.add(new Course(department,title,description,credits,capacity));
     }
     public void removeCourse(Course course){
+        for(Student student: course.studentsAndMarks.keySet()){
+            course.removeUserFromCourse(student);
+        }
+        if(course.teacher!=null){
+            course.removeUserFromCourse(course.teacher);
+        }
         for(Lesson lesson: course.lessons){
             Intronet.lessons.remove(lesson);
         }
         Intronet.courses.remove(course);
     }
-    public void addStudentToCourse(Student student,Course course){
-        course.addStudentToCourse(student);
+    public void addUserToCourse(User user,Course course){
+        course.addUserToCourse(user);
     }
-    public void removeStudentFromCourse(Student student,Course course){
-        course.removeStudentFromCourse(student);
+    public void removeUserFromCourse(User user,Course course){
+        course.removeUserFromCourse(user);
     }
     public void AddNews(String title,String content){
         Intronet.news.add(new News(title,content));
-    }
-    public void addTeacherToCourse(Teacher teacher,Course course){
-        course.setTeacher(teacher);
     }
 }

@@ -9,17 +9,12 @@ public class Intronet {
     static Vector<News> news;
 
     static Vector<Discipline> disciplines;
-    public static boolean checkCohision(Lesson lesson){
-        boolean cohesion = false;
-        for(Lesson lessonInSystem : lessons)
-        {
-            if(!lessonInSystem.time.isAfter(lesson.time) && !lessonInSystem.time.isBefore(lesson.time) && lessonInSystem.room.equals(lesson.room))
-            {
-                cohesion = true;
-                break;
-            }
+    public static boolean checkLessonCohesion(Lesson lesson){
+        for(Lesson lesson1 : lessons){
+            if(lesson.hasCoheision(lesson1))
+                return true;
         }
-        return cohesion;
+        return false;
     }
     public static User login(String login,String password){
         for(User user : users)
@@ -29,13 +24,6 @@ public class Intronet {
             }
         }
         return null;
-    }
-    public static void viewNews(){
-        int i = 1;
-        for (News news : news){
-            System.out.println(i+ " " + news.title);
-            i++;
-        }
     }
 
 }

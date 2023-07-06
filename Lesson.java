@@ -8,21 +8,14 @@ public class Lesson implements Comparable<Lesson> {
     Type type;
     Day day;
     String room;
-
-    String scheduleDuration;
     public Lesson(int hour,int min, Type type, Day day, String room) {
         this.type = type;
         this.day = day;
         this.room = room;
-        LocalTime time = LocalTime.of(hour, min);
+        this.time = LocalTime.of(hour, min);
     }
-    public int getMinute()
-    {
-        return this.time.getMinute();
-    }
-    public int getHour()
-    {
-        return this.time.getHour();
+    public boolean hasCoheision(Lesson lesson2){
+        return !this.time.isAfter(lesson2.time)||!this.time.isBefore(lesson2.time);
     }
     @Override
     public int compareTo(Lesson lesson) {
@@ -31,7 +24,6 @@ public class Lesson implements Comparable<Lesson> {
         }
         else return Integer.compare(this.time.getHour(), lesson.time.getHour());
     }
-
     public String toString(){
         return time.toString() + room + type;
     }

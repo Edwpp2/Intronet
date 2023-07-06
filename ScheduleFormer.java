@@ -2,7 +2,7 @@ import Enums.Day;
 public class ScheduleFormer {
 
     public static String[][] createSchdule(){
-        String[][] schedule = {
+        return new String[][]{
                 {"TIME", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},
                 {"09:00", null, null, null, null, null, null,null},
                 {"10:00", null, null, null, null, null, null,null},
@@ -18,7 +18,6 @@ public class ScheduleFormer {
                 {"20:00", null, null, null, null, null, null,null},
                 {"21:00", null, null, null, null, null, null,null}
         };
-        return schedule;
     }
     public void updateSchedule(Lesson lesson,String[][] schedule){
         int i = 0;

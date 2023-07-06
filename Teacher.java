@@ -2,64 +2,71 @@ import Enums.Department;
 import Enums.Role;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Teacher extends User{
-    HashSet<Course> currentCourses;
+    HashMap<Course,double[]> currentCourses;
     Department department;
-    String[][] schedule;
-
-    HashMap<Course,Double> courseWithRaiting;
-    double raiting;
     {
-        schedule = ScheduleFormer.createSchdule();
+        currentCourses = new HashMap<>();
     }
-
     public Teacher(String login, String password, String name, String surname, String id, Role role, Department department) {
         super(login, password, name, surname, id, role, department);
         this.department = department;
     }
-
-    public boolean checkTimeCollision(Lesson lesson){
-        boolean cohesion = false;
-        for(Course course : currentCourses){
-            for(Lesson lessonInSystem : course.lessons)
-            {
-                if(!lessonInSystem.time.isAfter(lesson.time) && !lessonInSystem.time.isBefore(lesson.time))
-                {
-                    cohesion = true;
-                    break;
-                }
-            }
-        }
-        return cohesion;
-    }
     public void putMark(Course course,Student student,int part,double mark){
-        for(Student student1 : course.studentsAndMarks.keySet()) {
-            if(student1.equals(student)){
-                double[] bufferList = student1.currentCourses.get(course);
-                bufferList[part] = mark;
-                student1.currentCourses.put(course,bufferList);
+        int index = part-1;
+        double[] bufferMarkArray = student.currentCourses.get(course);
+        bufferMarkArray[index] = mark;
+        student.currentCourses.put(course,bufferMarkArray);
+    }
+    public void putMaterial(Course course,String material){
+        course.addMaterial(material);
+    }
+    public void removeMaterial(int num,Course course){
+        course.removeMaterial(num);
+    }
+    public void viewMaterials(Course course){
+        course.viewMaterial();
+    }
+    public void dropCourse(Course course){
+        currentCourses.remove(course);
+    }
+    public void getRating(Course course){
+        double bufferRating=0;
+        for(double rating : currentCourses.get(course)){
+            bufferRating+=rating;
+        }
+        System.out.println(course.title + " : " + bufferRating/(double) currentCourses.get(course).length);
+    }
+    public boolean checkCohesion(Course courseToAdd) {
+        for (Course course : currentCourses.keySet()) {
+            if (course.hasTimeCohesion(course.lessons, courseToAdd.lessons)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void removeCourse(Course course){
+        for (Course course1: currentCourses.keySet()){
+            if(course.equals(course1))
+            {
+                currentCourses.remove(course);
             }
         }
     }
-    public void getMarks(Course course,Student student){
-        for(Student student1 : course.studentsAndMarks.keySet())
-        {
-            if(student1.equals(student)){
-                for (int i = 0;i < course.studentsAndMarks.get(student).length;i++){
-                    System.out.println(course.studentsAndMarks.get(student)[i]);
-                }
-            }
-        }
+    public void addCourse(Course course){
+        currentCourses.put(course,new double[course.capacity]);
     }
-    public void viewSchedule(){
-        ScheduleFormer.viewSchedule(schedule);
+    public void viewCoursesList(){
+        CourseAdepter.viewObjectsInArray(currentCourses.keySet().toArray(new Course[0]));
     }
-    public void addMatrial(Course course,String material){
-        course.materials.add(material);
+    public Course getCourse(int num){
+        return CourseAdepter.getObjectFromArray(CourseAdepter.toArray(currentCourses.keySet()),num);
     }
-    public void removeMaterial(int num, Course course){
-        course.materials.remove(num);
+    public void viewStudentsOnCourse(Course course){
+        course.viewStudentsOnCourse();
+    }
+    public Student getStudentFromCourse(Course course,int num){
+        return course.getStudentFromCourse(num);
     }
 }
