@@ -11,7 +11,7 @@ public class Intronet {
     static Vector<Discipline> disciplines;
     public static boolean checkLessonCohesion(Lesson lesson){
         for(Lesson lesson1 : lessons){
-            if(lesson.hasCoheision(lesson1))
+            if(lesson.hasCohesion(lesson1))
                 return true;
         }
         return false;

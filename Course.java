@@ -24,6 +24,9 @@ public class Course extends Discipline{
             if(!student.checkCohesion(this)){
                 student.addCourse(this);
                 studentsAndMarks.put(student,new double[4]);
+                for(Lesson lesson: lessons){
+                    student.schedule.addToSchedule(lesson);
+                }
             }
             else {
                 System.out.println("This student has time cohesion in schedule!");
@@ -33,6 +36,9 @@ public class Course extends Discipline{
             if(teacher.checkCohesion(this)){
                 teacher.addCourse(this);
                 this.teacher = teacher;
+                for(Lesson lesson: lessons){
+                    teacher.schedule.addToSchedule(lesson);
+                }
             }
             else {
                 System.out.println("This teacher has time cohesion in schedule!");
@@ -53,7 +59,7 @@ public class Course extends Discipline{
    public boolean hasTimeCohesion(Vector<Lesson> lessons1, Vector<Lesson> lessons2) {
         for (Lesson lesson1 : lessons1) {
             for (Lesson lesson2 : lessons2) {
-                if (!lesson1.hasCoheision(lesson2)) {
+                if (!lesson1.hasCohesion(lesson2)) {
                     return false;
                 }
             }

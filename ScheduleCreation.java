@@ -1,25 +1,28 @@
 import Enums.Day;
-public class ScheduleFormer {
-
-    public static String[][] createSchdule(){
+public class ScheduleCreation {
+    static {
+        ScheduleCreation scheduleCreation = new ScheduleCreation();
+    }
+    public static String[][] createSchedule(){
         return new String[][]{
-                {"TIME", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},
-                {"09:00", null, null, null, null, null, null,null},
-                {"10:00", null, null, null, null, null, null,null},
-                {"11:00", null, null, null, null, null, null,null},
-                {"12:00", null, null, null, null, null, null,null},
-                {"13:00", null, null, null, null, null, null,null},
-                {"14:00", null, null, null, null, null, null,null},
-                {"15:00", null, null, null, null, null, null,null},
-                {"16:00", null, null, null, null, null, null,null},
-                {"17:00", null, null, null, null, null, null,null},
-                {"18:00", null, null, null, null, null, null,null},
-                {"19:00", null, null, null, null, null, null,null},
-                {"20:00", null, null, null, null, null, null,null},
-                {"21:00", null, null, null, null, null, null,null}
+                {"TIME", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
+                {"09:00", null, null, null, null, null, null, null},
+                {"10:00", null, null, null, null, null, null, null},
+                {"11:00", null, null, null, null, null, null, null},
+                {"12:00", null, null, null, null, null, null, null},
+                {"13:00", null, null, null, null, null, null, null},
+                {"14:00", null, null, null, null, null, null, null},
+                {"15:00", null, null, null, null, null, null, null},
+                {"16:00", null, null, null, null, null, null, null},
+                {"17:00", null, null, null, null, null, null, null},
+                {"18:00", null, null, null, null, null, null, null},
+                {"19:00", null, null, null, null, null, null, null},
+                {"20:00", null, null, null, null, null, null, null},
+                {"21:00", null, null, null, null, null, null, null}
         };
     }
-    public void updateSchedule(Lesson lesson,String[][] schedule){
+    private ScheduleCreation(){}
+    public void addToSchedule(String[][] schedule ,Lesson lesson){
         int i = 0;
         int j = 0;
         if(lesson.day==Day.MONDAY){
@@ -67,9 +70,9 @@ public class ScheduleFormer {
         schedule[i][j] = lesson.toString();
     }
     public static void viewSchedule(String[][] schedule){
-        for (int i = 0; i < 8;i++)
+        for (int i = 0; i < 7;i++)
         {
-            for (int j = 0;j < 14;j++){
+            for (int j = 0;j < 13;j++){
                 if(schedule[i][j]!=null){
                     System.out.println(schedule[i][j]);
                 }

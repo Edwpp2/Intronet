@@ -14,7 +14,7 @@ public class Lesson implements Comparable<Lesson> {
         this.room = room;
         this.time = LocalTime.of(hour, min);
     }
-    public boolean hasCoheision(Lesson lesson2){
+    public boolean hasCohesion(Lesson lesson2){
         return !this.time.isAfter(lesson2.time)||!this.time.isBefore(lesson2.time);
     }
     @Override
