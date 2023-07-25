@@ -1,3 +1,5 @@
+package Core;
+
 public class News {
     String title;
     String content;
