@@ -3,7 +3,7 @@ import Enums.Role;
 import java.util.HashMap;
 public class Student extends User {
     int course;
-    String[][] schedule;
+    Schedule schedule;
     int credits;
     {
         currentCourses = new HashMap<>();
@@ -14,7 +14,7 @@ public class Student extends User {
     public Student(String login, String password, String name, String surname, String id, Role role, Department department, int course) {
         super(login, password, name, surname, id, role, department);
         this.course = course;
-        schedule = ScheduleCreation.createSchedule();
+        schedule = new Schedule();
     }
     public boolean enoughCredits(Course course)
     {
@@ -56,5 +56,4 @@ public class Student extends User {
             System.out.println(course + " " + passedCourse.get(course));
         }
     }
-
 }

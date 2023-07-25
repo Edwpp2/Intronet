@@ -37,7 +37,8 @@ public class TEST {
         Course course4 = new Course(Department.FIT, "Electrical Circuits", "Learn about electrical circuit analysis", 3, 50);
         Course course5 = new Course(Department.FIT, "Linear Algebra", "Study vector spaces and linear transformations", 3, 60);
 
-
+        //student1.schedule.viewSchedule();
+        System.out.println(lesson1.toStringForScheduel());
 
 
 

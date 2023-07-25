@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Teacher extends User{
     HashMap<Course,double[]> currentCourses;
-    String[][] schedule;
+    Schedule schedule;
     Department department;
     {
         currentCourses = new HashMap<>();
@@ -13,7 +13,7 @@ public class Teacher extends User{
     public Teacher(String login, String password, String name, String surname, String id, Role role, Department department) {
         super(login, password, name, surname, id, role, department);
         this.department = department;
-        schedule = ScheduleCreation.createSchedule();
+        schedule = new Schedule();
     }
     public void putMark(Course course,Student student,int part,double mark){
         int index = part-1;
@@ -70,5 +70,8 @@ public class Teacher extends User{
     }
     public Student getStudentFromCourse(Course course,int num){
         return course.getStudentFromCourse(num);
+    }
+    public String toString(){
+        return name;
     }
 }

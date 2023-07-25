@@ -7,12 +7,14 @@ import java.net.Authenticator;
 public class Request {
     String content;
     Department department;
-    User userSource;
     RequestTypes type;
-    public Request(String content, Department department, User userSource,RequestTypes type){
+    String userId;
+    String courseId;
+    public Request(String content, Department department, String userId,String courseId,RequestTypes requestType){
         this.content = content;
         this.department = department;
-        this. userSource = userSource;
-        this.type = type;
+        this. userId = userId;
+        this.type = requestType;
+        this.courseId = courseId;
     }
 }
