@@ -1,5 +1,6 @@
 package Users;
 
+import Core.Schedule;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
@@ -11,12 +12,15 @@ public class Student extends User {
     private int yearOfStudy;
     private Degree degree;
 
-    public Student(String login, String password, String name, String surname, String id, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
-        super(login, password, name, surname, id, role, faculty);
+    Schedule schedule;
+    public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
+        super(login, password, name, surname,role, faculty);
         this.faculty=faculty;
         this.degree=degree;
         this.yearOfStudy=yearOfStudy;
+        this.schedule = new Schedule();
     }
+
     public int getYearOfStudy(){
         return this.yearOfStudy;
     }
@@ -36,5 +40,7 @@ public class Student extends User {
         this.faculty = faculty;
     }
 
-
+    public Schedule getSchedule() {
+        return this.schedule;
+    }
 }
