@@ -6,7 +6,7 @@ public class Schedule {
     String[][] timeTable;
     int[] lenghtOfColumn;
     int dayInWeek = 7;
-    int hoursForWork = 12;
+    int hoursForWork = 13;
     public Schedule(){
         this.timeTable = new String[hoursForWork][dayInWeek];
         this.lenghtOfColumn = new int[8];
@@ -17,7 +17,7 @@ public class Schedule {
         return lenghtOfColumn[i];
     }
     public void fillSchedule(){
-        for (int i = 0; i < 12;i++){
+        for (int i = 0; i < 13;i++){
             for(int j = 0; j < 7;j++){
                 this.timeTable[i][j] = "-";
             }
@@ -37,7 +37,7 @@ public class Schedule {
         String[][] timetable2 = schedule2.getTimeTable();
         for(int i = 0; i < 12; i ++){
             for (int j = 0; j < 7; j++){
-                if(timetable1[i][j] != null && timetable2[i][j] != null ){
+                if(timetable1[i][j] != "-" && timetable2[i][j] != "-" ){
                     return true;
                 }
             }

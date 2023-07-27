@@ -13,7 +13,7 @@ public class User {
     public String name;
     public String surname;
     private String id;
-    Role role;
+    public Role role;
     Faculty faculty;
     Vector<Message> messages;
     {messages = new Vector<Message>();}

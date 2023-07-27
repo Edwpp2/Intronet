@@ -9,17 +9,18 @@ import java.util.Vector;
 public class Course extends Discipline {
     String id;
     Vector<String> materials;
-    HashMap<String,Mark> studentMarks;
+    public HashMap<String,Mark> studentMarks;
     Vector<Lesson> lessons;
-    String name;
-    int capacity;
-
+    public String name;
+    public int capacity;
     Schedule schedule;
 
     public Course(Faculty faculty, String title, String description, int credits, int capacity) {
         super(faculty, title, description, credits);
         this.capacity = capacity;
         this.schedule = new Schedule();
+        this.name = title;
+        this.studentMarks = new HashMap<>();
 
     }
     public Vector<Student> StudentsOnCourse(){
@@ -29,12 +30,26 @@ public class Course extends Discipline {
         }
         return students;
     }
+
     public void setId(String id){
         this.id = id;
     }
     public String getId(){
         return this.id;
     }
+
+    public int maxUserName(){
+        int maxLength = 0;
+        for(String studentId:studentMarks.keySet()){
+            Student student =(Student) Intronet.getUserById(studentId);
+            String name = student.name + " " + student.surname;
+            if(maxLength<name.length()){
+                maxLength = name.length();
+            }
+        }
+        return maxLength;
+    }
+
 
 
 }
