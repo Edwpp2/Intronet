@@ -3,12 +3,13 @@ import Users.Student;
 import Users.Teacher;
 import Users.User;
 
+import java.time.Year;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Vector;
 
 public class Intronet {
-    static Vector<Course> courses;
+    public static Vector<Course> courses;
     public static Vector<User> users;
     static Vector<Request> requests;
     static Vector<News> news;
@@ -20,11 +21,11 @@ public class Intronet {
     }
     public static String generateUserId(){
 
-        String year= "" + (Calendar.YEAR - 2000);
+        String year= "" + (Year.now().getValue()-2000);;
         return year + "B" + ("0".repeat(idLength - ("" + users.size()).length()) + ("" + users.size()));
     }
     public static String generateCourseId() {
-        String year= "" + (Calendar.YEAR - 2000);
+        String year= "" + (Year.now().getValue()-2000);
         return (year) + "C" + ("0".repeat(idLength - ("" + courses.size()).length()) + ("" + courses.size()));
     }
     public static void addCourseToSystem(Course course){

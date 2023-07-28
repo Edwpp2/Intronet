@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Vector;
 
 public class User {
+    boolean blocked;
     public String login;
     public String password;
     public String name;
@@ -43,5 +44,9 @@ public class User {
     }
     public void  setId(String id){
         this.id = id;
+    }
+
+    public boolean isBlocked(){
+        return this.blocked;
     }
 }

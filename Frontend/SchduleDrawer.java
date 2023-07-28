@@ -62,47 +62,50 @@ public class SchduleDrawer {
         }
     }
     public static void printCoursesForStudent(Student student){
-        String[] headerArr = {"#","Name","Id","Capacity"};
+        String[] headerArr = {"#","Name","Id","Capacity","Course files count"};
         int nameLength = student.maxCourseName();
         int idLength = student.maxCourseId();
         String topHeader = "";
         String content = "";
-        topHeader+= formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],nameLength) + formCellForCourse(headerArr[2],idLength) + formCellForCourse(headerArr[3],5);
+        topHeader+= formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],nameLength) + formCellForCourse(headerArr[2],idLength) + formCellForCourse(headerArr[3],5) + formCellForCourse(headerArr[4],headerArr[4].length());
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         for(int i = 0; i < student.courses.size();i++){
             Course course = Intronet.getCourseById(student.courses.get(i));
             int studentsNum = course.studentMarks.keySet().size();
             int capacity = course.capacity;
-            content += formCellForCourse("1",1) + formCellForCourse(course.name,nameLength) + formCellForCourse(course.getId(),idLength) + formCellForCourse(studentsNum + "/" + capacity,headerArr[3].length());
+            content += formCellForCourse(i+1+"",1) + formCellForCourse(course.name,nameLength) + formCellForCourse(course.getId(),idLength) + formCellForCourse(studentsNum + "/" + capacity,headerArr[3].length()) + formCellForCourse(course.materials.size()+"",headerArr[4].length());
             if(i==0){
                 System.out.print(delim);
                 System.out.print("\n");
                 System.out.print(topHeader);
                 System.out.print("\n");
-                System.out.print(delim);
-                System.out.print("\n");
             }
+            System.out.print(delim);
+            System.out.print("\n");
             System.out.print(content);
             System.out.print("\n");
             if(i==student.courses.size()-1){
                 System.out.print(delim);
                 System.out.print("\n");
             }
+            content="";
         }
 
 
     }
     public static void printUsersForSystem(){
-        String[] headerArr = {"#","Name","Role","Login"};
+        String[] headerArr = {"#","Name","Id","Role","Login","Blocked"};
         int nameLength = Intronet.maxUserName;
         String topHeader = "";
         String content = "";
-        topHeader+= formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],nameLength) + formCellForCourse(headerArr[2],12) + formCellForCourse(headerArr[3],11);
+        topHeader+= formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],nameLength)+ formCellForCourse(headerArr[2],12) + formCellForCourse(headerArr[3],12) + formCellForCourse(headerArr[4],11)+ formCellForCourse(headerArr[5],7);
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         for(int i = 0;i < Intronet.users.size();i++){
             User user = Intronet.users.get(i);
+            String id = user.getId();
             String name = user.name + " " + user.surname;
-            content += formCellForCourse("1",1) + formCellForCourse(name,nameLength) + formCellForCourse(user.role.name(),12) + formCellForCourse(user.login,11);
+            String block = user.isBlocked()?"Yes":"No";
+            content += formCellForCourse(i+1+"",1) + formCellForCourse(name,nameLength) + formCellForCourse(id,12) + formCellForCourse(user.role.name(),12) + formCellForCourse(user.login,11) + formCellForCourse(block,7);
             if(i==0){
                 System.out.print(delim);
                 System.out.print("\n");
@@ -113,21 +116,60 @@ public class SchduleDrawer {
             }
             System.out.print(content);
             System.out.print("\n");
+            System.out.print(delim);
+            System.out.print("\n");
             if(i==Intronet.users.size()-1){
-                System.out.print(delim);
                 System.out.print("\n");
             }
+            content="";
         }
     }
-    public void printCoursesInSystem(){
+    public static void printCoursesForRegistration(Student student){
         String[] headerArr = {"#","Id","Credits","Teacher","Faculty","Students","Can join"};
         int courseNameLength = Intronet.maxCourseName();
         int courseIdLength = Intronet.maxCourseId();
         String topHeader = "";
         topHeader+= formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],courseIdLength) + formCellForCourse(headerArr[2],4) + formCellForCourse(headerArr[3],11);
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
-    }
+        for(int i = 0; i < Intronet.courses.size();i++){
+            Course course = Intronet.courses.get(i);
+            String courseName = course.name;
+            String teacher = "AAA";
+            String code = "CSS";
+            String facultys = "FIT";
+            String prercs = "AAAA";
+            String canJoin = "YES";
 
+        }
+    }
+    public static void printMaterials(Course course)
+    {
+        String[] headerArr = {"#","Name","Url"};
+        int materialNameLength = course.maxMaterialName();
+        String content = "";
+        String topHeader = formCellForCourse(headerArr[0],1) + formCellForCourse(headerArr[1],materialNameLength) + formCellForCourse(headerArr[2],materialNameLength + "https://yandex.kz/".length());
+        for(int i = 0;i < course.materials.size();i++){
+            content+= formCellForCourse(i+1+"",1) + formCellForCourse(course.materials.get(i),materialNameLength) + formCellForCourse("https://yandex.kz/" + course.materials.get(i) ,materialNameLength + "https://yandex.kz/".length());
+            String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
+            if(i==0){
+                System.out.print(delim);
+                System.out.print("\n");
+                System.out.print(topHeader);
+                System.out.print("\n");
+                System.out.print(delim);
+                System.out.print("\n");
+            }
+            System.out.print(content);
+            System.out.print("\n");
+            System.out.print(delim);
+            System.out.print("\n");
+            if(i==Intronet.users.size()-1){
+                System.out.print("\n");
+            }
+            content="";
+        }
+
+    }
 
 }
 

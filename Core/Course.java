@@ -8,12 +8,13 @@ import java.util.HashMap;
 import java.util.Vector;
 public class Course extends Discipline {
     String id;
-    Vector<String> materials;
+    public Vector<String> materials;
     public HashMap<String,Mark> studentMarks;
     Vector<Lesson> lessons;
     public String name;
     public int capacity;
     Schedule schedule;
+
 
     public Course(Faculty faculty, String title, String description, int credits, int capacity) {
         super(faculty, title, description, credits);
@@ -21,6 +22,7 @@ public class Course extends Discipline {
         this.schedule = new Schedule();
         this.name = title;
         this.studentMarks = new HashMap<>();
+        this.materials = new Vector<>();
 
     }
     public Vector<Student> StudentsOnCourse(){
@@ -38,6 +40,15 @@ public class Course extends Discipline {
         return this.id;
     }
 
+    public int maxMaterialName(){
+        int maxLength = 0;
+        for(String material : materials){
+            if(maxLength < material.length()){
+                maxLength = material.length();
+            }
+        }
+        return maxLength;
+    }
     public int maxUserName(){
         int maxLength = 0;
         for(String studentId:studentMarks.keySet()){

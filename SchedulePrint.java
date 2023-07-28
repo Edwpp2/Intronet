@@ -26,11 +26,21 @@ public class SchedulePrint {
         Intronet intronet = new Intronet();
         Student student = new Student("student01", "password123", "John", "Doe", Role.STUDENT, Faculty.BS, Degree.BS, 2);
         Course course = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50);
+        Student student1 = new Student("student02", "password123", "John", "Doee", Role.STUDENT, Faculty.BS, Degree.BS, 2);
+        Course course1 = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50);
         Intronet.addCourseToSystem(course);
         Intronet.addStudentToCourse(student,course);
         Intronet.addUserToSystem(student);
+        Intronet.addCourseToSystem(course1);
+        Intronet.addStudentToCourse(student,course1);
         SchduleDrawer.printCoursesForStudent(student);
+        Intronet.addUserToSystem(student1);
+        SchduleDrawer.printCoursesForStudent(student1);
         SchduleDrawer.printUsersForSystem();
+        course.materials.add("OOPPPPPP");
+        SchduleDrawer.printMaterials(course);
+        SchduleDrawer.printCoursesForStudent(student);
+
 
     }
 
