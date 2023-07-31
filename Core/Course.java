@@ -5,24 +5,32 @@ import Users.Teacher;
 import Users.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 public class Course extends Discipline {
     String id;
     public Vector<String> materials;
     public HashMap<String,Mark> studentMarks;
-    Vector<Lesson> lessons;
+    public Vector<Lesson> lessons;
     public String name;
     public int capacity;
     Schedule schedule;
+    public Faculty faculty;
 
+    public int credits;
 
-    public Course(Faculty faculty, String title, String description, int credits, int capacity) {
-        super(faculty, title, description, credits);
+    public HashSet<String> prerecs;
+
+    public Course(Faculty faculty, String title, String description, int credits, int capacity,String code) {
+        super(faculty, title, description, credits,code);
         this.capacity = capacity;
         this.schedule = new Schedule();
         this.name = title;
         this.studentMarks = new HashMap<>();
         this.materials = new Vector<>();
+        this.prerecs = new HashSet<>();
+        this.lessons = new Vector<>();
+        this.faculty = faculty;
 
     }
     public Vector<Student> StudentsOnCourse(){
@@ -60,7 +68,16 @@ public class Course extends Discipline {
         }
         return maxLength;
     }
-
-
+    public boolean hasPrerec(Student student){
+        for (String course : prerecs){
+            if(!student.passedCourses.contains(course)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean canJoin(Student student){
+        return (student.credits-this.credits >=0) && this.studentMarks.size()+1<=this.capacity && hasPrerec(student);
+    }
 
 }

@@ -9,6 +9,7 @@ import Enums.Role;
 import Users.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 
 public class Student extends User {
@@ -16,10 +17,10 @@ public class Student extends User {
     private int yearOfStudy;
     private Degree degree;
 
-    public Vector<String> courses;
+    public int credits;
 
-    public int courseNameLenght;
-    public int courseIdName;
+    public Vector<String> courses;
+    public HashSet<String> passedCourses;
 
     Schedule schedule;
     public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
@@ -29,6 +30,8 @@ public class Student extends User {
         this.yearOfStudy=yearOfStudy;
         this.schedule = new Schedule();
         this.courses = new Vector<>();
+        this.passedCourses = new HashSet<>();
+        this.credits = 30;
     }
     public int maxCourseName(){
         int maxLength = 0;

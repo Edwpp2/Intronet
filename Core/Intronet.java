@@ -11,7 +11,6 @@ import java.util.Vector;
 public class Intronet {
     public static Vector<Course> courses;
     public static Vector<User> users;
-    static Vector<Request> requests;
     static Vector<News> news;
     public static int maxUserName = 0;
     private static final int idLength = 6;
