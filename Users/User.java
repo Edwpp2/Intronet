@@ -16,7 +16,7 @@ public class User {
     private String id;
     public Role role;
     Faculty faculty;
-    Vector<Message> messages;
+    public Vector<Message> messages;
     {messages = new Vector<Message>();}
 
     public User(String login, String password, String name, String surname, Role role, Faculty faculty) {

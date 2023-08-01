@@ -7,6 +7,7 @@ import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
 import Frontend.SchduleDrawer;
+import Frontend.StudentGUI;
 import Users.Student;
 
 public class SchedulePrint {
@@ -42,6 +43,8 @@ public class SchedulePrint {
         SchduleDrawer.printInfoAboutStudentCourses(student);
         SchduleDrawer.printCoursesForRegistration(student);
         SchduleDrawer.printInfoAboutCourse(course1);
+        StudentGUI gui = new StudentGUI();
+        gui.menu(student);
 
 
     }

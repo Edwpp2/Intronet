@@ -1,11 +1,12 @@
 package Users;
-
 import Core.Schedule;
 import Enums.Faculty;
 import Enums.Role;
 
-public class Teacher extends User {
+import java.util.HashMap;
 
+public class Teacher extends User {
+    public HashMap<String,HashMap<String,Double>> ratingByCourse;
     Schedule schedule;
     public Teacher(String login, String password, String name, String surname, String id, Role role, Faculty faculty) {
         super(login, password, name, surname, role, faculty);

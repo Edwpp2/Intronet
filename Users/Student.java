@@ -2,9 +2,11 @@ package Users;
 
 import Core.Course;
 import Core.Intronet;
+import Core.Request;
 import Core.Schedule;
 import Enums.Degree;
 import Enums.Faculty;
+import Enums.RequestType;
 import Enums.Role;
 import Users.User;
 
@@ -16,12 +18,9 @@ public class Student extends User {
     private Faculty faculty;
     private int yearOfStudy;
     private Degree degree;
-
     public int credits;
-
     public Vector<String> courses;
     public HashSet<String> passedCourses;
-
     Schedule schedule;
     public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
         super(login, password, name, surname,role, faculty);
@@ -44,16 +43,9 @@ public class Student extends User {
         }
         return maxLength;
     }
-    public int maxCourseId(){
-        int maxLength = 0;
-        for(String courseId:courses){
-            Course course = Intronet.getCourseById(courseId);
-            String id = course.getId();
-            if(maxLength<id.length()){
-                maxLength = id.length();
-            }
-        }
-        return maxLength;
+    public void makeRequest(Course course, RequestType requestType){
+        Request request = new Request(course.getId(),this.getId(),requestType,this.faculty);
+        Intronet.requests.add(request);
     }
     public int getYearOfStudy(){
         return this.yearOfStudy;

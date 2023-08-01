@@ -1,5 +1,4 @@
 package Frontend;
-
 import Core.Course;
 import Core.Intronet;
 import Core.Lesson;
@@ -60,7 +59,7 @@ public class SchduleDrawer {
                 content += " " + toCell(schedule.getTimeTable()[i][j],schedule,j);
                 topHeader += " " + toCell(dayHeader[j],schedule,j);
             }
-            delim += " " + "+" + "-".repeat(content.length() - 3) + "+";;
+            delim = " " + "+" + "-".repeat(content.length() - 3) + "+";;
             print(i,content,delim,topHeader,12);
         }
     }
@@ -73,8 +72,8 @@ public class SchduleDrawer {
         String code = toCell("Code",12);
         String courseFilesCount = toCell("Course file count","Course file count".length());
         String topHeader= number + id + code + name + capacity + courseFilesCount;
-        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
 
+        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         for(int i = 0; i < student.courses.size();i++){
             Course course = Intronet.getCourseById(student.courses.get(i));
             number=toCell(1+i+"",1);
@@ -85,7 +84,6 @@ public class SchduleDrawer {
             courseFilesCount = toCell(course.materials.size()+"","Course file count".length());
             String content = number + id + code + name + capacity + courseFilesCount;
             print(i,content,delim,topHeader,Intronet.courses.size());
-
         }
     }
     public static void printInfoAboutCourse(Course course){
@@ -97,14 +95,15 @@ public class SchduleDrawer {
         String code = toCell("Code",12);
         String courseFilesCount = toCell("Course file count","Course file count".length());
         String topHeader= number + id + code + name + capacity + courseFilesCount;
-        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
 
+        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         number=toCell(1+"",1);
         name=toCell(course.name,nameLength);
         id = toCell(course.getId(),9);
         capacity = toCell(course.studentMarks.size() + "/" + course.capacity,"Students on course".length());
         code = toCell(course.code,12);
         courseFilesCount = toCell(course.materials.size()+"","Course file count".length());
+
         String content = number + id + code + name + capacity + courseFilesCount;
         print(0,content,delim,topHeader,0);
     }
@@ -121,8 +120,6 @@ public class SchduleDrawer {
 
         for(int i = 0;i < Intronet.users.size();i++){
             User user = Intronet.users.get(i);
-
-
             number = toCell(i+1+"",1);
             name = toCell(user.name + " " + user.surname,nameLength);
             id = toCell(user.getId(),12);
