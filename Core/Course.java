@@ -11,14 +11,13 @@ public class Course extends Discipline {
     String id;
     public Vector<String> materials;
     public HashMap<String,Mark> studentMarks;
+    public HashMap<String,Double> teacherRating;
     public Vector<Lesson> lessons;
     public String name;
     public int capacity;
     Schedule schedule;
     public Faculty faculty;
-
     public int credits;
-
     public HashSet<String> prerecs;
 
     public Course(Faculty faculty, String title, String description, int credits, int capacity,String code) {
@@ -30,6 +29,7 @@ public class Course extends Discipline {
         this.materials = new Vector<>();
         this.prerecs = new HashSet<>();
         this.lessons = new Vector<>();
+        this.teacherRating = new HashMap<>();
         this.faculty = faculty;
 
     }
@@ -78,6 +78,16 @@ public class Course extends Discipline {
     }
     public boolean canJoin(Student student){
         return (student.credits-this.credits >=0) && this.studentMarks.size()+1<=this.capacity && hasPrerec(student);
+    }
+    public double getTeacherRating(){
+        double ratingAvg = 0.0;
+        if(this.teacherRating.keySet().size()!=0){
+            for (String id : teacherRating.keySet()){
+                ratingAvg+= teacherRating.get(id);
+            }
+            return ratingAvg/teacherRating.keySet().size();
+        }
+        return 0.0;
     }
 
 }

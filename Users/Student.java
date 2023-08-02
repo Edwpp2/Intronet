@@ -1,9 +1,6 @@
 package Users;
 
-import Core.Course;
-import Core.Intronet;
-import Core.Request;
-import Core.Schedule;
+import Core.*;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.RequestType;
@@ -19,7 +16,7 @@ public class Student extends User {
     private int yearOfStudy;
     private Degree degree;
     public int credits;
-    public Vector<String> courses;
+    public HashMap<String, Mark> courses;
     public HashSet<String> passedCourses;
     Schedule schedule;
     public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
@@ -28,13 +25,13 @@ public class Student extends User {
         this.degree=degree;
         this.yearOfStudy=yearOfStudy;
         this.schedule = new Schedule();
-        this.courses = new Vector<>();
+        this.courses = new HashMap<>();
         this.passedCourses = new HashSet<>();
         this.credits = 30;
     }
     public int maxCourseName(){
         int maxLength = 0;
-        for(String courseId:courses){
+        for(String courseId:courses.keySet()){
             Course course = Intronet.getCourseById(courseId);
             String name = course.name;
             if(maxLength<name.length()){
@@ -68,5 +65,19 @@ public class Student extends User {
 
     public Schedule getSchedule() {
         return this.schedule;
+    }
+
+    public void rateTeacher(Course course,Double rating){
+        if(course.teacherRating.get(this.getId())!=null){
+            if(rating<=5.0){
+                course.teacherRating.put(this.getId(),rating);
+            }
+            else {
+                System.out.println("Wrong rating!It must be less or equal to 5!");
+            }
+        }
+        else {
+            System.out.println("You are alredy put the rating!");
+        }
     }
 }

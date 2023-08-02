@@ -36,6 +36,7 @@ public class SchedulePrint {
         Intronet.addStudentToCourse(student,course1);
         SchduleDrawer.printInfoAboutStudentCourses(student);
         Intronet.addUserToSystem(student1);
+        Intronet.addStudentToCourse(student1,course1);
         SchduleDrawer.printInfoAboutStudentCourses(student1);
         SchduleDrawer.printUsersForSystem();
         course.materials.add("OOPPPPPP");
@@ -45,6 +46,15 @@ public class SchedulePrint {
         SchduleDrawer.printInfoAboutCourse(course1);
         StudentGUI gui = new StudentGUI();
         gui.menu(student);
+
+        student.courses.get(course1.getId()).putPointForFirstAtt(13.1);
+        student.courses.get(course1.getId()).putPointForSecondAtt(13.2);
+        student1.courses.get(course1.getId()).putPointForFirstAtt(13.1);
+        student1.courses.get(course1.getId()).putPointForFirstAtt(13.2);
+        SchduleDrawer.printMarksForListOfStudents(course1);
+        SchduleDrawer.printMarksForCurrentStudent(student,course1,0,1);
+
+
 
 
     }

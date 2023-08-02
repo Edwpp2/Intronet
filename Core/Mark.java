@@ -5,10 +5,10 @@ import java.util.Vector;
 
 public class Mark {
     private static final long serialVersionUID = -5688064113814295498L;
-    private Vector<Double> firstAtt;
-    private Vector<Double> secondAtt;
-    private double pointsForFinal;
-    private int absenceCount;
+    public Vector<Double> firstAtt;
+    public Vector<Double> secondAtt;
+    public double pointsForFinal;
+    public int absenceCount;
     private boolean finalHeld = false;
 
     public Mark() {
@@ -21,7 +21,7 @@ public class Mark {
     public void putPointForFirstAtt(Double point){
         firstAtt.add(point);
     }
-    public void setPointForSecondAtt(Double point){
+    public void putPointForSecondAtt(Double point){
         secondAtt.add(point);
     }
     public double getAverageForFirstAtt(){

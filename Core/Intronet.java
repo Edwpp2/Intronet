@@ -80,8 +80,9 @@ public class Intronet {
                     studentSchedule.addLesson(lesson);
                 }
             }
-            course.studentMarks.put(student.getId(),new Mark());
-            student.courses.add(course.getId());
+            Mark mark = new Mark();
+            course.studentMarks.put(student.getId(),mark);
+            student.courses.put(course.getId(),mark);
             student.credits=student.credits-course.credits;
         }
     }

@@ -10,6 +10,7 @@ import Users.User;
 import java.util.Scanner;
 
 public class StudentGUI {
+    Course course;
     public  StudentGUI(){};
     Scanner input = new Scanner(System.in);
     public void menu(Student student){
@@ -74,19 +75,28 @@ public class StudentGUI {
                 if(command==1){
                     System.out.println("Enter the number:");
                     stage=3;
+                    course=null;
                 }
                 if(command==2){
                     stage=0;
                 }
             }
             if(stage==3){
-                int courseNumber = input.nextInt();
-                if(courseNumber<=student.courses.size()){
-                    Course course =Intronet.getCourseById((String)CourseAdepter.getObjectFromArray(student.courses.toArray(),courseNumber));
+                if(course==null){
+                    int courseNumber = input.nextInt();
+                    if(courseNumber<=student.courses.size()){
+                        course =Intronet.getCourseById((String)CourseAdepter.getObjectFromArray(student.courses.keySet().toArray(),courseNumber));
+                    }
+                    else {
+                        System.out.println("You enter wrong number,try again!");
+                    }
+                }
+                else {
                     System.out.println("Chose an option:");
                     System.out.println("[1]View info about teacher");
                     System.out.println("[2]View course files;");
-                    System.out.println("[3]Back");
+                    System.out.println("[3]View course files;");
+                    System.out.println("[4]Back");
                     command = input.nextInt();
                     if(command==1){
                         System.out.println("TO DO");
@@ -95,12 +105,14 @@ public class StudentGUI {
                         SchduleDrawer.printMaterials(course);
                     }
                     if (command==3){
+                        SchduleDrawer.printMarksForCurrentStudent(student,course,0,1);
+                    }
+                    if (command==4){
                         stage--;
+                        course=null;
                     }
                 }
-                else {
-                    System.out.println("You enter wrong number,try again!");
-                }
+
             }
             if (stage==4){
                 student.viewAllMessages();
