@@ -21,7 +21,6 @@ public class Intronet {
         messages = new Vector<>();
     }
     public static String generateUserId(){
-
         String year= "" + (Year.now().getValue()-2000);;
         return year + "B" + ("0".repeat(idLength - ("" + users.size()).length()) + ("" + users.size()));
     }
@@ -66,10 +65,16 @@ public class Intronet {
         }
         return null;
     }
-    public static void addTeacherToCourse(Lesson lesson, Teacher teacher){
-        if(teacher.getSchedule().isEmpty(lesson)){
-            teacher.getSchedule().addLesson(lesson);
-            lesson.teacher = teacher;
+    public static void addTeacherToCourse(Course course, Teacher teacher){
+        Schedule teacherSchedule = teacher.getSchedule();
+        if(!(course.schedule.checkCohesion(teacherSchedule))){
+            if(course.lessons.size()!=0){
+                for(Lesson lesson: course.lessons){
+                    teacherSchedule.addLesson(lesson);
+                }
+            }
+            course.teacher=teacher;
+            teacher.courses.add(course.getId());
         }
     }
     public static void addStudentToCourse(Student student, Course course){
@@ -93,13 +98,18 @@ public class Intronet {
     }
     public static void addLessonToCourse(Course course,Lesson lesson){
         boolean isEmpty = true;
-        for(Student student : course.StudentsOnCourse()){
+        for(String id : course.studentMarks.keySet()){
+            Student student =(Student) Intronet.getUserById(id);
             if(student.getSchedule().isEmpty(lesson)){
                 isEmpty = false;
             }
         }
+        if(course.teacher.getSchedule().isEmpty(lesson)){
+            isEmpty = false;
+        }
         if(isEmpty){
             lesson.name = course.name;
+            course.teacher.getSchedule().addLesson(lesson);
             for(Student student : course.StudentsOnCourse()){
                 student.getSchedule().addLesson(lesson);
             }

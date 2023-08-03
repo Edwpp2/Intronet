@@ -6,7 +6,6 @@ import Core.Schedule;
 import Users.Student;
 import Users.Teacher;
 import Users.User;
-
 import java.text.DecimalFormat;
 
 public class SchduleDrawer {
@@ -79,6 +78,29 @@ public class SchduleDrawer {
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         for(int i = 0; i < student.courses.size();i++){
             Course course = Intronet.getCourseById((String) student.courses.keySet().toArray()[i]);
+            number=toCell(1+i+"",1);
+            name=toCell(course.name,nameLength);
+            id = toCell(course.getId(),9);
+            capacity = toCell(course.studentMarks.size() + "/" + course.capacity,"Students on course".length());
+            code = toCell(course.code,12);
+            courseFilesCount = toCell(course.materials.size()+"","Course file count".length());
+            String content = number + id + code + name + capacity + courseFilesCount;
+            print(i,content,delim,topHeader,Intronet.courses.size());
+        }
+    }
+    public static void printInfoAboutTeacherCourses(Teacher teacher){
+        int nameLength = teacher.maxCourseName();
+        String number=toCell("#",1);
+        String name=toCell("Name",nameLength);
+        String id = toCell("Id",9);
+        String capacity = toCell("Students on course","Students on course".length());
+        String code = toCell("Code",12);
+        String courseFilesCount = toCell("Course file count","Course file count".length());
+        String topHeader= number + id + code + name + capacity + courseFilesCount;
+
+        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
+        for(int i = 0; i < teacher.courses.size();i++){
+            Course course = Intronet.getCourseById((String) teacher.courses.toArray()[i]);
             number=toCell(1+i+"",1);
             name=toCell(course.name,nameLength);
             id = toCell(course.getId(),9);
@@ -233,6 +255,7 @@ public class SchduleDrawer {
             secondAtt = toCell(secondAtt,"Second attestation".length());
             secondAttAverage = toCell(decimalFormat.format(course.studentMarks.get(student.getId()).getAverageForSecondAtt()),"Second att average".length());
         }
+
         String studentName = toCell("Student name",Intronet.maxUserName);
         String finalPointsHeader = toCell("Points for final","Points for final".length());
         String abscentCountHeader =toCell("Abscent count","Abscent count".length());
@@ -242,6 +265,7 @@ public class SchduleDrawer {
         String secondAttAverageHeader = toCell("Second att average","Second att average".length());
         String topHeader =number + studentName + firstAttHeader + firstAttAverageHeader + secondAttHeader + secondAttAverageHeader + finalPointsHeader + abscentCountHeader;
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
+
         number = toCell(numberOfStudents+1+"",1);
         String finalPoints = toCell(course.studentMarks.get(student.getId()).pointsForFinal + "","Points for final".length());
         String abscentCount = toCell(course.studentMarks.get(student.getId()).absenceCount + "","Abscent count".length());
@@ -256,20 +280,26 @@ public class SchduleDrawer {
             printMarksForCurrentStudent(student,course,i,course.studentMarks.keySet().size());
         }
     }
-    public static void printTeacherRating(Teacher teacher){
+    public static void printTeacherRatingForCourse(Course course,int numberOfStudents,int limit){
         String number = toCell("#",1);
-        String courseName = toCell("Course name",15);
+        String courseName= toCell("Course name",15);
         String rating = toCell("Rating","Rating".length());
         String topHeader = number + courseName + rating;
-        int i = 0;
-        for (String id : teacher.courses){
-            ++i;
+        String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        number = toCell(numberOfStudents+1+"",1);
+        rating = toCell(decimalFormat.format(course.getTeacherRating()),6);
+        courseName = toCell(course.name,15);
+        String content = number + courseName + rating;
+        print(numberOfStudents,content,delim,topHeader,limit);
+    }
+    public static void printTeacherRatingForAllCourses(Teacher teacher){
+        int i =0;
+        for (String id:teacher.courses){
             Course course = Intronet.getCourseById(id);
-            courseName = toCell(course.name,15);
-            rating = toCell(course.getTeacherRating()+"","Rating".length());
-            number=toCell(i+"",1);
+            printTeacherRatingForCourse(course,i,teacher.courses.size());
+            i++;
         }
-
     }
 }
 

@@ -3,9 +3,12 @@ package Core;
 import Enums.Day;
 import Users.Teacher;
 
+import java.util.HashSet;
+
 public class Lesson {
     public Day day;
     public String room;
+
     public Teacher teacher;
     public int hour;
 
@@ -18,7 +21,7 @@ public class Lesson {
     }
     public String toString()
     {
-        return name + " " + "(" + room + ")";
+        return name + " " + teacher.name + " " + teacher.surname +" "+ "(" + room + ")";
     }
 
 }

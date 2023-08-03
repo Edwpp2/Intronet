@@ -5,6 +5,7 @@ import Enums.Role;
 import Core.*;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Vector;
 
 public class User {
@@ -17,8 +18,6 @@ public class User {
     public Role role;
     Faculty faculty;
     public Vector<Message> messages;
-    {messages = new Vector<Message>();}
-
     public User(String login, String password, String name, String surname, Role role, Faculty faculty) {
         this.login = login;
         this.password = password;
@@ -26,6 +25,7 @@ public class User {
         this.surname = surname;
         this.role = role;
         this.faculty = faculty;
+        messages = new Vector<Message>();
     }
     public void writeMessage(String login,String content){
         for(User user : Intronet.users){
@@ -48,5 +48,17 @@ public class User {
 
     public boolean isBlocked(){
         return this.blocked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return login.equals(user.login) && password.equals(user.password) && id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, id);
     }
 }

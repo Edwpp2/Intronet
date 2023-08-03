@@ -5,6 +5,7 @@ import Enums.Degree;
 import Enums.Faculty;
 import Enums.RequestType;
 import Enums.Role;
+import Frontend.SchduleDrawer;
 import Users.User;
 
 import java.util.HashMap;
@@ -23,11 +24,11 @@ public class Student extends User {
         super(login, password, name, surname,role, faculty);
         this.faculty=faculty;
         this.degree=degree;
+        this.credits = 30;
         this.yearOfStudy=yearOfStudy;
         this.schedule = new Schedule();
         this.courses = new HashMap<>();
         this.passedCourses = new HashSet<>();
-        this.credits = 30;
     }
     public int maxCourseName(){
         int maxLength = 0;
@@ -43,6 +44,18 @@ public class Student extends User {
     public void makeRequest(Course course, RequestType requestType){
         Request request = new Request(course.getId(),this.getId(),requestType,this.faculty);
         Intronet.requests.add(request);
+    }
+    public void printSchedule(){
+        SchduleDrawer.printSchedule(this.schedule);
+    }
+    public void printCourseList(){
+        SchduleDrawer.printInfoAboutStudentCourses(this);
+    }
+    public void printCoursesForRegistration(){
+        SchduleDrawer.printCoursesForRegistration(this);
+    }
+    public void printCourseWithMarks(Course course){
+        SchduleDrawer.printMarksForCurrentStudent(this,course,0,0);
     }
     public int getYearOfStudy(){
         return this.yearOfStudy;
@@ -62,11 +75,9 @@ public class Student extends User {
     public void setFaculty(Faculty faculty){
         this.faculty = faculty;
     }
-
     public Schedule getSchedule() {
         return this.schedule;
     }
-
     public void rateTeacher(Course course,Double rating){
         if(course.teacherRating.get(this.getId())!=null){
             if(rating<=5.0){
@@ -77,7 +88,11 @@ public class Student extends User {
             }
         }
         else {
-            System.out.println("You are alredy put the rating!");
+            System.out.println("You are already put the rating!");
         }
+    }
+    public Course getCourseFromList(int i){
+        Course course = Intronet.getCourseById((String) courses.keySet().toArray()[i-1]);
+        return course;
     }
 }

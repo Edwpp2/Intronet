@@ -12,6 +12,7 @@ public class Course extends Discipline {
     public Vector<String> materials;
     public HashMap<String,Mark> studentMarks;
     public HashMap<String,Double> teacherRating;
+    Teacher teacher;
     public Vector<Lesson> lessons;
     public String name;
     public int capacity;
@@ -23,15 +24,14 @@ public class Course extends Discipline {
     public Course(Faculty faculty, String title, String description, int credits, int capacity,String code) {
         super(faculty, title, description, credits,code);
         this.capacity = capacity;
-        this.schedule = new Schedule();
+        this.faculty = faculty;
         this.name = title;
         this.studentMarks = new HashMap<>();
         this.materials = new Vector<>();
         this.prerecs = new HashSet<>();
         this.lessons = new Vector<>();
         this.teacherRating = new HashMap<>();
-        this.faculty = faculty;
-
+        this.schedule = new Schedule();
     }
     public Vector<Student> StudentsOnCourse(){
         Vector<Student> students = new Vector<>();

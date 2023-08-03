@@ -1,7 +1,10 @@
 package Users;
+import Core.Course;
+import Core.Intronet;
 import Core.Schedule;
 import Enums.Faculty;
 import Enums.Role;
+import Frontend.SchduleDrawer;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +12,7 @@ import java.util.HashSet;
 public class Teacher extends User {
     public HashMap<String,HashMap<String,Double>> ratingByCourse;
     public HashSet<String> courses;
-    Schedule schedule;
+    public Schedule schedule;
 
     public Teacher(String login, String password, String name, String surname, String id, Role role, Faculty faculty) {
         super(login, password, name, surname, role, faculty);
@@ -20,7 +23,36 @@ public class Teacher extends User {
     public Schedule getSchedule() {
         return this.schedule;
     }
-
+    public void printSchedule(){
+        SchduleDrawer.printSchedule(this.schedule);
+    }
+    public void printRatingForCourse(Course course){
+        SchduleDrawer.printTeacherRatingForCourse(course,0,0);
+    }
+    public void printRatingForAllCourses(){
+        SchduleDrawer.printTeacherRatingForAllCourses(this);
+    }
+    public void printListOfCourses(){
+        SchduleDrawer.printInfoAboutTeacherCourses(this);
+    }
+    public void printMarksForListOfStudents(Course course){
+        SchduleDrawer.printMarksForListOfStudents(course);
+    }
+    public int maxCourseName(){
+        int maxLength = 0;
+        for(String courseId:courses){
+            Course course = Intronet.getCourseById(courseId);
+            String name = course.name;
+            if(maxLength<name.length()){
+                maxLength = name.length();
+            }
+        }
+        return maxLength;
+    }
+    public Course getCourseFromList(int i){
+        Course course = Intronet.getCourseById((String) courses.toArray()[i-1]);
+        return course;
+    }
 
 
 
