@@ -2,8 +2,9 @@ package Core;
 import Enums.Faculty;
 import Users.Student;
 import Users.Teacher;
-import Users.User;
 
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
@@ -39,6 +40,13 @@ public class Course extends Discipline {
             students.add((Student) Intronet.getUserById(id));
         }
         return students;
+        int[] arr = new int[];
+        Arrays.stream(arr).sorted()\
+        Arrays.stream(arr).sorted();
+        System.out.println(arr);
+        for(int i = 0 ; i < arr.length;i++){
+            System.out.println(arr[i]);
+        }
     }
 
     public void setId(String id){
