@@ -26,7 +26,9 @@ public class StudentGUI {
                 System.out.println("[4]View list of current courses;");
                 System.out.println("[5]View email;");
                 System.out.println("[6]Write a message;");
-                System.out.println("[7]Exit.");
+                System.out.println("[7]Rate teachers;");
+                System.out.println("[8]View transcript");
+                System.out.println("[9]Exit.");
                 command = input.nextInt();
                 System.out.println(command);
                 if(command==1){

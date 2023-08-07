@@ -8,9 +8,9 @@ import Enums.RequestState;
 import Enums.Role;
 
 public class Manager extends User {
-    public Manager(String login, String password, String name, String surname, String id, Role role, Faculty faculty) {
+    public Manager(String login, String password, String name, String surname,Role role, Faculty faculty) {
         super(login, password, name, surname,role, faculty);
-        this.faculty = faculty;
+
     }
     public void applyRequest(Request request){
         if(request.requestType.name().equals("ADDCOURSE")){

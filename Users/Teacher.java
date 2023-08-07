@@ -2,6 +2,7 @@ package Users;
 import Core.Course;
 import Core.Intronet;
 import Core.Schedule;
+import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
 import Frontend.SchduleDrawer;
@@ -13,8 +14,9 @@ public class Teacher extends User {
     public HashMap<String,HashMap<String,Double>> ratingByCourse;
     public HashSet<String> courses;
     public Schedule schedule;
+    Degree degree;
 
-    public Teacher(String login, String password, String name, String surname, String id, Role role, Faculty faculty) {
+    public Teacher(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree) {
         super(login, password, name, surname, role, faculty);
         this.faculty = faculty;
         this.schedule = new Schedule();

@@ -1,8 +1,10 @@
 package Core;
+import Users.Manager;
 import Users.Student;
 import Users.Teacher;
 import Users.User;
 import java.time.Year;
+import java.util.HashSet;
 import java.util.Vector;
 
 public class Intronet {
@@ -10,9 +12,12 @@ public class Intronet {
     public static Vector<User> users;
     public static Vector<Message> messages;
     public static Vector<Request> requests;
-    static Vector<News> news;
+    public static Vector<News> news;
     public static int maxUserName = 0;
+    public static int maxCourseName  = 0;
     private static final int idLength = 6;
+
+    public HashSet<String> logs;
     public Intronet(){
         courses = new Vector<>();
         users = new Vector<>();
@@ -29,6 +34,9 @@ public class Intronet {
         return (year) + "C" + ("0".repeat(idLength - ("" + courses.size()).length()) + ("" + courses.size()));
     }
     public static void addCourseToSystem(Course course){
+        if(course.name.length()>maxCourseName){
+            maxCourseName = course.name.length();
+        }
         course.setId(Intronet.generateCourseId());
         courses.add(course);
     }
@@ -134,5 +142,33 @@ public class Intronet {
             }
         }
         return maxLength;
+    }
+    public static void printNews(){
+        for(News part : news){
+            System.out.println(part.toString());
+        }
+    }
+    public static Request[] getFacultyRequest(Manager manager){
+        int facultySatisfyCount = 0;
+        int i = 0;
+        for (Request requests1:Intronet.requests){
+            if(requests1.faculty==manager.faculty){
+                facultySatisfyCount++;
+            }
+        }
+        Request[] requests = new Request[facultySatisfyCount];
+        for (Request requests1:Intronet.requests){
+            if(requests1.faculty==manager.faculty){
+                requests[i]=requests1;
+                i++;
+            }
+        }
+        return requests;
+    }
+    public static void displayFacultyRequests(Manager manager){
+        Request[] requests = getFacultyRequest(manager);
+        for (int i = 0; i < requests.length;i++){
+            System.out.println("[" + i + "]" + " " + requests[i].toString());
+        }
     }
 }

@@ -13,10 +13,9 @@ public class Lesson {
     public int hour;
 
     public String name;
-    public Lesson(String name,Day day,String room,int hour){
+    public Lesson(Day day,String room,int hour){
         this.day = day;
         this.room = room;
-        this.name = name ;
         this.hour = hour;
     }
     public String toString()

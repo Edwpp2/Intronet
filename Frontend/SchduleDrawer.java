@@ -7,6 +7,7 @@ import Users.Student;
 import Users.Teacher;
 import Users.User;
 import java.text.DecimalFormat;
+import java.util.Vector;
 
 public class SchduleDrawer {
 
@@ -132,7 +133,7 @@ public class SchduleDrawer {
         String content = number + id + code + name + capacity + courseFilesCount;
         print(0,content,delim,topHeader,0);
     }
-    public static void printUsersForSystem(){
+    public static void printUsersForSystem(Vector<User> users){
         int nameLength = Intronet.maxUserName;
         String number=toCell("#",1);
         String name=toCell("Name",nameLength);
@@ -143,7 +144,7 @@ public class SchduleDrawer {
         String topHeader= number + name+ id + role + login+ isBlocked;
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
 
-        for(int i = 0;i < Intronet.users.size();i++){
+        for(int i = 0;i < users.size();i++){
             User user = Intronet.users.get(i);
             number = toCell(i+1+"",1);
             name = toCell(user.name + " " + user.surname,nameLength);
@@ -153,6 +154,31 @@ public class SchduleDrawer {
             isBlocked = toCell(user.isBlocked()?"Yes":"No",7);
             String content = number + name + id + role + login + isBlocked;
             print(i,content,delim,topHeader,Intronet.users.size());
+        }
+    }
+    public static void printAllCoursesInSystem(){
+        int nameLength = Intronet.maxCourseName;
+        int i = 0;
+        for(Course course:Intronet.courses){
+            String number=toCell("#",1);
+            String name=toCell("Name",nameLength);
+            String id = toCell("Id",9);
+            String capacity = toCell("Students on course","Students on course".length());
+            String code = toCell("Code",12);
+            String courseFilesCount = toCell("Course file count","Course file count".length());
+            String topHeader= number + id + code + name + capacity + courseFilesCount;
+
+            String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
+            number=toCell(1+"",1);
+            name=toCell(course.name,nameLength);
+            id = toCell(course.getId(),9);
+            capacity = toCell(course.studentMarks.size() + "/" + course.capacity,"Students on course".length());
+            code = toCell(course.code,12);
+            courseFilesCount = toCell(course.materials.size()+"","Course file count".length());
+
+            String content = number + id + code + name + capacity + courseFilesCount;
+            print(i,content,delim,topHeader,Intronet.courses.size());
+            i++;
         }
     }
     public static void printCoursesForRegistration(Student student){
@@ -197,6 +223,27 @@ public class SchduleDrawer {
             String content = number + code + title + credits + teacher + faculty + prerequisites + students + canJoin;
             print(i,content,delim,topHeader,Intronet.courses.size());
         }
+    }
+    public static void printLesson(Lesson lesson,int lessonNumber,int limit){
+        String number = toCell("#",1);
+        String name = toCell("Name",8);
+        String time = toCell("Time",15);
+        String header = number + name + time;
+        String delim = "+" + "-".repeat(header.length() - 2) + "+";
+        time = lesson.hour+":00" + "  " + lesson.day;
+        String content = number + name + time;
+
+        print(lessonNumber,content,delim,header,Intronet.courses.size());
+    }
+    public static void printAllLessonsForCourse(Course course){
+        int i = 0;
+        for (Lesson lesson:course.lessons){
+            printLesson(lesson,i,course.lessons.size());
+            i++;
+        }
+    }
+    public static void printListOfLesson(Course course){
+
     }
     public static void printMaterials(Course course)
     {

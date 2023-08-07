@@ -20,12 +20,12 @@ public class Student extends User {
     public HashMap<String, Mark> courses;
     public HashSet<String> passedCourses;
     Schedule schedule;
-    public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree, int yearOfStudy) {
+    public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree) {
         super(login, password, name, surname,role, faculty);
         this.faculty=faculty;
         this.degree=degree;
         this.credits = 30;
-        this.yearOfStudy=yearOfStudy;
+        this.yearOfStudy=1;
         this.schedule = new Schedule();
         this.courses = new HashMap<>();
         this.passedCourses = new HashSet<>();

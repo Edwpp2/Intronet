@@ -3,8 +3,6 @@ package Users;
 import Enums.Faculty;
 import Enums.Role;
 import Core.*;
-
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -16,7 +14,7 @@ public class User {
     public String surname;
     private String id;
     public Role role;
-    Faculty faculty;
+    public Faculty faculty;
     public Vector<Message> messages;
     public User(String login, String password, String name, String surname, Role role, Faculty faculty) {
         this.login = login;
@@ -33,6 +31,12 @@ public class User {
                 user.messages.add(new Message(this,content));
             }
         }
+    }
+    public News getNews(News news,int i){
+        return CourseAdepter.getObjectFromArray(CourseAdepter.toArray(Intronet.news),i);
+    }
+    public void makeComment(News news,String comment){
+        news.comments.put(this.id,comment);
     }
     public void viewAllMessages(){
         for(Message message: messages){
