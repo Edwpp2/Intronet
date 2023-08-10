@@ -10,11 +10,11 @@ public class RequestConstructor {
         Scanner input = new Scanner(System.in);
         RequestType requestType = null;
         while (requestType==null){
-            System.out.println("Выеберите тип запроса");
+            System.out.println("Choose request type");
             System.out.println("[1]Add course;\n[2]Drop course.");
             int index = input.nextInt();
             if(index < 0 || index > 7){
-                System.out.println("Вы ввели не корректный номер!");
+                System.out.println("WRONG NUMBER!");
             }
             else {
                 requestType = RequestType.values()[index-1];

@@ -6,16 +6,16 @@ import Enums.Faculty;
 import Enums.RequestType;
 import Enums.Role;
 import Frontend.SchduleDrawer;
-import Users.User;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Vector;
 
-public class Student extends User {
-    private Faculty faculty;
+
+public class Student extends User implements Serializable {
+    public Faculty faculty;
     private int yearOfStudy;
-    private Degree degree;
+    public Degree degree;
     public int credits;
     public HashMap<String, Mark> courses;
     public HashSet<String> passedCourses;
@@ -45,30 +45,6 @@ public class Student extends User {
         Request request = new Request(course.getId(),this.getId(),requestType,this.faculty);
         Intronet.requests.add(request);
     }
-    public void printSchedule(){
-        SchduleDrawer.printSchedule(this.schedule);
-    }
-    public void printCourseList(){
-        SchduleDrawer.printInfoAboutStudentCourses(this);
-    }
-    public void printCoursesForRegistration(){
-        SchduleDrawer.printCoursesForRegistration(this);
-    }
-    public void printCourseWithMarks(Course course){
-        SchduleDrawer.printMarksForCurrentStudent(this,course,0,0);
-    }
-    public int getYearOfStudy(){
-        return this.yearOfStudy;
-    }
-    public void incYearOfStudy(){
-        this.yearOfStudy++;
-    }
-    public Degree getDegree(){
-        return this.degree;
-    }
-    public void setDegree(Degree degree){
-        this.degree=degree;
-    }
     public Faculty getFaculty(){
         return this.faculty;
     }
@@ -90,9 +66,5 @@ public class Student extends User {
         else {
             System.out.println("You are already put the rating!");
         }
-    }
-    public Course getCourseFromList(int i){
-        Course course = Intronet.getCourseById((String) courses.keySet().toArray()[i-1]);
-        return course;
     }
 }

@@ -1,6 +1,8 @@
 package Core;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable {
     public String title;
     public String content;
     public String url;

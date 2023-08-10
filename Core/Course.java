@@ -3,21 +3,20 @@ import Enums.Faculty;
 import Users.Student;
 import Users.Teacher;
 
-
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 public class Course extends Discipline {
     String id;
-    public Vector<String> materials;
+    public Vector<Material> materials;
     public HashMap<String,Mark> studentMarks;
     public HashMap<String,Double> teacherRating;
-    Teacher teacher;
+    public Teacher teacher;
     public Vector<Lesson> lessons;
     public String name;
     public int capacity;
-    Schedule schedule;
+    public Schedule schedule;
     public Faculty faculty;
     public int credits;
     public HashSet<String> prerecs;
@@ -27,6 +26,7 @@ public class Course extends Discipline {
         this.capacity = capacity;
         this.faculty = faculty;
         this.name = title;
+        this.credits = credits;
         this.studentMarks = new HashMap<>();
         this.materials = new Vector<>();
         this.prerecs = new HashSet<>();
@@ -51,20 +51,9 @@ public class Course extends Discipline {
 
     public int maxMaterialName(){
         int maxLength = 0;
-        for(String material : materials){
-            if(maxLength < material.length()){
-                maxLength = material.length();
-            }
-        }
-        return maxLength;
-    }
-    public int maxUserName(){
-        int maxLength = 0;
-        for(String studentId:studentMarks.keySet()){
-            Student student =(Student) Intronet.getUserById(studentId);
-            String name = student.name + " " + student.surname;
-            if(maxLength<name.length()){
-                maxLength = name.length();
+        for(Material material : materials){
+            if(maxLength < material.title.length()){
+                maxLength = material.title.length();
             }
         }
         return maxLength;
@@ -90,6 +79,4 @@ public class Course extends Discipline {
         }
         return 0.0;
     }
-
-
 }

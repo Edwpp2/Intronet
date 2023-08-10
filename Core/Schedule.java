@@ -2,7 +2,9 @@ package Core;
 
 import Enums.Day;
 
-public class Schedule {
+import java.io.Serializable;
+
+public class Schedule implements Serializable {
     String[][] timeTable;
     int[] lenghtOfColumn;
     int dayInWeek = 7;
@@ -29,10 +31,8 @@ public class Schedule {
             lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
         }
     }
-    public void dropLesson(Lesson lesson){
-        int hour = lesson.hour;
-        int day = Day.valueOf(lesson.day.name()).ordinal();
-        timeTable[hour][day]="-";
+    public void dropLesson(int hour,int day){
+        this.timeTable[hour][day]="-";
     }
     public String[][] getTimeTable(){
         return this.timeTable;
@@ -64,10 +64,14 @@ public class Schedule {
     public boolean checkCohesion(Schedule schedule){
         return checkCohesion(this,schedule);
     }
-    public boolean isEmpty(Lesson lesson){
+    public boolean isEmpty(int hour,int day){
+        System.out.println(timeTable[hour][day].equals("-"));
+        return timeTable[hour][day].equals("-");
+    }
+    public void updateLessonName(Lesson lesson){
         int hour = lesson.hour;
-        int day = Day.valueOf(lesson.day.name()).ordinal();
-        return timeTable[hour][day]==null;
+        int day = lesson.day.ordinal();
+        this.timeTable[hour][day]=lesson.toString();
     }
 
 

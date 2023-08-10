@@ -1,77 +1,66 @@
 import Core.Course;
 import Core.Intronet;
-import Core.Lesson;
-import Core.Schedule;
-import Enums.Day;
+import Core.News;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
-import Frontend.SchduleDrawer;
-import Frontend.StudentGUI;
+import Frontend.MainGui;
+import Users.Manager;
 import Users.Student;
 import Users.Teacher;
 
 public class SchedulePrint {
     public static void main(String[] args) {
-//        String[] header = {"Time","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
-//        String[] time = {"9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00"};
-//        Schedule schedule = new Schedule();
-//
-//        schedule.addLesson(new Lesson("POH",Day.MONDAY, "2", 14-9));
-//        schedule.addLesson(new Lesson("VASHE POHUY",Day.TUESDAY, "3", 13-9));
-//        schedule.addLesson(new Lesson("POEBATY",Day.WEDNESDAY, "4", 9-9));
-//        schedule.addLesson(new Lesson("URAAAAAAAAAAAAAAAAAAAAAAAAA",Day.THURSDAY, "6", 12-9));
-//        schedule.addLesson(new Lesson("URAAAAAAAAAAAAAAAAAAAAAAAAB",Day.FRIDAY, "6", 12-9));
-//        schedule.addLesson(new Lesson("URAAAAAAA",Day.SATURDAY, "6", 21-9));
-//        schedule.addLesson(new Lesson("URAAAAAAAAAB",Day.MONDAY, "6", 17-9));
-//        SchduleDrawer.printSchedule(schedule);
-        Intronet intronet = new Intronet();
-        Student student = new Student("student01", "password123", "John", "Doe", Role.STUDENT, Faculty.BS, Degree.BS, 2);
-        Course course = new Course(Faculty.BS, "Programming 102", "Introduction to Programming", 3, 50,"CSS123");
-        Student student1 = new Student("student02", "password123", "John", "Doee", Role.STUDENT, Faculty.BS, Degree.BS, 2);
-        Course course1 = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50,"123CS");
-        Intronet.addCourseToSystem(course);
-        Intronet.addStudentToCourse(student,course);
-        Intronet.addUserToSystem(student);
-        Intronet.addCourseToSystem(course1);
-        Intronet.addStudentToCourse(student,course1);
-        SchduleDrawer.printInfoAboutStudentCourses(student);
+//        Intronet intronet = new Intronet();
+
+        Manager manager = new Manager("login", "password", "John", "Doe", Role.MANAGER, Faculty.FIT);
+        Student student1 = new Student("student1", "password1", "Alice", "Smith", Role.STUDENT, Faculty.FIT, Degree.BS);
+        Student student2 = new Student("student2", "password2", "Bob", "Johnson", Role.STUDENT, Faculty.FEOGI, Degree.BS);
+        Student student3 = new Student("student3", "password3", "Eve", "Williams", Role.STUDENT, Faculty.FIT, Degree.MS);
+        Student student4 = new Student("student4", "password4", "Eldr", "Willianos", Role.STUDENT, Faculty.FIT, Degree.BS);
+        Teacher teacher1 = new Teacher("teacher1_login", "teacher1_password", "Johnaa", "Doasde", Role.TEACHER, Faculty.FIT, Degree.PHD);
+        Teacher teacher2 = new Teacher("teacher2_login", "teacher2_password", "Jane", "Smith", Role.TEACHER, Faculty.FEOGI, Degree.MS);
+        Teacher teacher3 = new Teacher("teacher3_login", "teacher3_password", "Michael", "Johnson", Role.TEACHER, Faculty.ISE, Degree.PHD);
+        Teacher teacher4 = new Teacher("teacher4_login", "teacher4_password", "Emily", "Brown", Role.TEACHER, Faculty.KMA, Degree.MS);
+        // Первый объект Course
+        Course course1 = new Course(Faculty.FIT, "Physics 101", "Introduction to Physics", 3, 50, "PHY101");
+        Course course2 = new Course(Faculty.FEOGI, "English Literature", "Classic Literature Overview", 4, 40, "ENG202");
+        Course course3 = new Course(Faculty.MCM, "Computer Programming", "Introduction to Programming", 4, 60, "COMP101");
+        Course course4 = new Course(Faculty.KMA, "Painting Techniques", "Various Artistic Styles", 2, 30, "ART303");
+        Course course5 = new Course(Faculty.FIT, "Marketing Fundamentals", "Principles of Marketing", 3, 50, "BUS201");
+
+        Intronet.addUserToSystem(manager);
         Intronet.addUserToSystem(student1);
-        Intronet.addStudentToCourse(student1,course1);
-        Intronet.addStudentToCourse(student,course);
-        SchduleDrawer.printInfoAboutStudentCourses(student1);
-        SchduleDrawer.printUsersForSystem();
-        course.materials.add("OOPPPPPP");
-        SchduleDrawer.printMaterials(course);
-        SchduleDrawer.printInfoAboutStudentCourses(student);
-        SchduleDrawer.printCoursesForRegistration(student);
-        SchduleDrawer.printInfoAboutCourse(course1);
-        StudentGUI gui = new StudentGUI();
-        Intronet.addStudentToCourse(student1,course);
-        student.courses.get(course1.getId()).putPointForFirstAtt(13.1);
-        student.courses.get(course1.getId()).putPointForSecondAtt(13.2);
-        student1.courses.get(course1.getId()).putPointForFirstAtt(13.1);
-        student1.courses.get(course1.getId()).putPointForFirstAtt(13.2);
-        student.courses.get(course.getId()).putPointForFirstAtt(13.1);
-        student.courses.get(course.getId()).putPointForSecondAtt(13.2);
-        student1.courses.get(course.getId()).putPointForFirstAtt(13.1);
-        student1.courses.get(course.getId()).putPointForFirstAtt(13.2);
-        gui.menu(student);
-        Teacher teacher1 = new Teacher("ivan123", "pass123", "Иван", "Иванов", "12345", Role.TEACHER, Faculty.FIT);
-        Teacher teacher2 = new Teacher("elena456", "pass456", "Елена", "Петрова", "67890", Role.TEACHER, Faculty.FIT);
-        Intronet.addTeacherToCourse(course,teacher1);
-        Intronet.addTeacherToCourse(course1,teacher1);
-        SchduleDrawer.printTeacherRatingForCourse(course,0,0);
-        SchduleDrawer.printTeacherRatingForAllCourses(teacher1);
+        Intronet.addUserToSystem(student2);
+        Intronet.addUserToSystem(student3);
+        Intronet.addUserToSystem(student4);
 
+        Intronet.addUserToSystem(teacher1);
+        Intronet.addUserToSystem(teacher2);
+        Intronet.addUserToSystem(teacher3);
+        Intronet.addUserToSystem(teacher4);
 
+        Intronet.addCourseToSystem(course1);
+        Intronet.addCourseToSystem(course2);
+        Intronet.addCourseToSystem(course3);
+        Intronet.addCourseToSystem(course4);
+        Intronet.addCourseToSystem(course5);
 
-        SchduleDrawer.printMarksForListOfStudents(course1);
-        SchduleDrawer.printMarksForCurrentStudent(student,course1,0,1);
-        teacher1.printListOfCourses();
-        student.printCourseList();
+        News news1 = new News("New Exhibit Opening", "Join us for the grand opening of our new art exhibit this weekend!");
+        News news2 = new News("Upcoming Workshop: Photography Basics", "Learn the fundamentals of photography in our upcoming workshop.");
+        News news3 = new News("Important Policy Update", "Please be aware of the new policy changes coming into effect next month.");
+        News news4 = new News("Community Cleanup Day", "Volunteers needed for the community cleanup event on Saturday.");
+        News news5 = new News("Sports Tournament Results", "Congratulations to our team for their outstanding performance in the recent sports tournament!");
+        News news6 = new News("Charity Fundraiser Success", "Thanks to your generous contributions, we raised $10,000 for the local charity.");
 
+        Intronet.news.add(news1);
+        Intronet.news.add(news2);
+        Intronet.news.add(news3);
+        Intronet.news.add(news4);
+        Intronet.news.add(news5);
+        Intronet.news.add(news6);
 
+        MainGui.menu();
     }
 
 }

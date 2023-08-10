@@ -3,10 +3,12 @@ package Users;
 import Enums.Faculty;
 import Enums.Role;
 import Core.*;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class User {
+public class User implements Cloneable, Serializable{
     boolean blocked;
     public String login;
     public String password;
@@ -28,19 +30,30 @@ public class User {
     public void writeMessage(String login,String content){
         for(User user : Intronet.users){
             if(user.login.equals(login)){
-                user.messages.add(new Message(this,content));
+                user.messages.add(new Message(this.login,content));
             }
         }
     }
-    public News getNews(News news,int i){
-        return CourseAdepter.getObjectFromArray(CourseAdepter.toArray(Intronet.news),i);
+    public void viewAllNews(){
+        if(Intronet.news.size()>0){
+            Intronet.printNews();
+        }
+        else {
+            System.out.println("No news!");
+        }
     }
+
     public void makeComment(News news,String comment){
         news.comments.put(this.id,comment);
     }
     public void viewAllMessages(){
-        for(Message message: messages){
-            System.out.println(message.toString());
+        if(this.messages.size()>0){
+            for(Message message: messages){
+                System.out.println(message.toString());
+            }
+        }
+        else {
+            System.out.println("NO MESSAGES!");
         }
     }
     public String getId(){
@@ -64,5 +77,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(login, password, id);
+    }
+
+    @Override
+    public User clone() {
+        try {
+            return (User) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -1,9 +1,12 @@
 package Core;
 
-import java.util.HashMap;
+import java.io.Serial;
+
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Mark {
+public class Mark implements Serializable {
+    @Serial
     private static final long serialVersionUID = -5688064113814295498L;
     public Vector<Double> firstAtt;
     public Vector<Double> secondAtt;
@@ -30,6 +33,12 @@ public class Mark {
             result += points;
         }
         return result/firstAtt.size();
+    }
+    public void putAcscenseCount(){
+        this.absenceCount++;
+    }
+    public int getAbsenceCount(){
+        return this.absenceCount;
     }
     public double getAverageForSecondAtt(){
         double result = 0.0;

@@ -1,4 +1,5 @@
 package Users;
+
 import Core.Course;
 import Core.Intronet;
 import Core.Schedule;
@@ -7,14 +8,15 @@ import Enums.Faculty;
 import Enums.Role;
 import Frontend.SchduleDrawer;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Teacher extends User {
+public class Teacher extends User implements Serializable {
     public HashMap<String,HashMap<String,Double>> ratingByCourse;
     public HashSet<String> courses;
     public Schedule schedule;
-    Degree degree;
+    public Degree degree;
 
     public Teacher(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree) {
         super(login, password, name, surname, role, faculty);

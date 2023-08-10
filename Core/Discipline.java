@@ -3,12 +3,13 @@ package Core;
 import Core.Course;
 import Enums.Faculty;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class Discipline {
-    Faculty faculty;
-    String title;
-    String description;
+public class Discipline implements Serializable {
+    public Faculty faculty;
+    public String title;
+    public String description;
 
     public String code;
     int credits;

@@ -7,9 +7,11 @@ import Enums.RequestState;
 import Enums.RequestType;
 import Users.User;
 
+import java.io.Serializable;
+
 import static Core.Intronet.getUserById;
 
-public class Request {
+public class Request implements Serializable {
     public String title;
     public RequestType requestType;
     public RequestState requestState;

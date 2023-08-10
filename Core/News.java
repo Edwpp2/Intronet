@@ -1,14 +1,16 @@
 package Core;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class News {
-    String title;
-    String content;
+public class News implements Serializable {
+    public String title;
+    public String content;
     public HashMap<String,String> comments;
     News(){}
     public News(String title, String content){
         this.title=title;
         this.content=content;
+        this.comments = new HashMap<>();
     }
     public String toString(){
         return title +"\n\n" + content+".";
@@ -29,7 +31,7 @@ public class News {
             }
         }
         else {
-            System.out.println("No comments!");
+            System.out.println("No comments!\n");
         }
     }
 
