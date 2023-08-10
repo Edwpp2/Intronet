@@ -10,7 +10,7 @@ public class CourseAdepter {
         return collection.toArray(array);
     }
     public static <T> T getObjectFromArray(T[] array, int index) {
-        if (array == null || index < 0 || index >= array.length) {
+        if (array == null || index < 0 || index > array.length) {
             throw new IllegalArgumentException("Invalid array or index");
         }
         return array[index-1];

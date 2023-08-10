@@ -7,7 +7,9 @@ import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
 import Frontend.SchduleDrawer;
+import Frontend.StudentGUI;
 import Users.Student;
+import Users.Teacher;
 
 public class SchedulePrint {
     public static void main(String[] args) {
@@ -25,21 +27,49 @@ public class SchedulePrint {
 //        SchduleDrawer.printSchedule(schedule);
         Intronet intronet = new Intronet();
         Student student = new Student("student01", "password123", "John", "Doe", Role.STUDENT, Faculty.BS, Degree.BS, 2);
-        Course course = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50);
+        Course course = new Course(Faculty.BS, "Programming 102", "Introduction to Programming", 3, 50,"CSS123");
         Student student1 = new Student("student02", "password123", "John", "Doee", Role.STUDENT, Faculty.BS, Degree.BS, 2);
-        Course course1 = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50);
+        Course course1 = new Course(Faculty.BS, "Programming 101", "Introduction to Programming", 3, 50,"123CS");
         Intronet.addCourseToSystem(course);
         Intronet.addStudentToCourse(student,course);
         Intronet.addUserToSystem(student);
         Intronet.addCourseToSystem(course1);
         Intronet.addStudentToCourse(student,course1);
-        SchduleDrawer.printCoursesForStudent(student);
+        SchduleDrawer.printInfoAboutStudentCourses(student);
         Intronet.addUserToSystem(student1);
-        SchduleDrawer.printCoursesForStudent(student1);
+        Intronet.addStudentToCourse(student1,course1);
+        Intronet.addStudentToCourse(student,course);
+        SchduleDrawer.printInfoAboutStudentCourses(student1);
         SchduleDrawer.printUsersForSystem();
         course.materials.add("OOPPPPPP");
         SchduleDrawer.printMaterials(course);
-        SchduleDrawer.printCoursesForStudent(student);
+        SchduleDrawer.printInfoAboutStudentCourses(student);
+        SchduleDrawer.printCoursesForRegistration(student);
+        SchduleDrawer.printInfoAboutCourse(course1);
+        StudentGUI gui = new StudentGUI();
+        Intronet.addStudentToCourse(student1,course);
+        student.courses.get(course1.getId()).putPointForFirstAtt(13.1);
+        student.courses.get(course1.getId()).putPointForSecondAtt(13.2);
+        student1.courses.get(course1.getId()).putPointForFirstAtt(13.1);
+        student1.courses.get(course1.getId()).putPointForFirstAtt(13.2);
+        student.courses.get(course.getId()).putPointForFirstAtt(13.1);
+        student.courses.get(course.getId()).putPointForSecondAtt(13.2);
+        student1.courses.get(course.getId()).putPointForFirstAtt(13.1);
+        student1.courses.get(course.getId()).putPointForFirstAtt(13.2);
+        gui.menu(student);
+        Teacher teacher1 = new Teacher("ivan123", "pass123", "Иван", "Иванов", "12345", Role.TEACHER, Faculty.FIT);
+        Teacher teacher2 = new Teacher("elena456", "pass456", "Елена", "Петрова", "67890", Role.TEACHER, Faculty.FIT);
+        Intronet.addTeacherToCourse(course,teacher1);
+        Intronet.addTeacherToCourse(course1,teacher1);
+        SchduleDrawer.printTeacherRatingForCourse(course,0,0);
+        SchduleDrawer.printTeacherRatingForAllCourses(teacher1);
+
+
+
+        SchduleDrawer.printMarksForListOfStudents(course1);
+        SchduleDrawer.printMarksForCurrentStudent(student,course1,0,1);
+        teacher1.printListOfCourses();
+        student.printCourseList();
 
 
     }

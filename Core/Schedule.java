@@ -29,6 +29,11 @@ public class Schedule {
             lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
         }
     }
+    public void dropLesson(Lesson lesson){
+        int hour = lesson.hour;
+        int day = Day.valueOf(lesson.day.name()).ordinal();
+        timeTable[hour][day]="-";
+    }
     public String[][] getTimeTable(){
         return this.timeTable;
     }
@@ -43,6 +48,18 @@ public class Schedule {
             }
         }
         return false;
+    }
+    public void cleanSchedule(Schedule courseSchedule){
+        String[][] timetable1 = courseSchedule.getTimeTable();
+        String[][] timetable2 = this.getTimeTable();
+        for(int i = 0; i < 12; i ++){
+            for (int j = 0; j < 7; j++){
+                if(timetable1[i][j] != "-" && timetable2[i][j] != "-" ){
+                    timetable2[i][j]="-";
+                }
+            }
+        }
+
     }
     public boolean checkCohesion(Schedule schedule){
         return checkCohesion(this,schedule);

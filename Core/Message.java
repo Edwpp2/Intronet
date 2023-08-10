@@ -5,7 +5,7 @@ import Users.User;
 public class Message {
     User userSource;
     String content;
-    public Message(User userSource, String content) {
+    public Message(User userSource, String content){
         this.userSource = userSource;
         this.content = content;
     }

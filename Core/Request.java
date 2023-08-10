@@ -1,27 +1,38 @@
 package Core;
 
+import Core.Course;
+import Core.Intronet;
 import Enums.Faculty;
 import Enums.RequestState;
+import Enums.RequestType;
+import Users.User;
+
+import static Core.Intronet.getUserById;
 
 public class Request {
-    String content;
-    Faculty faculty;
-    String userId;
-    RequestState requestState;
-    String courseId;
-    public Request(String content,Faculty faculty,String userId,String courseId){
-        this.content = content;
-        this.faculty = faculty;
-        this.userId = userId;
-        this.courseId = courseId;
+    public String title;
+    public RequestType requestType;
+    public RequestState requestState;
+    public String sourseId;
+    public Faculty faculty;
+    public String courseId;
+    public String userId;
+
+    public String operationName;
+
+    public Request(String courseId, String userId, RequestType requestType,Faculty faculty){
+        this.requestType = requestType;
         this.requestState = RequestState.PROCESSING;
-    }
-    public void acceptRequest(){
-        this.requestState = RequestState.ACCEPT;
-    }
-    public void rejectRequest(){
-        this.requestState = RequestState.REJECT;
+        this.sourseId = userId;
+        this.courseId = courseId;
+        Course course = Intronet.getCourseById(courseId);
+        User user = getUserById(userId);
+        operationName = requestType.name().equals("ADDCOURSE")?"add course":"drop course";
+        this.title = course.name + operationName + user.name;
+        this.faculty = faculty;
     }
 
-
+    public String toString(){
+        return Intronet.getUserById(this.userId).toString() + " " + operationName + Intronet.getCourseById(courseId).name;
+    }
 }
