@@ -24,7 +24,7 @@ public class News implements Serializable {
     public void displayComments(){
         if(comments.size()>0){
             for(String id : comments.keySet()){
-                String userName = Intronet.getUserById(id).name + " " + Intronet.getUserById(id).surname;
+                String userName = Intronet.getInstance().getUserById(id).name + " " + Intronet.getInstance().getUserById(id).surname;
                 String comment = comments.get(id);
                 System.out.println(userName+"\n");
                 System.out.println(comment);

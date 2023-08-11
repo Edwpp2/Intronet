@@ -37,7 +37,7 @@ public class Course extends Discipline {
     public Vector<Student> StudentsOnCourse(){
         Vector<Student> students = new Vector<>();
         for(String id : studentMarks.keySet()){
-            students.add((Student) Intronet.getUserById(id));
+            students.add((Student) Intronet.getInstance().getUserById(id));
         }
         return students;
     }

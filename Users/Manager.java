@@ -6,6 +6,7 @@ import Core.Lesson;
 import Core.Request;
 import Enums.Faculty;
 import Enums.RequestState;
+import Enums.RequestType;
 import Enums.Role;
 
 import java.io.Serializable;
@@ -16,21 +17,21 @@ public class Manager extends User implements Serializable {
 
     }
     public void applyRequest(Request request){
-        if(request.requestType.name().equals("ADDCOURSE")){
-            if(Intronet.getUserById(request.sourseId).role==Role.TEACHER){
-                Teacher teacher = (Teacher) Intronet.getUserById(request.sourseId);
-                Course course = Intronet.getCourseById(request.courseId);
+        if(request.requestType==RequestType.ADDCOURSE){
+            if(Intronet.getInstance().getUserById(request.sourseId).role==Role.TEACHER){
+                Teacher teacher = (Teacher) Intronet.getInstance().getUserById(request.sourseId);
+                Course course = Intronet.getInstance().getCourseById(request.courseId);
                 if(course==null|teacher==null)
                 {
                     System.out.println("NO SUCH USER!");
                 }
                 else {
-                    Intronet.addTeacherToCourse(course,teacher);
+                    Intronet.getInstance().addTeacherToCourse(course,teacher);
                 }
             }
-            else if(Intronet.getUserById(request.sourseId).role==Role.STUDENT){
-                Student student = (Student) Intronet.getUserById(request.sourseId);
-                Course course = Intronet.getCourseById(request.courseId);
+            else if(Intronet.getInstance().getUserById(request.sourseId).role==Role.STUDENT){
+                Student student = (Student) Intronet.getInstance().getUserById(request.sourseId);
+                Course course = Intronet.getInstance().getCourseById(request.courseId);
                 if(course==null||student==null)
                 {
                     System.out.println("NO SUCH USER!");
@@ -40,10 +41,10 @@ public class Manager extends User implements Serializable {
                 }
             }
         }
-        else if(request.requestType.name().equals("DROPCOURSE")){
-            if(Intronet.getUserById(request.sourseId).role==Role.TEACHER){
-                Teacher teacher = (Teacher) Intronet.getUserById(request.sourseId);
-                Course course = Intronet.getCourseById(request.courseId);
+        else if(request.requestType==RequestType.DROPCOURSE){
+            if(Intronet.getInstance().getUserById(request.sourseId).role==Role.TEACHER){
+                Teacher teacher = (Teacher) Intronet.getInstance().getUserById(request.sourseId);
+                Course course = Intronet.getInstance().getCourseById(request.courseId);
                 if(course==null|teacher==null)
                 {
                     System.out.println("NO SUCH USER!");
@@ -52,23 +53,24 @@ public class Manager extends User implements Serializable {
                     Intronet.dropTeacherFromCourse(course,teacher);
                 }
             }
-            else if(Intronet.getUserById(request.sourseId).role==Role.STUDENT){
-                Student student = (Student) Intronet.getUserById(request.sourseId);
-                Course course = Intronet.getCourseById(request.courseId);
+            else if(Intronet.getInstance().getUserById(request.sourseId).role==Role.STUDENT){
+                Student student = (Student) Intronet.getInstance().getUserById(request.sourseId);
+                Course course = Intronet.getInstance().getCourseById(request.courseId);
                 if(course==null||student==null)
                 {
                     System.out.println("NO SUCH USER!");
                 }
                 else {
+                    System.out.println("DROP STAGE!");
                     Intronet.dropStudentFromCourse(student,course);
                 }
             }
         }
-        request.requestState= RequestState.ACCEPT;
-        Intronet.requests.remove(request);
+        request.requestState=RequestState.ACCEPT;
+        Intronet.getInstance().requests.remove(request);
     }
     public void rejectRequest(Request request){
-        request.requestState= RequestState.REJECT;
-        Intronet.requests.remove(request);
+        request.requestState=RequestState.REJECT;
+        Intronet.getInstance().requests.remove(request);
     }
 }

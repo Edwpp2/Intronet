@@ -1,11 +1,13 @@
 package Frontend;
 
+import Core.InputVerificator;
 import Users.Teacher;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class TeacherGUI {
-    public static void menu(Teacher teacher) {
-        Scanner input = new Scanner(System.in);
-        int command = 0;
+    public static void menu(Teacher teacher,BufferedReader input) throws IOException {
+        int command;
         while (teacher != null) {
             System.out.println("Choose an option:");
             System.out.println("[1]View news");
@@ -15,7 +17,7 @@ public class TeacherGUI {
             System.out.println("[5]View current courses");
             System.out.println("[6]View all rating");
             System.out.println("[6]Back");
-            command=input.nextInt();
+            command= InputVerificator.intValueCheck(input.readLine());
             if(command==1){
                 teacher.viewAllNews();
             }
@@ -24,9 +26,9 @@ public class TeacherGUI {
             }
             else if(command==3){
                 System.out.println("Enter a user login:");
-                String login = input.next();
+                String login = input.readLine();
                 System.out.println("Enter a text:");
-                String text = input.next();
+                String text = input.readLine();
                 teacher.writeMessage(login,text);
             }
             else if(command==4){
@@ -34,7 +36,7 @@ public class TeacherGUI {
             }
             else if(command==5){
                 if(teacher.courses.size()>0){
-                    TeacherCurrentCOursesGui.menu(teacher,input,true);
+                    TeacherCurrentCOursesGui.menu(teacher,input);
                 }
                 else {
                     System.out.println("NO COURSES!");
@@ -57,4 +59,3 @@ public class TeacherGUI {
         }
     }
 }
-

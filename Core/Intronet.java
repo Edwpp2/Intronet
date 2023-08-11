@@ -16,13 +16,13 @@ import java.util.Vector;
 
 public class Intronet implements Serializable {
     private static Intronet intronet;
-    public static Vector<Course> courses;
-    public static Vector<User> users;
+    public Vector<Course> courses;
+    public Vector<User> users;
     public Vector<Message> messages;
-    public static Vector<Request> requests;
-    public static Vector<News> news;
-    public static int maxUserName = 0;
-    public static int maxCourseName  = 0;
+    public Vector<Request> requests;
+    public Vector<News> news;
+    public int maxUserName = 0;
+    public int maxCourseName  = 0;
     private static final int idLength = 6;
 
     public HashSet<String> logs;
@@ -46,14 +46,14 @@ public class Intronet implements Serializable {
             intronet = new Intronet();
         }
     }
-    private Intronet(){
+    public Intronet(){
         courses = new Vector<>();
         users = new Vector<>();
         news = new Vector<>();
         requests = new Vector<>();
         messages = new Vector<>();
     }
-    public static User login(String login,String password){
+    public User login(String login,String password){
         for (User user : users){
             if(user.login.equals(login) && user.password.equals(password)){
                 return user;
@@ -61,41 +61,38 @@ public class Intronet implements Serializable {
         }
         return null;
     }
-    public static String generateUserId(){
+    public String generateUserId(){
         String year= "" + (Year.now().getValue()-2000);;
         return year + "B" + ("0".repeat(idLength - ("" + users.size()).length()) + ("" + users.size()));
     }
-    public void hello(){
-        System.out.println("Hello");
-    }
-    public static String generateCourseId() {
+    public  String generateCourseId() {
         String year= "" + (Year.now().getValue()-2000);
         return (year) + "C" + ("0".repeat(idLength - ("" + courses.size()).length()) + ("" + courses.size()));
     }
-    public static void addCourseToSystem(Course course){
+    public  void addCourseToSystem(Course course){
         if(course.name.length()>maxCourseName){
             maxCourseName = course.name.length();
         }
-        course.setId(Intronet.generateCourseId());
+        course.setId(this.generateCourseId());
         courses.add(course);
     }
-    public static void addUserToSystem(User user){
+    public void addUserToSystem(User user){
         String userName = user.name + " " + user.surname;
         if(maxUserName < userName.length()){
             maxUserName = userName.length();
         }
-        user.setId(Intronet.generateUserId());
+        user.setId(this.generateUserId());
         users.add(user);
     }
-    public static User getUserById(String id){
-        for (User user : users){
+    public User getUserById(String id){
+        for (User user : intronet.users){
             if(user.getId().equals(id)){
                 return user;
             }
         }
         return null;
     }
-    public static User getUserByLogin(String login){
+    public User getUserByLogin(String login){
         for (User user : users){
             if(user.login.equals(login)){
                 return user;
@@ -103,7 +100,7 @@ public class Intronet implements Serializable {
         }
         return null;
     }
-    public static Course getCourseById(String id){
+    public Course getCourseById(String id){
         for(Course course : courses){
             if(course.getId().equals(id)){
                 return course;
@@ -111,7 +108,7 @@ public class Intronet implements Serializable {
         }
         return null;
     }
-    public static void addTeacherToCourse(Course course, Teacher teacher){
+    public void addTeacherToCourse(Course course, Teacher teacher){
         Schedule teacherSchedule = teacher.getSchedule();
         if(!(course.schedule.checkCohesion(teacherSchedule))){
             if(course.lessons.size()!=0){
@@ -136,27 +133,29 @@ public class Intronet implements Serializable {
     public static void addStudentToCourse(Student student, Course course){
         Schedule studentSchedule = student.getSchedule();
         if(!(course.schedule.checkCohesion(studentSchedule))){
+            System.out.println("AAAAAAAAAAAAAA");
             if(course.lessons.size()!=0){
                 for(Lesson lesson: course.lessons){
                     studentSchedule.addLesson(lesson);
                 }
             }
-            Mark mark = new Mark();
-            course.studentMarks.put(student.getId(),mark);
-            student.courses.put(course.getId(),mark);
+            course.studentMarks.put(student.getId(),new Mark());
+            student.courses.put(course.getId(),new Mark());
             student.credits=student.credits-course.credits;
+            System.out.println("BBBBBBBBBBBBB");
         }
     }
     public static  void  dropStudentFromCourse(Student student,Course course){
         Schedule studentSchedule = student.getSchedule();
         studentSchedule.cleanSchedule(course.schedule);
         student.credits=student.credits+course.credits;
+        student.courses.remove(course.getId());
     }
-    public static void addLessonToCourse(Course course,Lesson lesson){
+    public void addLessonToCourse(Course course,Lesson lesson){
         boolean isEmpty = true;
         if(course.studentMarks.size()>0){
             for(String id : course.studentMarks.keySet()){
-                Student student =(Student) Intronet.getUserById(id);
+                Student student =(Student) this.getUserById(id);
                 if(!student.getSchedule().isEmpty(lesson.hour, lesson.day.ordinal())){
                     isEmpty = false;
                 }
@@ -194,7 +193,7 @@ public class Intronet implements Serializable {
         }
         course.schedule.dropLesson(hour,day.ordinal());
     }
-    public static Teacher[] enableTeachers(Course course){
+    public Teacher[] enableTeachers(Course course){
         int arraySize = 0;
         for(User user : users){
             if(user.role== Role.TEACHER && user.faculty == course.faculty){
@@ -210,7 +209,7 @@ public class Intronet implements Serializable {
         }
         return teachers;
     }
-    public static int maxCourseName(){
+    public int maxCourseName(){
         int maxLength = 0;
         for(Course course : courses){
             String name = course.name;
@@ -220,23 +219,23 @@ public class Intronet implements Serializable {
         }
         return maxLength;
     }
-    public static void printNews(){
+    public void printNews(){
         int i = 0;
         for(News part : news){
             SchduleDrawer.printNews(i,part);
             i++;
         }
     }
-    public static Request[] getFacultyRequest(Manager manager){
+    public Request[] getFacultyRequest(Manager manager){
         int facultySatisfyCount = 0;
         int i = 0;
-        for (Request requests1:Intronet.requests){
+        for (Request requests1:requests){
             if(requests1.faculty==manager.faculty){
                 facultySatisfyCount++;
             }
         }
         Request[] requests = new Request[facultySatisfyCount];
-        for (Request requests1:Intronet.requests){
+        for (Request requests1: intronet.requests){
             if(requests1.faculty==manager.faculty){
                 requests[i]=requests1;
                 i++;
@@ -244,10 +243,11 @@ public class Intronet implements Serializable {
         }
         return requests;
     }
-    public static void displayFacultyRequests(Manager manager){
+    public void displayFacultyRequests(Manager manager){
         Request[] requests = getFacultyRequest(manager);
+        System.out.println(requests.length);
         for (int i = 0; i < requests.length;i++){
-            System.out.println("[" + i + "]" + " " + requests[i].toString());
+            System.out.println("[" + (i+1) + "]" + " " + requests[i].toString());
         }
     }
     public static void serializeIntronet(String filename) {

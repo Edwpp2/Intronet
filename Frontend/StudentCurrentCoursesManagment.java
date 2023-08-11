@@ -1,30 +1,36 @@
 package Frontend;
 
 import Core.Course;
+import Core.InputVerificator;
 import Core.Intronet;
 import Core.Request;
 import Enums.RequestType;
 import Users.Student;
-
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class StudentCurrentCoursesManagment {
-    public static void menu(Student student, Scanner input, boolean start) {
-        int command = 0;
+    public static void menu(Student student,BufferedReader input) throws IOException {
+        int command;
         int internalStage = 0;
         Course course = null;
+        boolean start = true;
         while (start){
             if(internalStage==0){
                 SchduleDrawer.printInfoAboutStudentCourses(student);
                 System.out.println("Choose an option:");
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Back");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
-                    int courseNum = input.nextInt();
-                    if(courseNum>0 && courseNum < student.courses.size()){
-                        course = Intronet.getCourseById((String) student.courses.keySet().toArray()[courseNum]);
+                    System.out.println("Enter course number!");
+                    int courseNum = InputVerificator.intValueCheck(input.readLine());
+                    if(courseNum>0 && courseNum <= student.courses.size()){
+                        course = Intronet.getInstance().getCourseById((String) student.courses.keySet().toArray()[courseNum-1]);
                         internalStage++;
+                    }
+                    else {
+                        System.out.println("WRONG NUMBER!");
                     }
                 }
                 else if(command==2){
@@ -41,7 +47,7 @@ public class StudentCurrentCoursesManagment {
                 System.out.println("[3]Rate teacher");
                 System.out.println("[4]Drop course");
                 System.out.println("[5]Back");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     SchduleDrawer.printInfoAboutCourse(course);
                     SchduleDrawer.printMaterials(course);
@@ -54,7 +60,7 @@ public class StudentCurrentCoursesManagment {
                         System.out.println("There are no teacher on course");
                     }
                     else {
-                        double rating = input.nextDouble();
+                        double rating = InputVerificator.doubleValueCheck(input.readLine());
                         student.rateTeacher(course,rating);
                     }
                 }
@@ -62,9 +68,9 @@ public class StudentCurrentCoursesManagment {
                     System.out.println("Chose an option:");
                     System.out.println("[1]Make request to drop");
                     System.out.println("[2]Back");
-                    command = input.nextInt();
+                    command = InputVerificator.intValueCheck(input.readLine());
                     if(command==1){
-                        Intronet.requests.add(new Request(course.getId(),student.getId(), RequestType.DROPCOURSE,student.getFaculty()));
+                        Intronet.getInstance().requests.add(new Request(course.getId(),student.getId(), RequestType.DROPCOURSE,student.getFaculty()));
                     }
                     else if(command==2){
                         continue;
@@ -82,6 +88,5 @@ public class StudentCurrentCoursesManagment {
                 }
             }
         }
-
     }
 }

@@ -45,7 +45,7 @@ public class Teacher extends User implements Serializable {
     public int maxCourseName(){
         int maxLength = 0;
         for(String courseId:courses){
-            Course course = Intronet.getCourseById(courseId);
+            Course course = Intronet.getInstance().getCourseById(courseId);
             String name = course.name;
             if(maxLength<name.length()){
                 maxLength = name.length();
@@ -54,7 +54,7 @@ public class Teacher extends User implements Serializable {
         return maxLength;
     }
     public Course getCourseFromList(int i){
-        Course course = Intronet.getCourseById((String) courses.toArray()[i-1]);
+        Course course = Intronet.getInstance().getCourseById((String) courses.toArray()[i-1]);
         return course;
     }
 

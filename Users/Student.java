@@ -33,7 +33,7 @@ public class Student extends User implements Serializable {
     public int maxCourseName(){
         int maxLength = 0;
         for(String courseId:courses.keySet()){
-            Course course = Intronet.getCourseById(courseId);
+            Course course = Intronet.getInstance().getCourseById(courseId);
             String name = course.name;
             if(maxLength<name.length()){
                 maxLength = name.length();
@@ -43,7 +43,7 @@ public class Student extends User implements Serializable {
     }
     public void makeRequest(Course course, RequestType requestType){
         Request request = new Request(course.getId(),this.getId(),requestType,this.faculty);
-        Intronet.requests.add(request);
+        Intronet.getInstance().requests.add(request);
     }
     public Faculty getFaculty(){
         return this.faculty;

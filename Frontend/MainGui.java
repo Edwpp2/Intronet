@@ -1,20 +1,22 @@
 package Frontend;
 
+import Core.InputVerificator;
 import Core.Intronet;
 import Enums.Role;
 import Users.Manager;
 import Users.Student;
 import Users.Teacher;
 import Users.User;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-import java.util.Scanner;
 
 public class MainGui {
-
-    public static void menu(){
-        Scanner input = new Scanner(System.in);
+    public static void menu() throws IOException {
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         int internalStage = 0;
-        int command = 0;
+        int command;
         User user = null;
         while(true){
             if(internalStage==0){
@@ -22,13 +24,13 @@ public class MainGui {
                 System.out.println("Choose an option");
                 System.out.println("[1]Login");
                 System.out.println("[2]Exit");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter login");
-                    String login = input.next();
+                    String login = input.readLine();
                     System.out.println("Enter password");
-                    String password = input.next();
-                    user = Intronet.login(login,password);
+                    String password = input.readLine();
+                    user = Intronet.getInstance().login(login,password);
                     if(user==null){
                         System.out.println("WRONG LOGIN OR PASSWORD!");
                     }
@@ -38,6 +40,7 @@ public class MainGui {
                 }
                 else if(command==2){
                     Intronet.serializeIntronet("intronet.txt");
+                    input.close();
                     System.exit(0);
                 }
                 else {
@@ -46,18 +49,16 @@ public class MainGui {
             }
             if(internalStage==1){
                 if(user.role == Role.TEACHER){
-                    TeacherGUI.menu((Teacher) user);
+                    TeacherGUI.menu((Teacher) user,input);
                 }
                 else if(user.role == Role.MANAGER){
-                    ManagerGUI.menu((Manager)user);
+                    ManagerGUI.menu((Manager)user,input);
                 }
                 else if(user.role==Role.STUDENT){
-                    StudentGUI.menu((Student) user);
+                    StudentGUI.menu((Student) user,input);
                 }
                 internalStage--;
             }
         }
-
-
     }
 }

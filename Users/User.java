@@ -28,15 +28,15 @@ public class User implements Cloneable, Serializable{
         messages = new Vector<Message>();
     }
     public void writeMessage(String login,String content){
-        for(User user : Intronet.users){
+        for(User user : Intronet.getInstance().users){
             if(user.login.equals(login)){
                 user.messages.add(new Message(this.login,content));
             }
         }
     }
     public void viewAllNews(){
-        if(Intronet.news.size()>0){
-            Intronet.printNews();
+        if(Intronet.getInstance().news.size()>0){
+            Intronet.getInstance().printNews();
         }
         else {
             System.out.println("No news!");
@@ -86,5 +86,8 @@ public class User implements Cloneable, Serializable{
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+    public String toString(){
+        return this.name + " " + this.surname;
     }
 }

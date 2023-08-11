@@ -20,6 +20,6 @@ public class RequestConstructor {
                 requestType = RequestType.values()[index-1];
             }
         }
-        Intronet.requests.add(new Request(courseId,userId,requestType,faculty));
+        Intronet.getInstance().requests.add(new Request(courseId,userId,requestType,faculty));
     }
 }

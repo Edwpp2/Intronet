@@ -1,24 +1,28 @@
 package Frontend;
 
 import Core.Course;
+import Core.InputVerificator;
 import Core.Intronet;
 import Core.Material;
 import Users.Student;
 import Users.Teacher;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 
 public class TeacherCurrentCOursesGui {
-    public static void menu(Teacher teacher, Scanner input, boolean start) {
+    public static void menu(Teacher teacher,BufferedReader input) throws IOException {
         int command = 0;
         int internalStage = 0;
         Student student = null;
         Course course = null;
+        boolean start = true;
         while (start){
             if(internalStage==0){
                 System.out.println("Choose an option:");
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Back");
-                command=input.nextInt();
+                command=InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     if(teacher.courses.size()>0){
                         internalStage++;
@@ -37,7 +41,7 @@ public class TeacherCurrentCOursesGui {
             if(internalStage==1){
                 SchduleDrawer.printInfoAboutTeacherCourses(teacher);
                 System.out.println("Enter course number");
-                int courseNum = input.nextInt();
+                int courseNum = InputVerificator.intValueCheck(input.readLine());
                 if(courseNum < 0 || courseNum > teacher.courses.size()){
                     System.out.println("Wrong number!");
                 }
@@ -52,7 +56,7 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[2]View all marks");
                 System.out.println("[3]Rate students");
                 System.out.println("[4]Back");
-                command=input.nextInt();
+                command=InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     if(course.materials.size()>0){
                         internalStage++;
@@ -85,10 +89,10 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[1]Add material");
                 System.out.println("[2]Remove material");
                 System.out.println("[3]Back");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter file name");
-                    String filename = input.next();
+                    String filename = input.readLine();
                     course.materials.add((new Material(filename)));
                 }
                 else if(command==2){
@@ -104,7 +108,7 @@ public class TeacherCurrentCOursesGui {
             if(internalStage==4){
                 SchduleDrawer.printMaterials(course);
                 System.out.println("Enter number of material:");
-                int materialNum = input.nextInt();
+                int materialNum = InputVerificator.intValueCheck(input.readLine());
                 if(materialNum<0 || materialNum > course.materials.size()){
                     System.out.println("Wrong number!");
                 }
@@ -116,13 +120,13 @@ public class TeacherCurrentCOursesGui {
             if(internalStage==5){
                 SchduleDrawer.printStudentsOnCourse(course);
                 System.out.println("Enter student number:");
-                int studentIndex = input.nextInt();
+                int studentIndex = InputVerificator.intValueCheck(input.readLine());
                 if(studentIndex < 0 || studentIndex > course.studentMarks.keySet().size()){
                     System.out.println("WRONG NUMBER!");
                     internalStage--;
                 }
                 else {
-                    student = (Student) Intronet.getUserById((String) course.studentMarks.keySet().toArray()[studentIndex-1]);
+                    student = (Student) Intronet.getInstance().getUserById((String) course.studentMarks.keySet().toArray()[studentIndex-1]);
                     internalStage++;
                 }
             }
@@ -134,10 +138,10 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[3]Put mark for final");
                 System.out.println("[4]Put abscense");
                 System.out.println("[5]Back");
-                command=input.nextInt();
+                command=InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter mark for first attiastation");
-                    double mark = input.nextDouble();
+                    double mark = Double.parseDouble(input.readLine());
                     if(mark<0 || mark > 30){
                         System.out.println("WRONG MARK!");
                     }
@@ -147,7 +151,7 @@ public class TeacherCurrentCOursesGui {
                 }
                 else if(command==2){
                     System.out.println("Enter mark for second attiastation");
-                    double mark = input.nextDouble();
+                    double mark = InputVerificator.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 30){
                         System.out.println("WRONG MARK!");
                     }
@@ -157,7 +161,7 @@ public class TeacherCurrentCOursesGui {
                 }
                 else if(command==3){
                     System.out.println("Enter mark for second attiastation");
-                    double mark = input.nextDouble();
+                    double mark = InputVerificator.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 50){
                         System.out.println("WRONG MARK!");
                     }

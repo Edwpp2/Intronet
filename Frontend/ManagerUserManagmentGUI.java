@@ -6,32 +6,33 @@ import Comporators.NameComparator;
 import Comporators.RoleComparator;
 import Constructors.UserConstructor;
 import Core.Course;
+import Core.InputVerificator;
 import Core.Intronet;
 import Core.Lesson;
 import Enums.Faculty;
 import Enums.Role;
-import Users.Manager;
 import Users.Student;
 import Users.Teacher;
 import Users.User;
-import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class ManagerUserManagmentGUI {
-    public static void menu(Manager manager, User user, Scanner input, boolean start){
+    public static void menu(User user,BufferedReader input) throws IOException {
         int internalStage = 0;
-        int command = 0;
+        int command;
         boolean teacherWasEdited = false;
         boolean studentWasEdited = false;
-        Vector<User> users = (Vector<User>) Intronet.users.clone();
+        boolean start = true;
+        Vector<User> users = (Vector<User>) Intronet.getInstance().users.clone();
         while (start){
             if(internalStage==0){
                 System.out.println("Choose an option");
                 System.out.println("[1]View all users");
                 System.out.println("[2]Back");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage++;
                 }
@@ -39,8 +40,6 @@ public class ManagerUserManagmentGUI {
                     start=false;
                     user = null;
                     users = null;
-                    teacherWasEdited = false;
-                    studentWasEdited = false;
                 }
             }
             if(internalStage==1){
@@ -50,7 +49,7 @@ public class ManagerUserManagmentGUI {
                 System.out.println("[2]Add user");
                 System.out.println("[3]Sort user");
                 System.out.println("[4]Back");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage++;
                 }
@@ -64,22 +63,22 @@ public class ManagerUserManagmentGUI {
                     System.out.println("[3]By faculty;");
                     System.out.println("[4]By role;");
                     System.out.println("[5]Dont change.");
-                    command=input.nextInt();
+                    command = InputVerificator.intValueCheck(input.readLine());
                     if(command==1){
                         Comparator<User> IdComporator = new IdComporator();
-                        Collections.sort(users, IdComporator);
+                        users.sort(IdComporator);
                     }
                     else if(command==2){
                         Comparator<User> NameComparator = new NameComparator();
-                        Collections.sort(users, NameComparator);
+                        users.sort(NameComparator);
                     }
                     else if(command==3){
                         Comparator<User>FacultyComporator = new FacultyComporator();
-                        Collections.sort(users, FacultyComporator);
+                        users.sort(FacultyComporator);
                     }
                     else if(command==4){
                         Comparator<User> RoleComparator = new RoleComparator();
-                        Collections.sort(users, RoleComparator);
+                        users.sort(RoleComparator);
                     }
                     else if(command==5){
                         continue;
@@ -97,7 +96,7 @@ public class ManagerUserManagmentGUI {
             }
             if(internalStage==2){
                 System.out.println("Choose number of the user:");
-                int index = input.nextInt();
+                int index = InputVerificator.intValueCheck(input.readLine());
                 if(index < 0 || index > users.size()){
                     System.out.println("WRONG NUMBER!");
                 }
@@ -115,29 +114,29 @@ public class ManagerUserManagmentGUI {
                 System.out.println("[5]Change surname;");
                 System.out.println("[6]Change faculty;");
                 System.out.println("[7]Back.");
-                command=input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter new login for use:");
-                    user.name = input.next();
+                    user.name = input.readLine();
                 }
                 else if(command==2){
                     System.out.println("Enter new login for use:");
-                    user.name = input.next();
+                    user.name = input.readLine();
                 }
                 else if(command==3){
                     System.out.println("Enter new name for use:");
-                    user.name = input.next();
+                    user.name = input.readLine();
                     teacherWasEdited = true;
                 }
                 else if(command==4){
                     System.out.println("Enter new surname for use:");
-                    user.name = input.next();
+                    user.name = input.readLine();
                     teacherWasEdited = true;
                 }
                 else if(command==5){
                     System.out.println("Choose role for user:");
                     System.out.println("[1]STUDENT;\n[2]TEACHER;\n[3]MANAGER;\n[4]ADMIN;\n[5]SYSTEM;\n[6]LIBRARIAN.");
-                    int index = input.nextInt();
+                    int index = InputVerificator.intValueCheck(input.readLine());
                     if(index < 1 || index > 6){
                         System.out.println("WRONG NUMBER!");
                     }
@@ -150,7 +149,7 @@ public class ManagerUserManagmentGUI {
                 else if(command==6){
                     System.out.println("Choose a faculty:");
                     System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
-                    int index = input.nextInt();
+                    int index = InputVerificator.intValueCheck(input.readLine());
                     if(index < 1 || index > 7){
                         System.out.println("Вы ввели не корректный номер факультета!");
                     }
@@ -164,7 +163,7 @@ public class ManagerUserManagmentGUI {
                         Teacher teacher = (Teacher)user;
                         if(teacher.courses.size()>0){
                             for(String courseId : teacher.courses){
-                                Course course = Intronet.getCourseById(courseId);
+                                Course course = Intronet.getInstance().getCourseById(courseId);
                                 if(teacher.faculty==course.faculty){
                                     for (Lesson lesson : course.lessons){
                                         course.schedule.updateLessonName(lesson);
@@ -180,7 +179,7 @@ public class ManagerUserManagmentGUI {
                         Student student = (Student) user;
                         if(student.courses.size()>0){
                             for(String courseId : student.courses.keySet()){
-                                Course course = Intronet.getCourseById(courseId);
+                                Course course = Intronet.getInstance().getCourseById(courseId);
                                 if(student.faculty!=course.faculty){
                                     Intronet.dropStudentFromCourse(student,course);
                                 }
@@ -199,9 +198,10 @@ public class ManagerUserManagmentGUI {
 
             }
             if (internalStage==4){
-                UserConstructor.userCreation();
+                UserConstructor.userCreation(input);
                 internalStage=0;
             }
         }
     }
 }
+

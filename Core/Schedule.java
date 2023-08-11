@@ -42,7 +42,7 @@ public class Schedule implements Serializable {
         String[][] timetable2 = schedule2.getTimeTable();
         for(int i = 0; i < 12; i ++){
             for (int j = 0; j < 7; j++){
-                if(timetable1[i][j] != "-" && timetable2[i][j] != "-" ){
+                if(!timetable1[i][j].equals("-") && !timetable2[i][j].equals("-") ){
                     return true;
                 }
             }

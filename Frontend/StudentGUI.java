@@ -1,15 +1,16 @@
 package Frontend;
 
+import Core.InputVerificator;
 import Core.Intronet;
 import Core.Message;
 import Users.Student;
 import Users.User;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class StudentGUI {
-    public static void menu(Student student) {
-        Scanner input = new Scanner(System.in);
-        int command = 0;
+    public static void menu(Student student,BufferedReader input) throws IOException {
+        int command;
         while (student != null) {
             System.out.println("Choose an option:");
             System.out.println("[1]View news");
@@ -20,56 +21,47 @@ public class StudentGUI {
             System.out.println("[6]View list of current courses;");
             System.out.println("[7]View transcript");
             System.out.println("[8]Exit.");
-            command = input.nextInt();
-            System.out.println(command);
-            if(command==1){
+            command = InputVerificator.intValueCheck(input.readLine());
+            if (command == 1) {
                 student.viewAllNews();
-            }
-            else if(command==2){
+            } else if (command == 2) {
                 student.viewAllMessages();
-            }
-            else if(command==3){
+            } else if (command == 3) {
                 System.out.println("Enter login of user!");
-                String login = input.next();
-                User user = Intronet.getUserByLogin(login);
+                String login = input.readLine();
+                User user = Intronet.getInstance().getUserByLogin(login);
                 if (user == null) {
                     System.out.println("User not found!");
                 } else {
                     System.out.println("Write a text!");
-                    String text = input.next();
+                    String text = input.readLine();
                     Message message = new Message(login, text);
                     user.messages.add(message);
                 }
-            }
-            else if (command == 4) {
+            } else if (command == 4) {
                 SchduleDrawer.printSchedule(student.getSchedule());
-            }
-            else if (command == 5) {
-                if(Intronet.courses.size()>0){
-                    StudentCourseRegistrationGui.menu(student, input, true);
-                }
-                else {
+            } else if (command == 5) {
+                if (Intronet.getInstance().courses.size() > 0) {
+                    StudentCourseRegistrationGui.menu(student,input);
+                } else {
                     System.out.println("NO COURSES FO REGISTRATION!");
                 }
-            }
-            else if (command == 6) {
-                if(student.courses.size()>0){
-                    StudentCurrentCoursesManagment.menu(student, input, true);
-                }
-                else {
+            } else if (command == 6) {
+                System.out.println(student.courses.keySet().size());
+                if (student.courses.keySet().size() > 0) {
+                    StudentCurrentCoursesManagment.menu(student,input);
+                } else {
                     System.out.println("NO CURRENT COURSES!");
                 }
-            }
-            else if (command == 7) {
+            } else if (command == 7) {
                 student = null;
-            }
-            else if (command == 8) {
+            } else if (command == 8) {
                 student = null;
-            }
-            else {
+            } else {
                 System.out.println("WRONG NUMBER!");
             }
         }
     }
 }
+
 

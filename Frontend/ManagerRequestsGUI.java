@@ -1,29 +1,33 @@
 package Frontend;
+import Core.InputVerificator;
 import Core.Intronet;
 import Core.Request;
 import Users.Manager;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
 
-public  class ManagerRequestsGUI {
-    public static void menu(Manager manager, Scanner input,boolean start){
+
+public  class   ManagerRequestsGUI {
+    public static void menu(Manager manager,BufferedReader input) throws IOException {
         int internalStage=0;
         Request request = null;
-        int command=0;
+        int command;
+        boolean start = true;
         while (start){
             if(internalStage==0){
                 System.out.println("Chose option:");
                 System.out.println("[1]Manage requests;");
                 System.out.println("[2]Back.");
-                command = input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
-                    Intronet.displayFacultyRequests(manager);
+                    Intronet.getInstance().displayFacultyRequests(manager);
                     System.out.println("Enter request number:");
-                    int number = input.nextInt();
-                    if(number < 1 || number > Intronet.getFacultyRequest(manager).length){
+                    int number = InputVerificator.intValueCheck(input.readLine());
+                    if(number < 1 || number > Intronet.getInstance().getFacultyRequest(manager).length){
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        request = Intronet.getFacultyRequest(manager)[number-1];
+                        request = Intronet.getInstance().getFacultyRequest(manager)[number-1];
                         internalStage++;
                     }
                 }
@@ -35,11 +39,11 @@ public  class ManagerRequestsGUI {
                 }
             }
             if(internalStage==1){
-                System.out.println("Выберите тип операции:");
+                System.out.println("Chose an option:");
                 System.out.println("[1]Accept");
                 System.out.println("[2]Reject");
                 System.out.println("[3]Back");
-                command=input.nextInt();
+                command = InputVerificator.intValueCheck(input.readLine());
                 if(command==1){
                     manager.applyRequest(request);
                     request=null;
