@@ -26,6 +26,10 @@ public class ManagerUserManagmentGUI {
         boolean teacherWasEdited = false;
         boolean studentWasEdited = false;
         boolean start = true;
+        if(Intronet.getInstance().users.size()<1){
+            start=false;
+            System.out.println("NO USERS TO MANAGE!");
+        }
         Vector<User> users = (Vector<User>) Intronet.getInstance().users.clone();
         while (start){
             if(internalStage==0){

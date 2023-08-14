@@ -53,16 +53,22 @@ public class Intronet implements Serializable {
         requests = new Vector<>();
         messages = new Vector<>();
     }
-    public User login(String login,String password){
+    public User login(BufferedReader input) throws IOException {
+        System.out.println("Enter login");
+        String login = input.readLine();
+        System.out.println("Enter password");
+        String password = input.readLine();
         for (User user : users){
             if(user.login.equals(login) && user.password.equals(password)){
+                Logs.AddToLog("User" + user.name + " " + user.surname +  "login to system");
                 return user;
+
             }
         }
         return null;
     }
     public String generateUserId(){
-        String year= "" + (Year.now().getValue()-2000);;
+        String year= "" + (Year.now().getValue()-2000);
         return year + "B" + ("0".repeat(idLength - ("" + users.size()).length()) + ("" + users.size()));
     }
     public  String generateCourseId() {
@@ -110,15 +116,34 @@ public class Intronet implements Serializable {
     }
     public void addTeacherToCourse(Course course, Teacher teacher){
         Schedule teacherSchedule = teacher.getSchedule();
-        if(!(course.schedule.checkCohesion(teacherSchedule))){
-            if(course.lessons.size()!=0){
-                for(Lesson lesson: course.lessons){
-                    teacherSchedule.addLesson(lesson);
-                }
+        for (Lesson lesson : course.lessons){
+            lesson.teacher = course.teacher;
+            course.schedule.updateLessonName(lesson);
+            for (String id : course.studentMarks.keySet()){
+                Student student = (Student)this.getUserById(id);
+                student.schedule.updateLessonName(lesson);
+                teacher.schedule.updateLessonName(lesson);
             }
+        }
+        if(!(course.schedule.checkCohesion(teacherSchedule))){
             course.teacher=teacher;
             teacher.courses.add(course.getId());
+            if(course.lessons.size()!=0){
+                for(Lesson lesson: course.lessons){
+                    lesson.teacher = course.teacher;
+                    teacherSchedule.addLesson(lesson);
+                    for (String id : course.studentMarks.keySet()){
+                        Student student = (Student)this.getUserById(id);
+                        student.schedule.updateLessonName(lesson);
+                    }
+                }
+            }
+            Logs.AddToLog("Teacher" + teacher.name + " " + teacher.surname +  "was added to" + course.name);
         }
+        else {
+            System.out.println("Teacher has time cohesion!");
+        }
+
     }
     public static void dropTeacherFromCourse(Course course, Teacher teacher){
         {
@@ -128,12 +153,12 @@ public class Intronet implements Serializable {
             }
             course.teacher=null;
             teacher.courses.remove(course.getId());
+            Logs.AddToLog("Teacher" + teacher.name + " " + teacher.surname +  "was dropped from" + course.name);
         }
     }
     public static void addStudentToCourse(Student student, Course course){
         Schedule studentSchedule = student.getSchedule();
         if(!(course.schedule.checkCohesion(studentSchedule))){
-            System.out.println("AAAAAAAAAAAAAA");
             if(course.lessons.size()!=0){
                 for(Lesson lesson: course.lessons){
                     studentSchedule.addLesson(lesson);
@@ -142,7 +167,8 @@ public class Intronet implements Serializable {
             course.studentMarks.put(student.getId(),new Mark());
             student.courses.put(course.getId(),new Mark());
             student.credits=student.credits-course.credits;
-            System.out.println("BBBBBBBBBBBBB");
+            System.out.println(course.teacherRating.get(student.getId()));
+            Logs.AddToLog("Student" + student.name + student.surname + "was added to" + course.name);
         }
     }
     public static  void  dropStudentFromCourse(Student student,Course course){
@@ -150,6 +176,9 @@ public class Intronet implements Serializable {
         studentSchedule.cleanSchedule(course.schedule);
         student.credits=student.credits+course.credits;
         student.courses.remove(course.getId());
+        course.studentMarks.remove(student.getId());
+        course.teacherRating.remove(student.getId());
+        Logs.AddToLog("Student" + student.name + student.surname + "was dropped from" + course.name);
     }
     public void addLessonToCourse(Course course,Lesson lesson){
         boolean isEmpty = true;
@@ -177,6 +206,7 @@ public class Intronet implements Serializable {
             }
             course.schedule.addLesson(lesson);
             course.lessons.add(lesson);
+            Logs.AddToLog("Lesson was added to " + course.name);
         }
         else{
             System.out.println("Some user has cohesion in schedule!");
@@ -192,6 +222,7 @@ public class Intronet implements Serializable {
             course.teacher.getSchedule().dropLesson(hour,day.ordinal());
         }
         course.schedule.dropLesson(hour,day.ordinal());
+        Logs.AddToLog("Lesson was dropped from" + course.name);
     }
     public Teacher[] enableTeachers(Course course){
         int arraySize = 0;
@@ -245,21 +276,21 @@ public class Intronet implements Serializable {
     }
     public void displayFacultyRequests(Manager manager){
         Request[] requests = getFacultyRequest(manager);
-        System.out.println(requests.length);
         for (int i = 0; i < requests.length;i++){
             System.out.println("[" + (i+1) + "]" + " " + requests[i].toString());
         }
     }
     public static void serializeIntronet(String filename) {
         try (FileOutputStream fileOut = new FileOutputStream(filename);
-             ObjectOutputStream out = new ObjectOutputStream(fileOut);){
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)){
 
             out.writeObject(getInstance());
             out.close();
             fileOut.close();
 
             System.out.println("Intronet serialized to " + filename);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

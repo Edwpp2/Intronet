@@ -21,7 +21,7 @@ public class SchedulePrint {
             Student student3 = new Student("student3", "password3", "Eve", "Williams", Role.STUDENT, Faculty.FIT, Degree.MS);
             Student student4 = new Student("student4", "password4", "Eldr", "Willianos", Role.STUDENT, Faculty.FIT, Degree.BS);
             Teacher teacher1 = new Teacher("teacher1_login", "teacher1_password", "Johnaa", "Doasde", Role.TEACHER, Faculty.FIT, Degree.PHD);
-            Teacher teacher2 = new Teacher("teacher2_login", "teacher2_password", "Jane", "Smith", Role.TEACHER, Faculty.FEOGI, Degree.MS);
+            Teacher teacher2 = new Teacher("1", "1", "Jane", "Smith", Role.TEACHER, Faculty.FEOGI, Degree.MS);
             Teacher teacher3 = new Teacher("teacher3_login", "teacher3_password", "Michael", "Johnson", Role.TEACHER, Faculty.ISE, Degree.PHD);
             Teacher teacher4 = new Teacher("teacher4_login", "teacher4_password", "Emily", "Brown", Role.TEACHER, Faculty.KMA, Degree.MS);
             // Первый объект Course

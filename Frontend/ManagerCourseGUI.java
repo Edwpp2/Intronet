@@ -17,6 +17,10 @@ public class ManagerCourseGUI {
         Course course=null;
         int internalStage = 0;
         boolean start = true;
+        if(Intronet.getInstance().courses.size()<1){
+            start=false;
+            System.out.println("NO COURSES TO MANAGE!");
+        }
         while (start) {
             if (internalStage == 0) {
                 System.out.println("Choose an option");
@@ -93,11 +97,13 @@ public class ManagerCourseGUI {
                 if (command == 1) {
                     System.out.println("Enter number of teacher");
                     int teacherNumber = InputVerificator.intValueCheck(input.readLine());
-                    if (teacherNumber < 0 || teacherNumber > Intronet.getInstance().enableTeachers(course).length) {
-                        System.out.println("WRONG NUMBER!");
-                    } else {
+                    try {
                         Teacher teacher = Intronet.getInstance().enableTeachers(course)[teacherNumber - 1];
                         Intronet.getInstance().addTeacherToCourse(course, teacher);
+                        internalStage=2;
+                    }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        System.out.println("WRONG NUMBER!");
                     }
                 } else if (command == 2) {
                     internalStage = 1;
@@ -128,9 +134,7 @@ public class ManagerCourseGUI {
                 }
                 internalStage = 2;
             }
-
         }
-
     }
 }
 

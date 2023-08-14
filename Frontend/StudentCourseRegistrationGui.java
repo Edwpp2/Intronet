@@ -13,6 +13,10 @@ public class StudentCourseRegistrationGui {
         int internalStage = 0;
         Course course = null;
         boolean start = true;
+        if(Intronet.getInstance().courses.size()<1){
+            start=false;
+            System.out.println("NO COURSES FOR REGISTRATION!");
+        }
         while (start){
             if(internalStage==0){
                 SchduleDrawer.printCoursesForRegistration(student);
@@ -33,13 +37,14 @@ public class StudentCourseRegistrationGui {
             if(internalStage==1){
                 System.out.println("Enter number of the course");
                 int courseNum = InputVerificator.intValueCheck(input.readLine());
-                if(courseNum > 0 && courseNum < Intronet.getInstance().courses.size()){
-                    course = (Course) CourseAdepter.getObjectFromArray(Intronet.getInstance().courses.toArray(),courseNum);
+                try{
+                    course = (Course) (Intronet.getInstance().courses.toArray()[courseNum-1]);
                     internalStage++;
                 }
-                else {
-                    System.out.println("Wrong number!");
+                catch (NullPointerException e){
+                    System.out.println("WRONG NUMBER!");
                 }
+
             }
             if(internalStage==2){
                 System.out.println("Chose an option:");

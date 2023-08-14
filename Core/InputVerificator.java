@@ -14,7 +14,7 @@ public class InputVerificator {
     }
     public static double doubleValueCheck(String streamValue){
         try {
-            return Integer.parseInt(streamValue);
+            return Double.parseDouble(streamValue);
 
         } catch (NumberFormatException e) {
             System.out.println("Value that was entered is't number!");

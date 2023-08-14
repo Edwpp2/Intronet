@@ -12,7 +12,7 @@ public class Mark implements Serializable {
     public Vector<Double> secondAtt;
     public double pointsForFinal;
     public int absenceCount;
-    private boolean finalHeld = false;
+    public boolean finalHeld = false;
 
     public Mark() {
         this.finalHeld = false;
@@ -37,9 +37,6 @@ public class Mark implements Serializable {
     public void putAcscenseCount(){
         this.absenceCount++;
     }
-    public int getAbsenceCount(){
-        return this.absenceCount;
-    }
     public double getAverageForSecondAtt(){
         double result = 0.0;
         for(Double points : secondAtt){
@@ -53,6 +50,9 @@ public class Mark implements Serializable {
     }
     public boolean isRetake()
     {
-        return (getAverageForFirstAtt() + getAverageForSecondAtt())/2 < 30 || (pointsForFinal < 20) && finalHeld || absenceCount > 9;
+        return ((getAverageForFirstAtt() + getAverageForSecondAtt()) < 30 || (pointsForFinal < 15 && finalHeld))  || absenceCount >= 9;
+    }
+    public double getFinalPoint(){
+        return (getAverageForFirstAtt() + getAverageForSecondAtt() * 0.6) + (pointsForFinal *0.4);
     }
 }

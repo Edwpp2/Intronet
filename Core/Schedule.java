@@ -31,6 +31,7 @@ public class Schedule implements Serializable {
             lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
         }
     }
+
     public void dropLesson(int hour,int day){
         this.timeTable[hour][day]="-";
     }
@@ -72,9 +73,8 @@ public class Schedule implements Serializable {
         int hour = lesson.hour;
         int day = lesson.day.ordinal();
         this.timeTable[hour][day]=lesson.toString();
+        if(lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]<lesson.toString().length()){
+            lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
+        }
     }
-
-
-
-
 }

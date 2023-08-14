@@ -1,9 +1,6 @@
 package Users;
 
-import Core.Course;
-import Core.Intronet;
-import Core.Lesson;
-import Core.Request;
+import Core.*;
 import Enums.Faculty;
 import Enums.RequestState;
 import Enums.RequestType;
@@ -38,8 +35,10 @@ public class Manager extends User implements Serializable {
                 }
                 else {
                     Intronet.addStudentToCourse(student,course);
+                    student.registeredCoursesCnt++;
                 }
             }
+            Logs.AddToLog("Accept add request from" + Intronet.getInstance().getUserById(request.sourseId).name + Intronet.getInstance().getUserById(request.sourseId).surname,this);
         }
         else if(request.requestType==RequestType.DROPCOURSE){
             if(Intronet.getInstance().getUserById(request.sourseId).role==Role.TEACHER){
@@ -61,10 +60,13 @@ public class Manager extends User implements Serializable {
                     System.out.println("NO SUCH USER!");
                 }
                 else {
+
                     System.out.println("DROP STAGE!");
                     Intronet.dropStudentFromCourse(student,course);
+                    student.registeredCoursesCnt--;
                 }
             }
+            Logs.AddToLog("Accept drop request from" + Intronet.getInstance().getUserById(request.sourseId).name + Intronet.getInstance().getUserById(request.sourseId).surname,this);
         }
         request.requestState=RequestState.ACCEPT;
         Intronet.getInstance().requests.remove(request);
@@ -72,5 +74,6 @@ public class Manager extends User implements Serializable {
     public void rejectRequest(Request request){
         request.requestState=RequestState.REJECT;
         Intronet.getInstance().requests.remove(request);
+        Logs.AddToLog("Reject request from" + Intronet.getInstance().getUserById(request.sourseId).name + Intronet.getInstance().getUserById(request.sourseId).surname,this);
     }
 }

@@ -25,30 +25,22 @@ public class TeacherGUI {
                 teacher.viewAllMessages();
             }
             else if(command==3){
-                System.out.println("Enter a user login:");
-                String login = input.readLine();
-                System.out.println("Enter a text:");
-                String text = input.readLine();
-                teacher.writeMessage(login,text);
+                teacher.writeMessage(input);
             }
             else if(command==4){
                 SchduleDrawer.printSchedule(teacher.getSchedule());
             }
             else if(command==5){
-                if(teacher.courses.size()>0){
-                    TeacherCurrentCOursesGui.menu(teacher,input);
-                }
-                else {
-                    System.out.println("NO COURSES!");
-                }
+                TeacherCurrentCOursesGui.menu(teacher,input);
             }
             else if(command==6){
-                if(teacher.courses.size()>0){
-                    SchduleDrawer.printTeacherRatingForAllCourses(teacher);
-                }
-                else {
-                    System.out.println("NO COURSES!");
-                }
+                SchduleDrawer.printTeacherRatingForAllCourses(teacher);
+//                if(teacher.courses.size()>0){
+//                    SchduleDrawer.printTeacherRatingForAllCourses(teacher);
+//                }
+//                else {
+//                    System.out.println("NO COURSES!");
+//                }
             }
             else if(command==7){
                 teacher=null;

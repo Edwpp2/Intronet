@@ -25,74 +25,30 @@ public class ManagerGUI {
             System.out.println("[8]Exit.");
             command = InputVerificator.intValueCheck(input.readLine());
             if(command==1){
-                if(Intronet.getInstance().news.size()>0){
-                    Intronet.getInstance().printNews();
-                }
-                else {
-                    System.out.println("No news!");
-                }
+                manager.viewAllNews();
             }
             else if(command==2){
-                if(manager.messages.size()>0){
-                    manager.viewAllMessages();
-                }
-                else {
-                    System.out.println("NO MESSAGES!");
-                }
+                manager.viewAllMessages();
             }
             else if(command==3){
-                System.out.println("Enter login of user!");
-                String login = input.readLine();
-                user = Intronet.getInstance().getUserByLogin(login);
-                if (user == null) {
-                    System.out.println("User not found!");
-                } else {
-                    System.out.println("Write a text!");
-                    String text = input.readLine();
-                    Message message = new Message(login, text);
-                    user.messages.add(message);
-                }
+                manager.writeMessage(input);
             }
             else if(command==4){
-                if(Intronet.getInstance().news.size()>0){
-                    ManagerNewsGUI.menu(news,input);
-                }
-                else {
-                    System.out.println("NO NEWS!");
-                }
+                ManagerNewsGUI.menu(news,input);
             }
             else if(command==5){
-                System.out.println(Intronet.getInstance().getFacultyRequest(manager).length);
-                System.out.println(Intronet.getInstance().requests.size());
-                if(Intronet.getInstance().getFacultyRequest(manager).length>0){
-                    ManagerRequestsGUI.menu(manager,input);
-                }
-                else {
-                    System.out.println("NO REQUESTS!");
-                }
+                ManagerRequestsGUI.menu(manager,input);
             }
             else if(command==6){
-                if(Intronet.getInstance().courses.size()>0){
-                    ManagerCourseGUI.menu(input);
-                }
-                else {
-                    System.out.println("NO COURSES!");
-                }
+                ManagerCourseGUI.menu(input);
             }
             else if(command==7){
-                if(Intronet.getInstance().users.size()>1){
-                    ManagerUserManagmentGUI.menu(user,input);
-                }
-                else {
-                    System.out.println("NO USERS TO MANAGE!");
-                }
+                ManagerUserManagmentGUI.menu(user,input);
             }
             else if(command==8){
                 manager=null;
             }
-            else if (command==0){
-                continue;
-            } else {
+            else {
                 System.out.println("WRONG NUMBER!");
             }
         }

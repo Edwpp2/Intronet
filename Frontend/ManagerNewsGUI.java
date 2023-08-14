@@ -11,6 +11,10 @@ public class ManagerNewsGUI {
         int internalStage = 0;
         int command;
         boolean start = true;
+        if(Intronet.getInstance().news.size()>1){
+            start=false;
+            System.out.println("NO MESSAGE TO MANAGE!");
+        }
         while (start){
             if(internalStage==0){
                 System.out.println("Choose an option::");

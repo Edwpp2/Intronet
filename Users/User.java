@@ -4,11 +4,14 @@ import Enums.Faculty;
 import Enums.Role;
 import Core.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
 public class User implements Cloneable, Serializable{
+
     boolean blocked;
     public String login;
     public String password;
@@ -73,7 +76,6 @@ public class User implements Cloneable, Serializable{
         if (!(o instanceof User user)) return false;
         return login.equals(user.login) && password.equals(user.password) && id.equals(user.id);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(login, password, id);
@@ -89,5 +91,19 @@ public class User implements Cloneable, Serializable{
     }
     public String toString(){
         return this.name + " " + this.surname;
+    }
+    public void writeMessage(BufferedReader input) throws IOException {
+        User destUser = null;
+        System.out.println("Enter login of user!");
+        String login = input.readLine();
+        destUser = Intronet.getInstance().getUserByLogin(login);
+        if (destUser == null) {
+            System.out.println("User not found!");
+        } else {
+            System.out.println("Write a text!");
+            String text = input.readLine();
+            Message message = new Message(login, text);
+            destUser.messages.add(message);
+        }
     }
 }

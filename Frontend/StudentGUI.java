@@ -2,6 +2,7 @@ package Frontend;
 
 import Core.InputVerificator;
 import Core.Intronet;
+import Core.Logs;
 import Core.Message;
 import Users.Student;
 import Users.User;
@@ -27,34 +28,19 @@ public class StudentGUI {
             } else if (command == 2) {
                 student.viewAllMessages();
             } else if (command == 3) {
-                System.out.println("Enter login of user!");
-                String login = input.readLine();
-                User user = Intronet.getInstance().getUserByLogin(login);
-                if (user == null) {
-                    System.out.println("User not found!");
-                } else {
-                    System.out.println("Write a text!");
-                    String text = input.readLine();
-                    Message message = new Message(login, text);
-                    user.messages.add(message);
-                }
+                student.writeMessage(input);
             } else if (command == 4) {
                 SchduleDrawer.printSchedule(student.getSchedule());
             } else if (command == 5) {
-                if (Intronet.getInstance().courses.size() > 0) {
-                    StudentCourseRegistrationGui.menu(student,input);
-                } else {
-                    System.out.println("NO COURSES FO REGISTRATION!");
-                }
+                StudentCourseRegistrationGui.menu(student,input);
             } else if (command == 6) {
-                System.out.println(student.courses.keySet().size());
-                if (student.courses.keySet().size() > 0) {
-                    StudentCurrentCoursesManagment.menu(student,input);
-                } else {
-                    System.out.println("NO CURRENT COURSES!");
-                }
+                StudentCurrentCoursesManagment.menu(student,input);
             } else if (command == 7) {
-                student = null;
+                student.transcript.get(1).size();
+                SchduleDrawer.printTranscript(student);
+                Logs.saveTranscript(student);
+                System.out.println(student.courses.size());
+                System.out.println(student.passedCourses.size());
             } else if (command == 8) {
                 student = null;
             } else {

@@ -13,6 +13,10 @@ public  class   ManagerRequestsGUI {
         Request request = null;
         int command;
         boolean start = true;
+        if(Intronet.getInstance().getFacultyRequest(manager).length<1){
+            start=false;
+            System.out.println("NO REQUESTS TO MANAGE!");
+        }
         while (start){
             if(internalStage==0){
                 System.out.println("Chose option:");

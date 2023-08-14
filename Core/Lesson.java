@@ -2,9 +2,8 @@ package Core;
 
 import Enums.Day;
 import Users.Teacher;
-
 import java.io.Serializable;
-import java.util.HashSet;
+
 
 public class Lesson implements Serializable {
     public Day day;
@@ -21,12 +20,18 @@ public class Lesson implements Serializable {
     }
     public String toString()
     {
-        if(teacher!=null){
+        try{
             return name + " " + "(" + teacher.name + " " + teacher.surname + " "  + room + ")";
         }
-        else {
+        catch (NullPointerException e)
+        {
             return name + " " + "(" + "VACANSY" +" "+ room + ")";
         }
+//        if(teacher!=null){
+//            return name + " " + "(" + teacher.name + " " + teacher.surname + " "  + room + ")";
+//        }
+//        else {
+//            return name + " " + "(" + "VACANSY" +" "+ room + ")";
+//        }
     }
-
 }

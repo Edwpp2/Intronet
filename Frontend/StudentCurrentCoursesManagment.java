@@ -15,6 +15,10 @@ public class StudentCurrentCoursesManagment {
         int internalStage = 0;
         Course course = null;
         boolean start = true;
+        if(student.courses.size()<1){
+            start=false;
+            System.out.println("NO CURRENT COURSES!");
+        }
         while (start){
             if(internalStage==0){
                 SchduleDrawer.printInfoAboutStudentCourses(student);
@@ -60,7 +64,8 @@ public class StudentCurrentCoursesManagment {
                         System.out.println("There are no teacher on course");
                     }
                     else {
-                        double rating = InputVerificator.doubleValueCheck(input.readLine());
+//                        double rating = InputVerificator.doubleValueCheck(input.readLine());
+                        int rating = InputVerificator.intValueCheck(input.readLine());
                         student.rateTeacher(course,rating);
                     }
                 }

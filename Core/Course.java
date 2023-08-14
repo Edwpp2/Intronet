@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
-public class Course extends Discipline {
-    String id;
+public class Course extends Discipline implements Serializable {
+    public String id;
     public Vector<Material> materials;
     public HashMap<String,Mark> studentMarks;
-    public HashMap<String,Double> teacherRating;
+    public HashMap<String,Integer> teacherRating;
     public Teacher teacher;
     public Vector<Lesson> lessons;
     public String name;
@@ -41,14 +41,12 @@ public class Course extends Discipline {
         }
         return students;
     }
-
     public void setId(String id){
         this.id = id;
     }
     public String getId(){
         return this.id;
     }
-
     public int maxMaterialName(){
         int maxLength = 0;
         for(Material material : materials){
@@ -59,12 +57,16 @@ public class Course extends Discipline {
         return maxLength;
     }
     public boolean hasPrerec(Student student){
+        int prercCnt = 0;
         for (String course : prerecs){
-            if(!student.passedCourses.contains(course)){
-                return false;
+            for(int yearsOfStudy : student.transcript.keySet()){
+                if(student.transcript.get(yearsOfStudy).containsKey(course))
+                {
+                    prercCnt++;
+                }
             }
         }
-        return true;
+        return prerecs.size()==prercCnt;
     }
     public boolean canJoin(Student student){
         return (student.credits-this.credits >=0) && this.studentMarks.size()+1<=this.capacity && hasPrerec(student);

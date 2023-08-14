@@ -1,12 +1,14 @@
 package Core;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class News implements Serializable {
     public String title;
     public String content;
     public HashMap<String,String> comments;
     News(){}
+
     public News(String title, String content){
         this.title=title;
         this.content=content;
@@ -33,6 +35,18 @@ public class News implements Serializable {
         else {
             System.out.println("No comments!\n");
         }
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News)) return false;
+        News news = (News) o;
+        return title.equals(news.title) && content.equals(news.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, content);
     }
 
 }
