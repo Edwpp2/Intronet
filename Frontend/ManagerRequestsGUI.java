@@ -13,7 +13,7 @@ public  class   ManagerRequestsGUI {
         Request request = null;
         int command;
         boolean start = true;
-        if(Intronet.getInstance().getFacultyRequest(manager).length<1){
+        if(Intronet.getInstance().getFacultyRequest(manager).size()<1){
             start=false;
             System.out.println("NO REQUESTS TO MANAGE!");
         }
@@ -27,11 +27,11 @@ public  class   ManagerRequestsGUI {
                     Intronet.getInstance().displayFacultyRequests(manager);
                     System.out.println("Enter request number:");
                     int number = InputVerificator.intValueCheck(input.readLine());
-                    if(number < 1 || number > Intronet.getInstance().getFacultyRequest(manager).length){
+                    if(number < 1 || number > Intronet.getInstance().getFacultyRequest(manager).size()){
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        request = Intronet.getInstance().getFacultyRequest(manager)[number-1];
+                        request = Intronet.getInstance().getFacultyRequest(manager).get(number-1);
                         internalStage++;
                     }
                 }

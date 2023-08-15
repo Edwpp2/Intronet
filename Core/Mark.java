@@ -21,6 +21,39 @@ public class Mark implements Serializable {
         this.absenceCount = 0;
         this.pointsForFinal = 0;
     }
+    public String getLatterMarks(double mark){
+        if(mark > 95){
+            return "A";
+        }
+        else if (mark > 90.0 && mark < 95.0) {
+            return "A";
+        }
+        else if (mark > 85.0 && mark < 90.0) {
+            return "B+";
+        }
+        else if (mark > 80.0&& mark < 85.0) {
+            return "B";
+        }
+        else if (mark > 75.0 && mark < 80.0) {
+            return "B-";
+        }
+        else if (mark > 70.0 && mark < 75.0) {
+            return "C+";
+        }
+        else if (mark > 65.0 && mark < 70.0) {
+            return "C";
+        }
+        else if (mark > 60.0 && mark < 65.0) {
+            return "C-";
+        }
+        else if (mark > 50.0 && mark < 60.0) {
+            return "D";
+        }
+        else {
+            return "F";
+        }
+
+    }
     public void putPointForFirstAtt(Double point){
         firstAtt.add(point);
     }

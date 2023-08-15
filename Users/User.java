@@ -46,8 +46,23 @@ public class User implements Cloneable, Serializable{
         }
     }
 
-    public void makeComment(News news,String comment){
-        news.comments.put(this.id,comment);
+    public void makeComment(BufferedReader input) throws IOException {
+        System.out.println("Enter number of news");
+        try {
+            int newsNumber = InputVerificator.intValueCheck(input.readLine());
+            News news = (News)Intronet.getInstance().news.toArray()[newsNumber-1];
+            System.out.println("Enter your comment:");
+            String comment = input.readLine();
+            if(comment.length()>0){
+                news.comments.put(this.id,comment);
+            }
+            else {
+                System.out.println("Empty comment!");
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Wrong number!");
+        }
     }
     public void viewAllMessages(){
         if(this.messages.size()>0){

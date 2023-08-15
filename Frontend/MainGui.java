@@ -3,10 +3,8 @@ package Frontend;
 import Core.InputVerificator;
 import Core.Intronet;
 import Enums.Role;
-import Users.Manager;
-import Users.Student;
-import Users.Teacher;
-import Users.User;
+import Users.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,10 +21,7 @@ public class MainGui {
             command = InputVerificator.intValueCheck(input.readLine());
             if(command==1){
                 user = Intronet.getInstance().login(input);
-                if(user==null){
-                    System.out.println("WRONG LOGIN OR PASSWORD!");
-                }
-                else {
+                if(user!=null){
                     if(user.role == Role.TEACHER){
                         TeacherGUI.menu((Teacher) user,input);
                     }
@@ -35,6 +30,9 @@ public class MainGui {
                     }
                     else if(user.role==Role.STUDENT){
                         StudentGUI.menu((Student) user,input);
+                    }
+                    else if(user.role==Role.ADMIN){
+                        AdminGUI.menu((Admin) user,input);
                     }
                 }
             }

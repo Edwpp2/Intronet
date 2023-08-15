@@ -11,7 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Year;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class Intronet implements Serializable {
@@ -24,8 +25,6 @@ public class Intronet implements Serializable {
     public int maxUserName = 0;
     public int maxCourseName  = 0;
     private static final int idLength = 6;
-
-    public HashSet<String> logs;
 
     static {
         intronet = null;
@@ -60,11 +59,18 @@ public class Intronet implements Serializable {
         String password = input.readLine();
         for (User user : users){
             if(user.login.equals(login) && user.password.equals(password)){
-                Logs.AddToLog("User" + user.name + " " + user.surname +  "login to system");
-                return user;
+                if(!user.isBlocked()){
+                    Logs.AddToLog("User " + user.name + " " + user.surname +  " login to system");
+                    return user;
+                }
+                else {
+                    System.out.println("This user blocked in system!");
+                    return null;
+                }
 
             }
         }
+        System.out.println("No such user!");
         return null;
     }
     public String generateUserId(){
@@ -114,46 +120,35 @@ public class Intronet implements Serializable {
         }
         return null;
     }
-    public void addTeacherToCourse(Course course, Teacher teacher){
+    public void addTeacherToCourse(Course course, Teacher teacher) {
         Schedule teacherSchedule = teacher.getSchedule();
-        for (Lesson lesson : course.lessons){
-            lesson.teacher = course.teacher;
-            course.schedule.updateLessonName(lesson);
-            for (String id : course.studentMarks.keySet()){
-                Student student = (Student)this.getUserById(id);
-                student.schedule.updateLessonName(lesson);
-                teacher.schedule.updateLessonName(lesson);
-            }
-        }
-        if(!(course.schedule.checkCohesion(teacherSchedule))){
-            course.teacher=teacher;
+        if (!course.schedule.checkCohesion(teacherSchedule)) {
+            course.teacher = teacher;
             teacher.courses.add(course.getId());
-            if(course.lessons.size()!=0){
-                for(Lesson lesson: course.lessons){
-                    lesson.teacher = course.teacher;
-                    teacherSchedule.addLesson(lesson);
-                    for (String id : course.studentMarks.keySet()){
-                        Student student = (Student)this.getUserById(id);
-                        student.schedule.updateLessonName(lesson);
-                    }
-                }
-            }
-            Logs.AddToLog("Teacher" + teacher.name + " " + teacher.surname +  "was added to" + course.name);
+            updateLessonNameForCourse(course);
+            Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname + " was added to " + course.name);
         }
         else {
             System.out.println("Teacher has time cohesion!");
         }
-
     }
-    public static void dropTeacherFromCourse(Course course, Teacher teacher){
-        {
-            for(Lesson lesson:course.lessons){
-                lesson.teacher=null;
-                course.schedule.updateLessonName(lesson);
+    public void updateLessonNameForCourse(Course course){
+        for(Lesson lesson:course.lessons){
+            lesson.teacher=course.teacher;
+            course.schedule.updateLessonName(lesson);
+            for (String id : course.studentMarks.keySet()) {
+                Student student = (Student) this.getUserById(id);
+                student.schedule.updateLessonName(lesson);
             }
+        }
+    }
+
+    public void dropTeacherFromCourse(Course course, Teacher teacher){
+        {
             course.teacher=null;
+            updateLessonNameForCourse(course);
             teacher.courses.remove(course.getId());
-            Logs.AddToLog("Teacher" + teacher.name + " " + teacher.surname +  "was dropped from" + course.name);
+            Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname +  " was dropped from" + course.name);
         }
     }
     public static void addStudentToCourse(Student student, Course course){
@@ -168,7 +163,7 @@ public class Intronet implements Serializable {
             student.courses.put(course.getId(),new Mark());
             student.credits=student.credits-course.credits;
             System.out.println(course.teacherRating.get(student.getId()));
-            Logs.AddToLog("Student" + student.name + student.surname + "was added to" + course.name);
+            Logs.AddToLog("Student " + student.name + student.surname + " was added to" + course.name);
         }
     }
     public static  void  dropStudentFromCourse(Student student,Course course){
@@ -178,64 +173,68 @@ public class Intronet implements Serializable {
         student.courses.remove(course.getId());
         course.studentMarks.remove(student.getId());
         course.teacherRating.remove(student.getId());
-        Logs.AddToLog("Student" + student.name + student.surname + "was dropped from" + course.name);
+        Logs.AddToLog("Student " + student.name + student.surname + " was dropped from" + course.name);
     }
-    public void addLessonToCourse(Course course,Lesson lesson){
-        boolean isEmpty = true;
+    public boolean checkCohesionForStudentsOnCourse(Course course,Lesson lesson){
         if(course.studentMarks.size()>0){
             for(String id : course.studentMarks.keySet()){
                 Student student =(Student) this.getUserById(id);
                 if(!student.getSchedule().isEmpty(lesson.hour, lesson.day.ordinal())){
-                    isEmpty = false;
+                    return false;
                 }
             }
         }
-        if(course.teacher!=null){
-            if(!course.teacher.getSchedule().isEmpty(lesson.hour, lesson.day.ordinal())){
-                isEmpty = false;
-                System.out.println("Teacher not empty");
-            }
+        return true;
+    }
+    public void addLessonToCourse(Course course,Lesson lesson){
+        boolean isEmpty = true;
+        boolean teacherHasCohesion = course.teacher!=null && !course.teacher.getSchedule().isEmpty(lesson.hour, lesson.day.ordinal());
+        if(course.studentMarks.size()>0){
+            isEmpty = checkCohesionForStudentsOnCourse(course,lesson) && !teacherHasCohesion;
         }
-        if(isEmpty){
+        if (isEmpty) {
             lesson.name = course.name;
-            if(course.teacher!=null){
+            if (course.teacher != null) {
                 course.teacher.getSchedule().addLesson(lesson);
             }
-            for(Student student : course.StudentsOnCourse()){
+            for (Student student : course.StudentsOnCourse()) {
                 student.getSchedule().addLesson(lesson);
             }
             course.schedule.addLesson(lesson);
             course.lessons.add(lesson);
             Logs.AddToLog("Lesson was added to " + course.name);
         }
-        else{
+        else {
             System.out.println("Some user has cohesion in schedule!");
         }
     }
-    public static void dropLessonFromCourse(Course course, int hour, Day day){
+    public static void dropLessonFromStudentsSchedule(Course course, int hour, Day day){
         for(Student student : course.StudentsOnCourse()){
-            if(!student.getSchedule().isEmpty(hour,day.ordinal())){
-                student.getSchedule().dropLesson(hour,day.ordinal());
+            Schedule studentSchedule = student.getSchedule();
+            if(!studentSchedule.isEmpty(hour,day.ordinal())){
+                studentSchedule.dropLesson(hour,day.ordinal());
             }
         }
-        if(course.teacher!=null){
-            course.teacher.getSchedule().dropLesson(hour,day.ordinal());
-        }
-        course.schedule.dropLesson(hour,day.ordinal());
-        Logs.AddToLog("Lesson was dropped from" + course.name);
+
     }
-    public Teacher[] enableTeachers(Course course){
-        int arraySize = 0;
-        for(User user : users){
-            if(user.role== Role.TEACHER && user.faculty == course.faculty){
-                arraySize++;
+    public static void dropLessonFromCourse(Course course, int hour, Day day){
+        if(!course.schedule.isEmpty(hour,day.ordinal())){
+            dropLessonFromStudentsSchedule(course,hour,day);
+            if(course.teacher!=null){
+                course.teacher.getSchedule().dropLesson(hour,day.ordinal());
             }
+            course.schedule.dropLesson(hour,day.ordinal());
+            Logs.AddToLog("Lesson was dropped from" + course.name);
         }
-        Teacher[] teachers = new Teacher[arraySize];
-        for(User user : users){
-            if(user.role== Role.TEACHER && user.faculty == course.faculty){
-                teachers[arraySize-1] = (Teacher) user;
-                arraySize--;
+        else {
+            System.out.println("No such lesson!");
+        }
+    }
+    public List<Teacher> enableTeachers(Course course) {
+        List<Teacher> teachers = new ArrayList<>();
+        for (User user : users) {
+            if (user.role == Role.TEACHER && user.faculty == course.faculty && course.teacher != user) {
+                teachers.add((Teacher) user);
             }
         }
         return teachers;
@@ -243,9 +242,8 @@ public class Intronet implements Serializable {
     public int maxCourseName(){
         int maxLength = 0;
         for(Course course : courses){
-            String name = course.name;
-            if(maxLength<name.length()){
-                maxLength = name.length();
+            if(maxLength<course.name.length()){
+                maxLength = course.name.length();
             }
         }
         return maxLength;
@@ -257,28 +255,29 @@ public class Intronet implements Serializable {
             i++;
         }
     }
-    public Request[] getFacultyRequest(Manager manager){
-        int facultySatisfyCount = 0;
-        int i = 0;
-        for (Request requests1:requests){
-            if(requests1.faculty==manager.faculty){
-                facultySatisfyCount++;
-            }
-        }
-        Request[] requests = new Request[facultySatisfyCount];
-        for (Request requests1: intronet.requests){
-            if(requests1.faculty==manager.faculty){
-                requests[i]=requests1;
-                i++;
+    public List<Request> getFacultyRequest(Manager manager){
+        List<Request> requests = new ArrayList<>();
+        for (Request request: intronet.requests){
+            if(request.faculty==manager.faculty){
+                requests.add(request);
             }
         }
         return requests;
     }
     public void displayFacultyRequests(Manager manager){
-        Request[] requests = getFacultyRequest(manager);
-        for (int i = 0; i < requests.length;i++){
-            System.out.println("[" + (i+1) + "]" + " " + requests[i].toString());
+        List<Request> requests = getFacultyRequest(manager);
+        for (int i = 0; i < requests.size();i++){
+            System.out.println("[" + (i+1) + "]" + " " + requests.get(i).toString());
         }
+    }
+    public List<String> aveliableCourses(Student student){
+        List<String> aveliableCourses = new ArrayList<>();
+        for(Course course : courses){
+            if(!student.courses.containsKey(course.getId())){
+                aveliableCourses.add(course.getId());
+            }
+        }
+        return aveliableCourses;
     }
     public static void serializeIntronet(String filename) {
         try (FileOutputStream fileOut = new FileOutputStream(filename);

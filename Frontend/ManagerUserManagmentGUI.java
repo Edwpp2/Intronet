@@ -174,7 +174,7 @@ public class ManagerUserManagmentGUI {
                                     }
                                 }
                                 else {
-                                    Intronet.dropTeacherFromCourse(course,teacher);
+                                    Intronet.getInstance().dropTeacherFromCourse(course,teacher);
                                 }
                             }
                         }

@@ -20,6 +20,19 @@ public class TeacherGUI {
             command= InputVerificator.intValueCheck(input.readLine());
             if(command==1){
                 teacher.viewAllNews();
+                System.out.println("Choose an option:");
+                System.out.println("[1]Make comment");
+                System.out.println("[2]Back;");
+                command = InputVerificator.intValueCheck(input.readLine());
+                if(command==1){
+                    teacher.makeComment(input);
+                }
+                else if (command==2) {
+                    continue;
+                }
+                else {
+                    System.out.println("Wrong number!");
+                }
             }
             else if(command==2){
                 teacher.viewAllMessages();

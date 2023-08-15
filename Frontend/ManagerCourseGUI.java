@@ -98,7 +98,7 @@ public class ManagerCourseGUI {
                     System.out.println("Enter number of teacher");
                     int teacherNumber = InputVerificator.intValueCheck(input.readLine());
                     try {
-                        Teacher teacher = Intronet.getInstance().enableTeachers(course)[teacherNumber - 1];
+                        Teacher teacher = Intronet.getInstance().enableTeachers(course).get(teacherNumber-1);
                         Intronet.getInstance().addTeacherToCourse(course, teacher);
                         internalStage=2;
                     }

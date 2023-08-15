@@ -2,7 +2,6 @@ package Core;
 
 import Users.Student;
 import Users.User;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,16 +38,16 @@ public class Logs {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
             String formattedDateTime = currentDateTime.format(formatter);
 
-            FileWriter fileWriter = new FileWriter(fileName);
+            FileWriter fileWriter = new FileWriter(fileName,true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.write(formattedDateTime + ":" + " " + "SYSTEM");
             bufferedWriter.newLine();
             bufferedWriter.write(text);
+            bufferedWriter.newLine();
             System.out.println("File written successfully.");
 
             bufferedWriter.close();
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,7 +94,7 @@ public class Logs {
 
         String fileName = "outputa.txt";
         try {
-            FileWriter fileWriter1 = new FileWriter(fileName);
+            FileWriter fileWriter1 = new FileWriter(fileName,true);
             BufferedWriter bufferedWriter1 = new BufferedWriter(fileWriter1);
 
             for (int yearOfStudy : student.transcript.keySet()) {
@@ -110,7 +109,8 @@ public class Logs {
                     courseName = toCell(course.name, student.maxCourseName());
                     credits = toCell(course.credits + "", 9);
                     points = toCell(courseAndMark.get(course.getId()).getFinalPoint() + "", 9);
-                    letterPoints = toCell(courseAndMark.get(course.getId()).getFinalPoint() + "", "Letter points".length());
+                    code = toCell(course.code,9);
+                    letterPoints = toCell(courseAndMark.get(course.getId()).getLatterMarks(courseAndMark.get(course.getId()).getFinalPoint()) + "", "Letter points".length());
                     gpa = toCell(courseAndMark.get(course.getId()).getFinalPoint() + "", 9);
                     String content = code + courseName + credits + points + letterPoints + gpa;
                     print(i, content, delim, header, courseAndMark.size(), bufferedWriter1);

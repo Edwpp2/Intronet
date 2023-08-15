@@ -26,6 +26,20 @@ public class ManagerGUI {
             command = InputVerificator.intValueCheck(input.readLine());
             if(command==1){
                 manager.viewAllNews();
+                manager.viewAllNews();
+                System.out.println("Choose an option:");
+                System.out.println("[1]Make comment");
+                System.out.println("[2]Back;");
+                command = InputVerificator.intValueCheck(input.readLine());
+                if(command==1){
+                    manager.makeComment(input);
+                }
+                else if (command==2) {
+                    continue;
+                }
+                else {
+                    System.out.println("Wrong number!");
+                }
             }
             else if(command==2){
                 manager.viewAllMessages();
@@ -34,7 +48,7 @@ public class ManagerGUI {
                 manager.writeMessage(input);
             }
             else if(command==4){
-                ManagerNewsGUI.menu(news,input);
+                ManagerNewsGUI.menu(manager,news,input);
             }
             else if(command==5){
                 ManagerRequestsGUI.menu(manager,input);

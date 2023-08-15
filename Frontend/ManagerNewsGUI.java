@@ -3,11 +3,13 @@ package Frontend;
 import Core.InputVerificator;
 import Core.Intronet;
 import Core.News;
+import Users.Manager;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ManagerNewsGUI {
-    public static void menu(News news,BufferedReader input) throws IOException {
+    public static void menu(Manager manager,News news, BufferedReader input) throws IOException {
         int internalStage = 0;
         int command;
         boolean start = true;
@@ -34,7 +36,7 @@ public class ManagerNewsGUI {
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        news = Intronet.getInstance().getInstance().news.get(number-1);
+                        news = manager.getNews(number);
                         internalStage=2;
                     }
                 }
@@ -52,7 +54,7 @@ public class ManagerNewsGUI {
                 String title = input.readLine();
                 System.out.println("Enter content:");
                 String content = input.readLine();
-                Intronet.getInstance().news.add(new News(title,content));
+                manager.addNews(title,content);
                 internalStage--;
             }
             if(internalStage==2){
@@ -85,8 +87,8 @@ public class ManagerNewsGUI {
             if(internalStage==3){
                 Intronet.getInstance().printNews();
                 System.out.println("Enter number of news!");
-                int newsNumber = InputVerificator.intValueCheck(input.readLine());
-                news = Intronet.getInstance().news.remove(newsNumber-1);
+                int number = InputVerificator.intValueCheck(input.readLine());
+                manager.removeNews(number);
                 internalStage=0;
             }
         }

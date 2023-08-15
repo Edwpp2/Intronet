@@ -5,6 +5,7 @@ import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
 import Frontend.MainGui;
+import Users.Admin;
 import Users.Manager;
 import Users.Student;
 import Users.Teacher;
@@ -31,7 +32,10 @@ public class SchedulePrint {
             Course course4 = new Course(Faculty.KMA, "Painting Techniques", "Various Artistic Styles", 2, 30, "ART303");
             Course course5 = new Course(Faculty.FIT, "Marketing Fundamentals", "Principles of Marketing", 3, 50, "BUS201");
 
+            Admin admin = new Admin("admin", "admin", "Richard", "Dudlas", Role.ADMIN, Faculty.FIT);
+
             Intronet.getInstance().addUserToSystem(manager);
+
             Intronet.getInstance().addUserToSystem(student1);
             Intronet.getInstance().addUserToSystem(student2);
             Intronet.getInstance().addUserToSystem(student3);
@@ -40,13 +44,15 @@ public class SchedulePrint {
             Intronet.getInstance().addUserToSystem(teacher1);
             Intronet.getInstance().addUserToSystem(teacher2);
             Intronet.getInstance().addUserToSystem(teacher3);
-            Intronet.getInstance().getInstance().addUserToSystem(teacher4);
+            Intronet.getInstance().addUserToSystem(teacher4);
 
             Intronet.getInstance().addCourseToSystem(course1);
             Intronet.getInstance().addCourseToSystem(course2);
             Intronet.getInstance().addCourseToSystem(course3);
             Intronet.getInstance().addCourseToSystem(course4);
             Intronet.getInstance().addCourseToSystem(course5);
+
+            Intronet.getInstance().addUserToSystem(admin);
 
             News news1 = new News("New Exhibit Opening", "Join us for the grand opening of our new art exhibit this weekend!");
             News news2 = new News("Upcoming Workshop: Photography Basics", "Learn the fundamentals of photography in our upcoming workshop.");

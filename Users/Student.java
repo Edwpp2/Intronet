@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 
-public class Student extends User implements Serializable {
+public class Student extends User implements Serializable,StudyPerson {
     public Faculty faculty;
     public int yearOfStudy;
     public Degree degree;
@@ -90,5 +90,17 @@ public class Student extends User implements Serializable {
             }
         }
         return maxNameLenght;
+    }
+
+    @Override
+    public void dropCourse(Course course) {
+        Intronet.dropStudentFromCourse(this, course);
+        registeredCoursesCnt--;
+    }
+
+    @Override
+    public void addCourse(Course course) {
+        Intronet.addStudentToCourse(this, course);
+        registeredCoursesCnt++;
     }
 }

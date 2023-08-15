@@ -1,11 +1,8 @@
 package Frontend;
 
 import Core.InputVerificator;
-import Core.Intronet;
 import Core.Logs;
-import Core.Message;
 import Users.Student;
-import Users.User;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -21,10 +18,24 @@ public class StudentGUI {
             System.out.println("[5]View list of courses for registration;");
             System.out.println("[6]View list of current courses;");
             System.out.println("[7]View transcript");
-            System.out.println("[8]Exit.");
+            System.out.println("[8]Download transcript");
+            System.out.println("[9]Exit.");
             command = InputVerificator.intValueCheck(input.readLine());
             if (command == 1) {
                 student.viewAllNews();
+                System.out.println("Choose an option:");
+                System.out.println("[1]Make comment");
+                System.out.println("[2]Back;");
+                command = InputVerificator.intValueCheck(input.readLine());
+                if(command==1){
+                    student.makeComment(input);
+                }
+                else if (command==2) {
+                    continue;
+                }
+                else {
+                    System.out.println("Wrong number!");
+                }
             } else if (command == 2) {
                 student.viewAllMessages();
             } else if (command == 3) {
@@ -36,14 +47,14 @@ public class StudentGUI {
             } else if (command == 6) {
                 StudentCurrentCoursesManagment.menu(student,input);
             } else if (command == 7) {
-                student.transcript.get(1).size();
                 SchduleDrawer.printTranscript(student);
                 Logs.saveTranscript(student);
-                System.out.println(student.courses.size());
-                System.out.println(student.passedCourses.size());
             } else if (command == 8) {
-                student = null;
-            } else {
+                Logs.saveTranscript(student);
+            } else if (command == 9) {
+                student=null;
+            }
+            else {
                 System.out.println("WRONG NUMBER!");
             }
         }
