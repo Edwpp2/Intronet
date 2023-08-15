@@ -3,21 +3,20 @@ import Enums.Faculty;
 import Users.Student;
 import Users.Teacher;
 
-
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
-public class Course extends Discipline {
-    String id;
-    public Vector<String> materials;
+public class Course extends Discipline implements Serializable {
+    public String id;
+    public Vector<Material> materials;
     public HashMap<String,Mark> studentMarks;
-    public HashMap<String,Double> teacherRating;
-    Teacher teacher;
+    public HashMap<String,Integer> teacherRating;
+    public Teacher teacher;
     public Vector<Lesson> lessons;
     public String name;
     public int capacity;
-    Schedule schedule;
+    public Schedule schedule;
     public Faculty faculty;
     public int credits;
     public HashSet<String> prerecs;
@@ -27,6 +26,7 @@ public class Course extends Discipline {
         this.capacity = capacity;
         this.faculty = faculty;
         this.name = title;
+        this.credits = credits;
         this.studentMarks = new HashMap<>();
         this.materials = new Vector<>();
         this.prerecs = new HashSet<>();
@@ -37,45 +37,36 @@ public class Course extends Discipline {
     public Vector<Student> StudentsOnCourse(){
         Vector<Student> students = new Vector<>();
         for(String id : studentMarks.keySet()){
-            students.add((Student) Intronet.getUserById(id));
+            students.add((Student) Intranet.getInstance().getUserById(id));
         }
         return students;
     }
-
     public void setId(String id){
         this.id = id;
     }
     public String getId(){
         return this.id;
     }
-
     public int maxMaterialName(){
         int maxLength = 0;
-        for(String material : materials){
-            if(maxLength < material.length()){
-                maxLength = material.length();
-            }
-        }
-        return maxLength;
-    }
-    public int maxUserName(){
-        int maxLength = 0;
-        for(String studentId:studentMarks.keySet()){
-            Student student =(Student) Intronet.getUserById(studentId);
-            String name = student.name + " " + student.surname;
-            if(maxLength<name.length()){
-                maxLength = name.length();
+        for(Material material : materials){
+            if(maxLength < material.title.length()){
+                maxLength = material.title.length();
             }
         }
         return maxLength;
     }
     public boolean hasPrerec(Student student){
+        int prercCnt = 0;
         for (String course : prerecs){
-            if(!student.passedCourses.contains(course)){
-                return false;
+            for(int yearsOfStudy : student.transcript.keySet()){
+                if(student.transcript.get(yearsOfStudy).containsKey(course))
+                {
+                    prercCnt++;
+                }
             }
         }
-        return true;
+        return prerecs.size()==prercCnt;
     }
     public boolean canJoin(Student student){
         return (student.credits-this.credits >=0) && this.studentMarks.size()+1<=this.capacity && hasPrerec(student);
@@ -90,6 +81,4 @@ public class Course extends Discipline {
         }
         return 0.0;
     }
-
-
 }

@@ -3,23 +3,24 @@ package Users;
 import Core.*;
 import Enums.Degree;
 import Enums.Faculty;
-import Enums.RequestType;
 import Enums.Role;
-import Frontend.SchduleDrawer;
-import Users.User;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Vector;
 
-public class Student extends User {
-    private Faculty faculty;
-    private int yearOfStudy;
-    private Degree degree;
+
+public class Student extends User implements Serializable,StudyPerson {
+    public Faculty faculty;
+    public int yearOfStudy;
+    public Degree degree;
     public int credits;
     public HashMap<String, Mark> courses;
+    public int passedCoursesCnt;
+    public int registeredCoursesCnt;
     public HashSet<String> passedCourses;
-    Schedule schedule;
+    public Schedule schedule;
+    public HashMap<Integer, HashMap<String,Mark>> transcript;
     public Student(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree) {
         super(login, password, name, surname,role, faculty);
         this.faculty=faculty;
@@ -29,45 +30,20 @@ public class Student extends User {
         this.schedule = new Schedule();
         this.courses = new HashMap<>();
         this.passedCourses = new HashSet<>();
+        this.transcript = new HashMap<>();
+        this.passedCoursesCnt=0;
+        this.registeredCoursesCnt=0;
     }
     public int maxCourseName(){
         int maxLength = 0;
         for(String courseId:courses.keySet()){
-            Course course = Intronet.getCourseById(courseId);
-            String name = course.name;
+            Course course = Intranet.getInstance().getCourseById(courseId);
+            String name = course.title;
             if(maxLength<name.length()){
                 maxLength = name.length();
             }
         }
         return maxLength;
-    }
-    public void makeRequest(Course course, RequestType requestType){
-        Request request = new Request(course.getId(),this.getId(),requestType,this.faculty);
-        Intronet.requests.add(request);
-    }
-    public void printSchedule(){
-        SchduleDrawer.printSchedule(this.schedule);
-    }
-    public void printCourseList(){
-        SchduleDrawer.printInfoAboutStudentCourses(this);
-    }
-    public void printCoursesForRegistration(){
-        SchduleDrawer.printCoursesForRegistration(this);
-    }
-    public void printCourseWithMarks(Course course){
-        SchduleDrawer.printMarksForCurrentStudent(this,course,0,0);
-    }
-    public int getYearOfStudy(){
-        return this.yearOfStudy;
-    }
-    public void incYearOfStudy(){
-        this.yearOfStudy++;
-    }
-    public Degree getDegree(){
-        return this.degree;
-    }
-    public void setDegree(Degree degree){
-        this.degree=degree;
     }
     public Faculty getFaculty(){
         return this.faculty;
@@ -78,10 +54,11 @@ public class Student extends User {
     public Schedule getSchedule() {
         return this.schedule;
     }
-    public void rateTeacher(Course course,Double rating){
-        if(course.teacherRating.get(this.getId())!=null){
-            if(rating<=5.0){
+    public void rateTeacher(Course course,int rating){
+        if(course.teacherRating.get(this.getId())==null){
+            if(rating > 0 || rating <= 5){
                 course.teacherRating.put(this.getId(),rating);
+                Logs.AddToLog("Put rating" + rating + "to" + course.teacher.name + " " + course.teacher.surname,this);
             }
             else {
                 System.out.println("Wrong rating!It must be less or equal to 5!");
@@ -89,10 +66,40 @@ public class Student extends User {
         }
         else {
             System.out.println("You are already put the rating!");
+            System.out.println(course.teacherRating.get(this.getId()));
         }
     }
-    public Course getCourseFromList(int i){
-        Course course = Intronet.getCourseById((String) courses.keySet().toArray()[i-1]);
-        return course;
+    public void nextCourse(){
+        System.out.println(courses.size());
+        System.out.println(passedCourses.size());
+        if (passedCoursesCnt==registeredCoursesCnt){
+            courses.clear();
+            passedCoursesCnt=0;
+            registeredCoursesCnt=0;
+            yearOfStudy++;
+            credits=30;
+        }
+    }
+    public int maxTranscriptCourseName(int yearOfStudy){
+        int maxNameLength = 0;
+        for (String courseId : transcript.get(yearOfStudy).keySet()){
+            String courseName = Intranet.getInstance().getCourseById(courseId).name;
+            if(maxNameLength < courseName.length()){
+                maxNameLength = courseName.length();
+            }
+        }
+        return maxNameLength;
+    }
+
+    @Override
+    public void dropCourse(Course course) {
+        Intranet.dropStudentFromCourse(this, course);
+        registeredCoursesCnt--;
+    }
+
+    @Override
+    public void addCourse(Course course) {
+        Intranet.addStudentToCourse(this, course);
+        registeredCoursesCnt++;
     }
 }

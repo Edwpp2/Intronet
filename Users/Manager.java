@@ -1,39 +1,50 @@
 package Users;
-import Core.Course;
-import Core.Intronet;
-import Core.Lesson;
-import Core.Request;
-import Enums.Faculty;
-import Enums.RequestState;
-import Enums.Role;
 
-public class Manager extends User {
-    public Manager(String login, String password, String name, String surname,Role role, Faculty faculty) {
-        super(login, password, name, surname,role, faculty);
+import Core.*;
+import Enums.Faculty;
+import Enums.RequestType;
+import Enums.Role;
+import java.io.Serializable;
+import java.util.Vector;
+
+public class Manager extends User implements Serializable {
+    public Manager(String login, String password, String name, String surname, Role role, Faculty faculty) {
+        super(login, password, name, surname, role, faculty);
 
     }
-    public void applyRequest(Request request){
-        if(request.requestType.name().equals("ADDCOURSE")){
-            Student student = (Student) Intronet.getUserById(request.sourseId);
-            Course course = Intronet.getCourseById(request.courseId);
-            Intronet.addStudentToCourse(student,course);
+    public void applyRequest(Request request)
+    {
+        Intranet intranet = Intranet.getInstance();
+        User user = intranet.getUserById(request.sourceId);
+        Course course = intranet.getCourseById(request.courseId);
+        if (course == null | user == null) {
+            System.out.println("NO SUCH USER!");
+            return;
         }
-        else if(request.requestType.name().equals("DROPCOURSE")){
-            Student student = (Student) Intronet.getUserById(request.sourseId);
-            Course course = Intronet.getCourseById(request.courseId);
-            Intronet.dropStudentFromCourse(student,course);
+        StudyPerson person = (StudyPerson) user;
+        if (request.requestType == RequestType.ADDCOURSE) {
+            person.addCourse(course);
         }
-        request.requestState= RequestState.ACCEPT;
-        Intronet.requests.remove(request);
+        else if (request.requestType == RequestType.DROPCOURSE) {
+            person.dropCourse(course);
+        }
+        String requestType = request.requestType==RequestType.ADDCOURSE?"add":"drop";
+        Logs.AddToLog("Accept " + requestType + " request from " + user.name +" "+ user.surname, this);
     }
     public void rejectRequest(Request request){
-        request.requestState= RequestState.REJECT;
-        Intronet.requests.remove(request);
+        Intranet.getInstance().requests.remove(request);
+        User user =  Intranet.getInstance().getUserById(request.sourceId);
+        Logs.AddToLog("Reject request from " + user.name + " " + user.surname,this);
     }
-    public void addLessonToCourse(Course course,Lesson lesson){
-        Intronet.addLessonToCourse(course,lesson);
+    public void addNews(String title,String content){
+        Intranet.getInstance().news.add(new News(title,content));
     }
-    public void dropLessonFromCourse(Course course,Lesson lesson){
-        Intronet.dropLessonToCourse(course,lesson);
+    public News getNews(int number){
+        Vector<News> news = Intranet.getInstance().getInstance().news;
+        return news.get(number-1);
+    }
+    public void removeNews(int number){
+        Vector<News> news = Intranet.getInstance().getInstance().news;
+        news.remove(number-1);
     }
 }
