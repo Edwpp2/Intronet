@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class Intronet implements Serializable {
-    private static Intronet intronet;
+public class Intranet implements Serializable {
+    private static Intranet intranet;
     public Vector<Course> courses;
     public Vector<User> users;
     public Vector<Message> messages;
@@ -27,14 +27,14 @@ public class Intronet implements Serializable {
     private static final int idLength = 6;
 
     static {
-        intronet = null;
-        String filename = "intronet.txt";
+        intranet = null;
+        String filename = "intranet.txt";
         Path filePath = Paths.get(filename);
         if (Files.exists(filePath)) {
             try {
                 FileInputStream fileIn = new FileInputStream(filename);
                 ObjectInputStream in = new ObjectInputStream(fileIn);
-                intronet = (Intronet) in.readObject();
+                intranet = (Intranet) in.readObject();
                 in.close();
                 fileIn.close();
             } catch (IOException | ClassNotFoundException e) {
@@ -42,10 +42,10 @@ public class Intronet implements Serializable {
             }
         }
         else {
-            intronet = new Intronet();
+            intranet = new Intranet();
         }
     }
-    public Intronet(){
+    public Intranet(){
         courses = new Vector<>();
         users = new Vector<>();
         news = new Vector<>();
@@ -97,7 +97,7 @@ public class Intronet implements Serializable {
         users.add(user);
     }
     public User getUserById(String id){
-        for (User user : intronet.users){
+        for (User user : intranet.users){
             if(user.getId().equals(id)){
                 return user;
             }
@@ -257,7 +257,7 @@ public class Intronet implements Serializable {
     }
     public List<Request> getFacultyRequest(Manager manager){
         List<Request> requests = new ArrayList<>();
-        for (Request request: intronet.requests){
+        for (Request request: intranet.requests){
             if(request.faculty==manager.faculty){
                 requests.add(request);
             }
@@ -270,16 +270,16 @@ public class Intronet implements Serializable {
             System.out.println("[" + (i+1) + "]" + " " + requests.get(i).toString());
         }
     }
-    public List<String> aveliableCourses(Student student){
-        List<String> aveliableCourses = new ArrayList<>();
+    public List<String> availableCourses(Student student){
+        List<String> availableCourses = new ArrayList<>();
         for(Course course : courses){
             if(!student.courses.containsKey(course.getId())){
-                aveliableCourses.add(course.getId());
+                availableCourses.add(course.getId());
             }
         }
-        return aveliableCourses;
+        return availableCourses;
     }
-    public static void serializeIntronet(String filename) {
+    public static void serializeIntranet(String filename) {
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)){
 
@@ -287,16 +287,16 @@ public class Intronet implements Serializable {
             out.close();
             fileOut.close();
 
-            System.out.println("Intronet serialized to " + filename);
+            System.out.println("Intranet serialized to " + filename);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public static Intronet getInstance() {
-        if (intronet == null) {
-            intronet= new Intronet();
+    public static Intranet getInstance() {
+        if (intranet == null) {
+            intranet = new Intranet();
         }
-        return intronet;
+        return intranet;
     }
 }

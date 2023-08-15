@@ -14,8 +14,7 @@ public class Material implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Material)) return false;
-        Material material = (Material) o;
+        if (!(o instanceof Material material)) return false;
         return title.equals(material.title) && url.equals(material.url);
     }
 

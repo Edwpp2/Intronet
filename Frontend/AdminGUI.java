@@ -1,7 +1,7 @@
 package Frontend;
 
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Users.Admin;
 import Users.User;
 import java.io.BufferedReader;
@@ -10,7 +10,7 @@ import java.util.Vector;
 
 public class AdminGUI {
     public static void menu(Admin admin, BufferedReader input) throws IOException {
-        Vector<User> users = Intronet.getInstance().users;
+        Vector<User> users = Intranet.getInstance().users;
         while (admin != null) {
             System.out.println("Choose an option:");
             System.out.println("[1]View news");
@@ -20,13 +20,13 @@ public class AdminGUI {
             System.out.println("[5]Ban user;");
             System.out.println("[6]Unban user;");
             System.out.println("[7]Exit.");
-            int command = InputVerificator.intValueCheck(input.readLine());
+            int command = InputVerification.intValueCheck(input.readLine());
             if (command == 1) {
                 admin.viewAllNews();
                 System.out.println("Choose an option:");
                 System.out.println("[1]Make comment");
                 System.out.println("[2]Back;");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     admin.makeComment(input);
                 }
@@ -45,7 +45,7 @@ public class AdminGUI {
             } else if (command == 5) {
                 SchduleDrawer.printUsersForSystem(users);
                 System.out.println("Choose number of the user:");
-                int index = InputVerificator.intValueCheck(input.readLine());
+                int index = InputVerification.intValueCheck(input.readLine());
                 if(index < 0 || index > users.size()){
                     System.out.println("WRONG NUMBER!");
                 }
@@ -55,7 +55,7 @@ public class AdminGUI {
             } else if (command == 6) {
                 SchduleDrawer.printUsersForSystem(users);
                 System.out.println("Choose number of the user:");
-                int index = InputVerificator.intValueCheck(input.readLine());
+                int index = InputVerification.intValueCheck(input.readLine());
                 if(index < 0 || index > users.size()){
                     System.out.println("WRONG NUMBER!");
                 }

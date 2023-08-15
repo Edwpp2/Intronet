@@ -1,7 +1,7 @@
 package Frontend;
 
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Enums.Role;
 import Users.*;
 
@@ -18,9 +18,9 @@ public class MainGui {
             System.out.println("Choose an option");
             System.out.println("[1]Login");
             System.out.println("[2]Exit");
-            command = InputVerificator.intValueCheck(input.readLine());
+            command = InputVerification.intValueCheck(input.readLine());
             if(command==1){
-                user = Intronet.getInstance().login(input);
+                user = Intranet.getInstance().login(input);
                 if(user!=null){
                     if(user.role == Role.TEACHER){
                         TeacherGUI.menu((Teacher) user,input);
@@ -37,7 +37,7 @@ public class MainGui {
                 }
             }
             else if(command==2){
-                Intronet.serializeIntronet("intronet.txt");
+                Intranet.serializeIntranet("intronet.txt");
                 input.close();
                 System.exit(0);
             }

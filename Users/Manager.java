@@ -14,9 +14,9 @@ public class Manager extends User implements Serializable {
     }
     public void applyRequest(Request request)
     {
-        Intronet intronet = Intronet.getInstance();
-        User user = intronet.getUserById(request.sourseId);
-        Course course = intronet.getCourseById(request.courseId);
+        Intranet intranet = Intranet.getInstance();
+        User user = intranet.getUserById(request.sourceId);
+        Course course = intranet.getCourseById(request.courseId);
         if (course == null | user == null) {
             System.out.println("NO SUCH USER!");
             return;
@@ -32,19 +32,19 @@ public class Manager extends User implements Serializable {
         Logs.AddToLog("Accept " + requestType + " request from " + user.name +" "+ user.surname, this);
     }
     public void rejectRequest(Request request){
-        Intronet.getInstance().requests.remove(request);
-        User user =  Intronet.getInstance().getUserById(request.sourseId);
+        Intranet.getInstance().requests.remove(request);
+        User user =  Intranet.getInstance().getUserById(request.sourceId);
         Logs.AddToLog("Reject request from " + user.name + " " + user.surname,this);
     }
     public void addNews(String title,String content){
-        Intronet.getInstance().news.add(new News(title,content));
+        Intranet.getInstance().news.add(new News(title,content));
     }
     public News getNews(int number){
-        Vector<News> news = Intronet.getInstance().getInstance().news;
+        Vector<News> news = Intranet.getInstance().getInstance().news;
         return news.get(number-1);
     }
     public void removeNews(int number){
-        Vector<News> news = Intronet.getInstance().getInstance().news;
+        Vector<News> news = Intranet.getInstance().getInstance().news;
         news.remove(number-1);
     }
 }

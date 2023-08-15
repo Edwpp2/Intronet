@@ -1,14 +1,13 @@
 package Constructors;
 
 import Core.Course;
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Enums.Faculty;
 import Frontend.SchduleDrawer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class CourseConstructor {
     public static void courseCreation(BufferedReader input) throws IOException {
@@ -31,7 +30,7 @@ public class CourseConstructor {
                 while (faculty == null){
                     System.out.println("Enter faculty:");
                     System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
                     if(index < 0 || index > 7){
                         System.out.println("Wrong number!");
                     }
@@ -76,7 +75,7 @@ public class CourseConstructor {
                 credits=0;
                 while (credits==0){
                     System.out.println("Enter amount of credits for course");
-                    credits=InputVerificator.intValueCheck(input.readLine());
+                    credits= InputVerification.intValueCheck(input.readLine());
                     if(!inEdit){
                         internalStage++;
                     }
@@ -89,7 +88,7 @@ public class CourseConstructor {
                 capacity=0;
                 while (capacity==0){
                     System.out.println("Enter course capacity");
-                    capacity=InputVerificator.intValueCheck(input.readLine());
+                    capacity= InputVerification.intValueCheck(input.readLine());
                     if(!inEdit){
                         internalStage++;
                     }
@@ -123,11 +122,11 @@ public class CourseConstructor {
                 System.out.println("Everything correct?");
                 System.out.println("[1]Yes");
                 System.out.println("[2]No");
-                command=InputVerificator.intValueCheck(input.readLine());
+                command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     inEdit=false;
                     inProcessing=false;
-                    Intronet.getInstance().addCourseToSystem(course);
+                    Intranet.getInstance().addCourseToSystem(course);
                 }
                 else if(command==2){
                     inEdit=true;
@@ -146,7 +145,7 @@ public class CourseConstructor {
                 System.out.println("[4]Change credits;");
                 System.out.println("[5]Change capacity;");
                 System.out.println("[6]Change code.");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage=command-1;
                 }

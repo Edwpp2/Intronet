@@ -13,7 +13,7 @@ public class StudentCourseRegistrationGui {
         int internalStage = 0;
         Course course = null;
         boolean start = true;
-        if(Intronet.getInstance().courses.size()<1){
+        if(Intranet.getInstance().courses.size()<1){
             start=false;
             System.out.println("NO COURSES FOR REGISTRATION!");
         }
@@ -23,7 +23,7 @@ public class StudentCourseRegistrationGui {
                 System.out.println("Chose an option:");
                 System.out.println("[1]Make a request for registration on course under number #;");
                 System.out.println("[2]Back;");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage++;
                 }
@@ -36,9 +36,9 @@ public class StudentCourseRegistrationGui {
             }
             if(internalStage==1){
                 System.out.println("Enter number of the course");
-                int courseNum = InputVerificator.intValueCheck(input.readLine());
+                int courseNum = InputVerification.intValueCheck(input.readLine());
                 try{
-                    course = (Course) (Intronet.getInstance().courses.toArray()[courseNum-1]);
+                    course = (Course) (Intranet.getInstance().courses.toArray()[courseNum-1]);
                     internalStage++;
                 }
                 catch (NullPointerException e){
@@ -50,9 +50,9 @@ public class StudentCourseRegistrationGui {
                 System.out.println("Chose an option:");
                 System.out.println("[1]Make request to add");
                 System.out.println("[2]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    Intronet.getInstance().requests.add(new Request(course.getId(),student.getId(), RequestType.ADDCOURSE,student.getFaculty()));
+                    Intranet.getInstance().requests.add(new Request(course.getId(),student.getId(), RequestType.ADDCOURSE,student.getFaculty()));
                     System.out.println("REQUEST WAS ADDED!");
                 }
                 else if(command==2){

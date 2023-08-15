@@ -1,7 +1,5 @@
 package Core;
 
-import Core.Course;
-import Core.Intronet;
 import Enums.Faculty;
 import Enums.RequestState;
 import Enums.RequestType;
@@ -13,9 +11,8 @@ public class Request implements Serializable {
     public String title;
     public RequestType requestType;
     public RequestState requestState;
-    public String sourseId;
+    public String sourceId;
     public Faculty faculty;
-
     public String courseId;
     public String userId;
 
@@ -24,10 +21,10 @@ public class Request implements Serializable {
     public Request(String courseId, String userId, RequestType requestType,Faculty faculty){
         this.requestType = requestType;
         this.requestState = RequestState.PROCESSING;
-        this.sourseId = userId;
+        this.sourceId = userId;
         this.courseId = courseId;
-        Course course = Intronet.getInstance().getCourseById(courseId);
-        User user = Intronet.getInstance().getUserById(userId);
+        Course course = Intranet.getInstance().getCourseById(courseId);
+        User user = Intranet.getInstance().getUserById(userId);
         operationName = requestType.name().equals("ADDCOURSE")?"add course":"drop course";
         this.title = course.name + operationName + user.name;
         this.faculty = faculty;
@@ -37,15 +34,15 @@ public class Request implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Request)) return false;
         Request request = (Request) o;
-        return requestType == request.requestType && sourseId.equals(request.sourseId) && faculty == request.faculty && courseId.equals(request.courseId) && userId.equals(request.userId) && operationName.equals(request.operationName);
+        return requestType == request.requestType && sourceId.equals(request.sourceId) && faculty == request.faculty && courseId.equals(request.courseId) && userId.equals(request.userId) && operationName.equals(request.operationName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestType, sourseId, faculty, courseId, userId, operationName);
+        return Objects.hash(requestType, sourceId, faculty, courseId, userId, operationName);
     }
     public String toString(){
-        return Intronet.getInstance().getUserById(this.sourseId).toString() + " " + operationName + Intronet.getInstance().getCourseById(courseId).name;
+        return Intranet.getInstance().getUserById(this.sourceId).toString() + " " + operationName + Intranet.getInstance().getCourseById(courseId).name;
     }
 
 }

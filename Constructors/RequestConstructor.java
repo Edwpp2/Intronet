@@ -1,6 +1,6 @@
 package Constructors;
 
-import Core.Intronet;
+import Core.Intranet;
 import Core.Request;
 import Enums.Faculty;
 import Enums.RequestType;
@@ -20,6 +20,6 @@ public class RequestConstructor {
                 requestType = RequestType.values()[index-1];
             }
         }
-        Intronet.getInstance().requests.add(new Request(courseId,userId,requestType,faculty));
+        Intranet.getInstance().requests.add(new Request(courseId,userId,requestType,faculty));
     }
 }

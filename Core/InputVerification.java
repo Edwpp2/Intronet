@@ -1,8 +1,6 @@
 package Core;
 
-import java.lang.reflect.Array;
-
-public class InputVerificator {
+public class InputVerification {
     public static int intValueCheck(String streamValue){
         try {
             return Integer.parseInt(streamValue);

@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.Vector;
 
 public class User implements Cloneable, Serializable{
-
     boolean blocked;
     public String login;
     public String password;
@@ -28,29 +27,21 @@ public class User implements Cloneable, Serializable{
         this.surname = surname;
         this.role = role;
         this.faculty = faculty;
-        messages = new Vector<Message>();
-    }
-    public void writeMessage(String login,String content){
-        for(User user : Intronet.getInstance().users){
-            if(user.login.equals(login)){
-                user.messages.add(new Message(this.login,content));
-            }
-        }
+        messages = new Vector<>();
     }
     public void viewAllNews(){
-        if(Intronet.getInstance().news.size()>0){
-            Intronet.getInstance().printNews();
+        if(Intranet.getInstance().news.size()>0){
+            Intranet.getInstance().printNews();
         }
         else {
             System.out.println("No news!");
         }
     }
-
     public void makeComment(BufferedReader input) throws IOException {
         System.out.println("Enter number of news");
         try {
-            int newsNumber = InputVerificator.intValueCheck(input.readLine());
-            News news = (News)Intronet.getInstance().news.toArray()[newsNumber-1];
+            int newsNumber = InputVerification.intValueCheck(input.readLine());
+            News news = (News) Intranet.getInstance().news.toArray()[newsNumber-1];
             System.out.println("Enter your comment:");
             String comment = input.readLine();
             if(comment.length()>0){
@@ -80,11 +71,9 @@ public class User implements Cloneable, Serializable{
     public void  setId(String id){
         this.id = id;
     }
-
     public boolean isBlocked(){
         return this.blocked;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,10 +97,10 @@ public class User implements Cloneable, Serializable{
         return this.name + " " + this.surname;
     }
     public void writeMessage(BufferedReader input) throws IOException {
-        User destUser = null;
+        User destUser;
         System.out.println("Enter login of user!");
         String login = input.readLine();
-        destUser = Intronet.getInstance().getUserByLogin(login);
+        destUser = Intranet.getInstance().getUserByLogin(login);
         if (destUser == null) {
             System.out.println("User not found!");
         } else {

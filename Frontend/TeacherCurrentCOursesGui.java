@@ -24,7 +24,7 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("Choose an option:");
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Back");
-                command=InputVerificator.intValueCheck(input.readLine());
+                command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     if(teacher.courses.size()>0){
                         internalStage++;
@@ -43,9 +43,9 @@ public class TeacherCurrentCOursesGui {
             if(internalStage==1){
                 SchduleDrawer.printInfoAboutTeacherCourses(teacher);
                 System.out.println("Enter course number");
-                int courseNum = InputVerificator.intValueCheck(input.readLine());
+                int courseNum = InputVerification.intValueCheck(input.readLine());
                 try {
-                    course = Intronet.getInstance().getCourseById((String) teacher.courses.toArray()[courseNum-1]);
+                    course = Intranet.getInstance().getCourseById((String) teacher.courses.toArray()[courseNum-1]);
                     internalStage++;
                 }
                 catch (ArrayIndexOutOfBoundsException e){
@@ -59,13 +59,13 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[3]Rate students");
                 System.out.println("[4]Finish course");
                 System.out.println("[5]Back");
-                command=InputVerificator.intValueCheck(input.readLine());
+                command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Chose an option:");
                     System.out.println("[1]Add material");
                     System.out.println("[2]Remove material");
                     System.out.println("[3]Back");
-                    command = InputVerificator.intValueCheck(input.readLine());
+                    command = InputVerification.intValueCheck(input.readLine());
                     if(command==1){
                         System.out.println("Enter file name");
                         String filename = input.readLine();
@@ -106,19 +106,19 @@ public class TeacherCurrentCOursesGui {
                     }
                 }
                 for (String id : course.studentMarks.keySet()){
-                    Student student1 = (Student) Intronet.getInstance().getUserById(id);
+                    Student student1 = (Student) Intranet.getInstance().getUserById(id);
                     if(course.studentMarks.get(id).isRetake()){
-                        Logs.AddToLog("Student: " + Intronet.getInstance().getUserById(id).name + " " + Intronet.getInstance().getUserById(id).surname + " fail" + course.name);
+                        Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).name + " " + Intranet.getInstance().getUserById(id).surname + " fail" + course.name);
                     }
                     else {
-                        Logs.AddToLog("Student: " + Intronet.getInstance().getUserById(id).name + " " + Intronet.getInstance().getUserById(id).surname + " pass" + course.name);
+                        Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).name + " " + Intranet.getInstance().getUserById(id).surname + " pass" + course.name);
                         student1.passedCoursesCnt++;
                         student1.transcript.computeIfAbsent(student1.yearOfStudy, k -> new HashMap<>());
                         HashMap<String,Mark> passedCourseAndMarks = student1.transcript.get(student1.yearOfStudy);
                         passedCourseAndMarks.put(course.getId(),course.studentMarks.get(student1.getId()));
                         student1.nextCourse();
                     }
-                    Intronet.dropStudentFromCourse(student1,course);
+                    Intranet.dropStudentFromCourse(student1,course);
                 }
                 internalStage=2;
             }
@@ -126,7 +126,7 @@ public class TeacherCurrentCOursesGui {
                 SchduleDrawer.printMaterials(course);
                 if(course.materials.size()>0){
                     System.out.println("Enter number of material:");
-                    int materialNum = InputVerificator.intValueCheck(input.readLine());
+                    int materialNum = InputVerification.intValueCheck(input.readLine());
                     try {
                         course.materials.remove(materialNum-1);
                     }
@@ -143,9 +143,9 @@ public class TeacherCurrentCOursesGui {
                 System.out.println(course.studentMarks.size());
                 if(course.studentMarks.size()>0){
                     System.out.println("Enter student number:");
-                    int studentIndex = InputVerificator.intValueCheck(input.readLine());
+                    int studentIndex = InputVerification.intValueCheck(input.readLine());
                     try {
-                        student = (Student) Intronet.getInstance().getUserById((String) course.studentMarks.keySet().toArray()[studentIndex-1]);
+                        student = (Student) Intranet.getInstance().getUserById((String) course.studentMarks.keySet().toArray()[studentIndex-1]);
                         internalStage++;
                         System.out.println(student.name);
                     }
@@ -166,10 +166,10 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[3]Put mark for final");
                 System.out.println("[4]Put abscense");
                 System.out.println("[5]Back");
-                command=InputVerificator.intValueCheck(input.readLine());
+                command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter mark for first attiastation");
-                    double mark = InputVerificator.doubleValueCheck(input.readLine());
+                    double mark = InputVerification.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 60){
                         System.out.println("WRONG MARK!");
                     }
@@ -181,7 +181,7 @@ public class TeacherCurrentCOursesGui {
                 }
                 else if(command==2){
                     System.out.println("Enter mark for second attiastation");
-                    double mark = InputVerificator.doubleValueCheck(input.readLine());
+                    double mark = InputVerification.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 60){
                         System.out.println("WRONG MARK!");
                     }
@@ -193,7 +193,7 @@ public class TeacherCurrentCOursesGui {
                 }
                 else if(command==3){
                     System.out.println("Enter mark for final");
-                    double mark = InputVerificator.doubleValueCheck(input.readLine());
+                    double mark = InputVerification.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 100){
                         System.out.println("WRONG MARK!");
                     }

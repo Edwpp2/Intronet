@@ -6,8 +6,8 @@ import Comporators.NameComparator;
 import Comporators.RoleComparator;
 import Constructors.UserConstructor;
 import Core.Course;
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Core.Lesson;
 import Enums.Faculty;
 import Enums.Role;
@@ -26,17 +26,17 @@ public class ManagerUserManagmentGUI {
         boolean teacherWasEdited = false;
         boolean studentWasEdited = false;
         boolean start = true;
-        if(Intronet.getInstance().users.size()<1){
+        if(Intranet.getInstance().users.size()<1){
             start=false;
             System.out.println("NO USERS TO MANAGE!");
         }
-        Vector<User> users = (Vector<User>) Intronet.getInstance().users.clone();
+        Vector<User> users = (Vector<User>) Intranet.getInstance().users.clone();
         while (start){
             if(internalStage==0){
                 System.out.println("Choose an option");
                 System.out.println("[1]View all users");
                 System.out.println("[2]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage++;
                 }
@@ -53,7 +53,7 @@ public class ManagerUserManagmentGUI {
                 System.out.println("[2]Add user");
                 System.out.println("[3]Sort user");
                 System.out.println("[4]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage++;
                 }
@@ -67,7 +67,7 @@ public class ManagerUserManagmentGUI {
                     System.out.println("[3]By faculty;");
                     System.out.println("[4]By role;");
                     System.out.println("[5]Dont change.");
-                    command = InputVerificator.intValueCheck(input.readLine());
+                    command = InputVerification.intValueCheck(input.readLine());
                     if(command==1){
                         Comparator<User> IdComporator = new IdComporator();
                         users.sort(IdComporator);
@@ -100,7 +100,7 @@ public class ManagerUserManagmentGUI {
             }
             if(internalStage==2){
                 System.out.println("Choose number of the user:");
-                int index = InputVerificator.intValueCheck(input.readLine());
+                int index = InputVerification.intValueCheck(input.readLine());
                 if(index < 0 || index > users.size()){
                     System.out.println("WRONG NUMBER!");
                 }
@@ -118,7 +118,7 @@ public class ManagerUserManagmentGUI {
                 System.out.println("[5]Change surname;");
                 System.out.println("[6]Change faculty;");
                 System.out.println("[7]Back.");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter new login for use:");
                     user.name = input.readLine();
@@ -140,7 +140,7 @@ public class ManagerUserManagmentGUI {
                 else if(command==5){
                     System.out.println("Choose role for user:");
                     System.out.println("[1]STUDENT;\n[2]TEACHER;\n[3]MANAGER;\n[4]ADMIN;\n[5]SYSTEM;\n[6]LIBRARIAN.");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
                     if(index < 1 || index > 6){
                         System.out.println("WRONG NUMBER!");
                     }
@@ -153,7 +153,7 @@ public class ManagerUserManagmentGUI {
                 else if(command==6){
                     System.out.println("Choose a faculty:");
                     System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
                     if(index < 1 || index > 7){
                         System.out.println("Вы ввели не корректный номер факультета!");
                     }
@@ -167,14 +167,14 @@ public class ManagerUserManagmentGUI {
                         Teacher teacher = (Teacher)user;
                         if(teacher.courses.size()>0){
                             for(String courseId : teacher.courses){
-                                Course course = Intronet.getInstance().getCourseById(courseId);
+                                Course course = Intranet.getInstance().getCourseById(courseId);
                                 if(teacher.faculty==course.faculty){
                                     for (Lesson lesson : course.lessons){
                                         course.schedule.updateLessonName(lesson);
                                     }
                                 }
                                 else {
-                                    Intronet.getInstance().dropTeacherFromCourse(course,teacher);
+                                    Intranet.getInstance().dropTeacherFromCourse(course,teacher);
                                 }
                             }
                         }
@@ -183,9 +183,9 @@ public class ManagerUserManagmentGUI {
                         Student student = (Student) user;
                         if(student.courses.size()>0){
                             for(String courseId : student.courses.keySet()){
-                                Course course = Intronet.getInstance().getCourseById(courseId);
+                                Course course = Intranet.getInstance().getCourseById(courseId);
                                 if(student.faculty!=course.faculty){
-                                    Intronet.dropStudentFromCourse(student,course);
+                                    Intranet.dropStudentFromCourse(student,course);
                                 }
                             }
                         }

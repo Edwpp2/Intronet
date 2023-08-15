@@ -1,6 +1,5 @@
 package Frontend;
 import Core.*;
-import Core.Intronet;
 import Core.News;
 import Users.Manager;
 import Users.User;
@@ -23,14 +22,14 @@ public class ManagerGUI {
             System.out.println("[6]Manage courses");
             System.out.println("[7]Manage users");
             System.out.println("[8]Exit.");
-            command = InputVerificator.intValueCheck(input.readLine());
+            command = InputVerification.intValueCheck(input.readLine());
             if(command==1){
                 manager.viewAllNews();
                 manager.viewAllNews();
                 System.out.println("Choose an option:");
                 System.out.println("[1]Make comment");
                 System.out.println("[2]Back;");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     manager.makeComment(input);
                 }

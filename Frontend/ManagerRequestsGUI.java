@@ -1,6 +1,6 @@
 package Frontend;
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Core.Request;
 import Users.Manager;
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ public  class   ManagerRequestsGUI {
         Request request = null;
         int command;
         boolean start = true;
-        if(Intronet.getInstance().getFacultyRequest(manager).size()<1){
+        if(Intranet.getInstance().getFacultyRequest(manager).size()<1){
             start=false;
             System.out.println("NO REQUESTS TO MANAGE!");
         }
@@ -22,16 +22,16 @@ public  class   ManagerRequestsGUI {
                 System.out.println("Chose option:");
                 System.out.println("[1]Manage requests;");
                 System.out.println("[2]Back.");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    Intronet.getInstance().displayFacultyRequests(manager);
+                    Intranet.getInstance().displayFacultyRequests(manager);
                     System.out.println("Enter request number:");
-                    int number = InputVerificator.intValueCheck(input.readLine());
-                    if(number < 1 || number > Intronet.getInstance().getFacultyRequest(manager).size()){
+                    int number = InputVerification.intValueCheck(input.readLine());
+                    if(number < 1 || number > Intranet.getInstance().getFacultyRequest(manager).size()){
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        request = Intronet.getInstance().getFacultyRequest(manager).get(number-1);
+                        request = Intranet.getInstance().getFacultyRequest(manager).get(number-1);
                         internalStage++;
                     }
                 }
@@ -47,7 +47,7 @@ public  class   ManagerRequestsGUI {
                 System.out.println("[1]Accept");
                 System.out.println("[2]Reject");
                 System.out.println("[3]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     manager.applyRequest(request);
                     request=null;

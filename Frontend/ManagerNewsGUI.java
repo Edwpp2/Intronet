@@ -1,7 +1,7 @@
 package Frontend;
 
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Core.News;
 import Users.Manager;
 
@@ -13,7 +13,7 @@ public class ManagerNewsGUI {
         int internalStage = 0;
         int command;
         boolean start = true;
-        if(Intronet.getInstance().news.size()>1){
+        if(Intranet.getInstance().news.size()>1){
             start=false;
             System.out.println("NO MESSAGE TO MANAGE!");
         }
@@ -23,15 +23,15 @@ public class ManagerNewsGUI {
                 System.out.println("[1]Add news");
                 System.out.println("[2]Manage news");
                 System.out.println("[3]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     internalStage=1;
                 }
                 else if(command==2){
-                    Intronet.getInstance().printNews();
+                    Intranet.getInstance().printNews();
                     System.out.println("Enter number of news!");
-                    int number = InputVerificator.intValueCheck(input.readLine());
-                    if(number < 1 || number > Intronet.getInstance().news.size())
+                    int number = InputVerification.intValueCheck(input.readLine());
+                    if(number < 1 || number > Intranet.getInstance().news.size())
                     {
                         System.out.println("WRONG NUMBER!");
                     }
@@ -63,7 +63,7 @@ public class ManagerNewsGUI {
                 System.out.println("[2]Change content;");
                 System.out.println("[3]Remove news");
                 System.out.println("[4]Back.");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter new title:");
                     String title = input.readLine();
@@ -85,9 +85,9 @@ public class ManagerNewsGUI {
                 }
             }
             if(internalStage==3){
-                Intronet.getInstance().printNews();
+                Intranet.getInstance().printNews();
                 System.out.println("Enter number of news!");
-                int number = InputVerificator.intValueCheck(input.readLine());
+                int number = InputVerification.intValueCheck(input.readLine());
                 manager.removeNews(number);
                 internalStage=0;
             }

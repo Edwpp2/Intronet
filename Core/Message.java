@@ -13,14 +13,12 @@ public class Message implements Cloneable, Serializable {
         this.content = content;
     }
     public String toString(){
-        return "From:" + Intronet.getInstance().getUserByLogin(userSourceLogin).name + " " + Intronet.getInstance().getUserByLogin(userSourceLogin).surname + "\n\n\n" + content;
+        return "From:" + Intranet.getInstance().getUserByLogin(userSourceLogin).name + " " + Intranet.getInstance().getUserByLogin(userSourceLogin).surname + "\n\n\n" + content;
     }
     @Override
     public Message clone() {
         try {
-            Message clone = (Message) super.clone();
-
-            return clone;
+            return (Message) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
@@ -28,8 +26,7 @@ public class Message implements Cloneable, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Message)) return false;
-        Message message = (Message) o;
+        if (!(o instanceof Message message)) return false;
         return userSourceLogin.equals(message.userSourceLogin) && content.equals(message.content);
     }
 

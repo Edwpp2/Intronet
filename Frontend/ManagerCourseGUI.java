@@ -3,8 +3,8 @@ package Frontend;
 import Constructors.CourseConstructor;
 import Constructors.LessonConstructor;
 import Core.Course;
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Core.Lesson;
 import Enums.Day;
 import Users.Teacher;
@@ -17,7 +17,7 @@ public class ManagerCourseGUI {
         Course course=null;
         int internalStage = 0;
         boolean start = true;
-        if(Intronet.getInstance().courses.size()<1){
+        if(Intranet.getInstance().courses.size()<1){
             start=false;
             System.out.println("NO COURSES TO MANAGE!");
         }
@@ -27,7 +27,7 @@ public class ManagerCourseGUI {
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Create course");
                 System.out.println("[3]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if (command == 1) {
                     internalStage++;
                 } else if (command == 2) {
@@ -41,12 +41,12 @@ public class ManagerCourseGUI {
             if (internalStage == 1) {
                 SchduleDrawer.printAllCoursesInSystem();
                 System.out.println("Enter course number");
-                int courseNumber = InputVerificator.intValueCheck(input.readLine());
-                if (courseNumber < 1 || courseNumber > Intronet.getInstance().courses.toArray().length) {
+                int courseNumber = InputVerification.intValueCheck(input.readLine());
+                if (courseNumber < 1 || courseNumber > Intranet.getInstance().courses.toArray().length) {
                     System.out.println("Wrong number");
                     internalStage--;
                 } else {
-                    course = (Course) Intronet.getInstance().courses.toArray()[courseNumber - 1];
+                    course = (Course) Intranet.getInstance().courses.toArray()[courseNumber - 1];
                     internalStage++;
                 }
             }
@@ -55,7 +55,7 @@ public class ManagerCourseGUI {
                 System.out.println("[1]Set teacher");
                 System.out.println("[2]Menage lessons");
                 System.out.println("[3]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if (command == 1) {
                     internalStage = 5;
                 } else if (command == 2) {
@@ -73,11 +73,11 @@ public class ManagerCourseGUI {
                 System.out.println("[1]Drop lesson");
                 System.out.println("[2]Add lesson");
                 System.out.println("[3]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if (command == 1) {
                     internalStage = 6;
                 } else if (command == 2) {
-                    Intronet.getInstance().addLessonToCourse(course, LessonConstructor.lessonCreation(course,input));
+                    Intranet.getInstance().addLessonToCourse(course, LessonConstructor.lessonCreation(course,input));
                 } else if (command == 3) {
                     internalStage--;
                 } else {
@@ -93,13 +93,13 @@ public class ManagerCourseGUI {
                 System.out.println("Choose an option");
                 System.out.println("[1]Chose a teacher");
                 System.out.println("[2]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if (command == 1) {
                     System.out.println("Enter number of teacher");
-                    int teacherNumber = InputVerificator.intValueCheck(input.readLine());
+                    int teacherNumber = InputVerification.intValueCheck(input.readLine());
                     try {
-                        Teacher teacher = Intronet.getInstance().enableTeachers(course).get(teacherNumber-1);
-                        Intronet.getInstance().addTeacherToCourse(course, teacher);
+                        Teacher teacher = Intranet.getInstance().enableTeachers(course).get(teacherNumber-1);
+                        Intranet.getInstance().addTeacherToCourse(course, teacher);
                         internalStage=2;
                     }
                     catch (ArrayIndexOutOfBoundsException e){
@@ -113,13 +113,13 @@ public class ManagerCourseGUI {
             }
             if (internalStage == 6) {
                 System.out.println("Enter hour:");
-                int hour = InputVerificator.intValueCheck(input.readLine());
+                int hour = InputVerification.intValueCheck(input.readLine());
                 if (hour < 8 || hour > 21) {
                     System.out.println("WRONG TIME!");
                 } else {
                     System.out.println("Choose day from list");
                     System.out.println("[1]MONDAY;\n[2]TUESDAY;\n[3]WEDNESDAY;\n[4]THURSDAY;\n[5]FRIDAY;\n[6]SATURDAY;\n[7]SUNDAY;");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
 
                     if (index < 1 || index > 7) {
                         System.out.println("Wrong number!");
@@ -127,7 +127,7 @@ public class ManagerCourseGUI {
                         Day day = Day.values()[index - 1];
                         for (Lesson lesson1 : course.lessons) {
                             if (lesson1.day == day && lesson1.hour == hour - 9) {
-                                Intronet.dropLessonFromCourse(course, hour - 9, day);
+                                Intranet.dropLessonFromCourse(course, hour - 9, day);
                             }
                         }
                     }

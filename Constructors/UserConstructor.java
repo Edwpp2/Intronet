@@ -1,7 +1,7 @@
 package Constructors;
 
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
@@ -85,7 +85,7 @@ public class UserConstructor {
                 while (role==null){
                     System.out.println("Choose a role for user:");
                     System.out.println("[1]STUDENT;\n[2]TEACHER;\n[3]MANAGER;\n[4]ADMIN;\n[5]SYSTEM;\n[6]LIBRARIAN.");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
                     if(index < 0 || index > 6){
                         System.out.println("Wrong number was entered!");
                     }
@@ -106,7 +106,7 @@ public class UserConstructor {
                 while (faculty == null){
                     System.out.println("Choose a faculty for user:");
                     System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
-                    int index = InputVerificator.intValueCheck(input.readLine());
+                    int index = InputVerification.intValueCheck(input.readLine());
                     if(index < 0 || index > 7){
                         System.out.println("Wrong number was entered!");
                     }
@@ -137,7 +137,7 @@ public class UserConstructor {
                     while (degree==null){
                         System.out.println("Choose a degree for user:");
                         System.out.println("[1]Bachelor;\n[2]Master;\n[3]PHD");
-                        int index = InputVerificator.intValueCheck(input.readLine());
+                        int index = InputVerification.intValueCheck(input.readLine());
                         if(index < 0 || index > 3){
                             System.out.println("Wrong number was entered!");
                         }
@@ -163,7 +163,7 @@ public class UserConstructor {
                     while (degree==null){
                         System.out.println("Choose a degree for user:");
                         System.out.println("[1]Master;\n[2]PHD");
-                        int index = InputVerificator.intValueCheck(input.readLine());
+                        int index = InputVerification.intValueCheck(input.readLine());
                         if(index < 0 || index > 2){
                             System.out.println("Wrong number was entered!");
                         }
@@ -188,9 +188,9 @@ public class UserConstructor {
                 System.out.println("Is information correct?");
                 System.out.println("[1]Yes");
                 System.out.println("[2]No");
-                int command = InputVerificator.intValueCheck(input.readLine());
+                int command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    Intronet.getInstance().addUserToSystem(user);
+                    Intranet.getInstance().addUserToSystem(user);
                     inProgress=false;
                     inEdit=false;
                 }
@@ -213,7 +213,7 @@ public class UserConstructor {
                 if(user.role==Role.STUDENT || user.role==Role.TEACHER){
                     System.out.println("[7]User degree");
                 }
-                int command = InputVerificator.intValueCheck(input.readLine());
+                int command = InputVerification.intValueCheck(input.readLine());
                 if(command>7 && (user.role==Role.STUDENT || user.role==Role.TEACHER)){
                     System.out.println("Wrong number!");
                 }
@@ -228,7 +228,7 @@ public class UserConstructor {
 
         }
 //        System.out.println(user.getClass().getName());
-//        user.setId(Intronet.generateUserId());
+//        user.setId(Intranet.generateUserId());
 //        SchduleDrawer.printInfoAboutUser(user);
     }
 }

@@ -1,6 +1,6 @@
 package Constructors;
 import Core.Course;
-import Core.InputVerificator;
+import Core.InputVerification;
 import Core.Lesson;
 import Enums.Day;
 
@@ -16,7 +16,7 @@ public class LessonConstructor {
         while (day==null){
             System.out.println("Choose day:");
             System.out.println("[1]MONDAY;\n[2]TUESDAY;\n[3]WEDNESDAY;\n[4]THURSDAY;\n[5]FRIDAY;\n[6]SATURDAY;\n[7]SUNDAY;");
-            int index = InputVerificator.intValueCheck(input.readLine());
+            int index = InputVerification.intValueCheck(input.readLine());
             if(index < 0 || index > 7){
                 System.out.println("Wrong number!");
             }
@@ -30,7 +30,7 @@ public class LessonConstructor {
         }
         while (hour==0){
             System.out.println("Enter hour:");
-            hour = InputVerificator.intValueCheck(input.readLine());
+            hour = InputVerification.intValueCheck(input.readLine());
             if(hour < 0 || hour > 21){
                 hour=0;
                 System.out.println("WRONG NUMBER!");

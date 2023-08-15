@@ -88,7 +88,7 @@ public class Logs {
     public static void saveTranscript(Student student) {
         String code = toCell("Code", 9);
         String credits = toCell("Credits", 9);
-        String points = toCell("Ponts", 9);
+        String points = toCell("Points", 9);
         String letterPoints = toCell("Letter points", "Letter points".length());
         String gpa = toCell("GPA", 9);
 
@@ -105,7 +105,7 @@ public class Logs {
                 String delim = "+" + "-".repeat(header.length() - 2) + "+";
 
                 for (String courseId : courseAndMark.keySet()) {
-                    Course course = Intronet.getInstance().getCourseById(courseId);
+                    Course course = Intranet.getInstance().getCourseById(courseId);
                     courseName = toCell(course.name, student.maxCourseName());
                     credits = toCell(course.credits + "", 9);
                     points = toCell(courseAndMark.get(course.getId()).getFinalPoint() + "", 9);

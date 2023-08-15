@@ -1,6 +1,6 @@
 package Frontend;
 
-import Core.InputVerificator;
+import Core.InputVerification;
 import Core.Logs;
 import Users.Student;
 import java.io.BufferedReader;
@@ -20,13 +20,13 @@ public class StudentGUI {
             System.out.println("[7]View transcript");
             System.out.println("[8]Download transcript");
             System.out.println("[9]Exit.");
-            command = InputVerificator.intValueCheck(input.readLine());
+            command = InputVerification.intValueCheck(input.readLine());
             if (command == 1) {
                 student.viewAllNews();
                 System.out.println("Choose an option:");
                 System.out.println("[1]Make comment");
                 System.out.println("[2]Back;");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     student.makeComment(input);
                 }

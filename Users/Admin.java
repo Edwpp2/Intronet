@@ -11,7 +11,7 @@ public class Admin extends User {
         super(login, password, name, surname,role, faculty);
     }
     public void readLogs(){
-        String filePath = "output.txt";
+        String filePath = "logs.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {

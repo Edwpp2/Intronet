@@ -4,7 +4,6 @@ import Core.*;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
-import Frontend.SchduleDrawer;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class Student extends User implements Serializable,StudyPerson {
     public int maxCourseName(){
         int maxLength = 0;
         for(String courseId:courses.keySet()){
-            Course course = Intronet.getInstance().getCourseById(courseId);
+            Course course = Intranet.getInstance().getCourseById(courseId);
             String name = course.title;
             if(maxLength<name.length()){
                 maxLength = name.length();
@@ -82,25 +81,25 @@ public class Student extends User implements Serializable,StudyPerson {
         }
     }
     public int maxTranscriptCourseName(int yearOfStudy){
-        int maxNameLenght = 0;
+        int maxNameLength = 0;
         for (String courseId : transcript.get(yearOfStudy).keySet()){
-            String courseName = Intronet.getInstance().getCourseById(courseId).name;
-            if(maxNameLenght < courseName.length()){
-                maxNameLenght = courseName.length();
+            String courseName = Intranet.getInstance().getCourseById(courseId).name;
+            if(maxNameLength < courseName.length()){
+                maxNameLength = courseName.length();
             }
         }
-        return maxNameLenght;
+        return maxNameLength;
     }
 
     @Override
     public void dropCourse(Course course) {
-        Intronet.dropStudentFromCourse(this, course);
+        Intranet.dropStudentFromCourse(this, course);
         registeredCoursesCnt--;
     }
 
     @Override
     public void addCourse(Course course) {
-        Intronet.addStudentToCourse(this, course);
+        Intranet.addStudentToCourse(this, course);
         registeredCoursesCnt++;
     }
 }

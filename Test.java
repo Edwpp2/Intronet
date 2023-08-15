@@ -1,5 +1,5 @@
 import Core.Course;
-import Core.Intronet;
+import Core.Intranet;
 import Core.News;
 import Enums.Degree;
 import Enums.Faculty;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Test {
     public static void main(String[] args) throws IOException {
 
-        if(Intronet.getInstance().users.size()==0){
+        if(Intranet.getInstance().users.size()==0){
             Manager manager = new Manager("login", "password", "John", "Doe", Role.MANAGER, Faculty.FIT);
 
             Student student1 = new Student("student1", "password1", "Alice", "Smith", Role.STUDENT, Faculty.FIT, Degree.BS);
@@ -35,25 +35,25 @@ public class Test {
 
             Admin admin = new Admin("admin", "admin", "Richard", "Dudlas", Role.ADMIN, Faculty.FIT);
 
-            Intronet.getInstance().addUserToSystem(manager);
+            Intranet.getInstance().addUserToSystem(manager);
 
-            Intronet.getInstance().addUserToSystem(student1);
-            Intronet.getInstance().addUserToSystem(student2);
-            Intronet.getInstance().addUserToSystem(student3);
-            Intronet.getInstance().addUserToSystem(student4);
+            Intranet.getInstance().addUserToSystem(student1);
+            Intranet.getInstance().addUserToSystem(student2);
+            Intranet.getInstance().addUserToSystem(student3);
+            Intranet.getInstance().addUserToSystem(student4);
 
-            Intronet.getInstance().addUserToSystem(teacher1);
-            Intronet.getInstance().addUserToSystem(teacher2);
-            Intronet.getInstance().addUserToSystem(teacher3);
-            Intronet.getInstance().addUserToSystem(teacher4);
+            Intranet.getInstance().addUserToSystem(teacher1);
+            Intranet.getInstance().addUserToSystem(teacher2);
+            Intranet.getInstance().addUserToSystem(teacher3);
+            Intranet.getInstance().addUserToSystem(teacher4);
 
-            Intronet.getInstance().addCourseToSystem(course1);
-            Intronet.getInstance().addCourseToSystem(course2);
-            Intronet.getInstance().addCourseToSystem(course3);
-            Intronet.getInstance().addCourseToSystem(course4);
-            Intronet.getInstance().addCourseToSystem(course5);
+            Intranet.getInstance().addCourseToSystem(course1);
+            Intranet.getInstance().addCourseToSystem(course2);
+            Intranet.getInstance().addCourseToSystem(course3);
+            Intranet.getInstance().addCourseToSystem(course4);
+            Intranet.getInstance().addCourseToSystem(course5);
 
-            Intronet.getInstance().addUserToSystem(admin);
+            Intranet.getInstance().addUserToSystem(admin);
 
             News news1 = new News("New Exhibit Opening", "Join us for the grand opening of our new art exhibit this weekend!");
             News news2 = new News("Upcoming Workshop: Photography Basics", "Learn the fundamentals of photography in our upcoming workshop.");
@@ -62,12 +62,12 @@ public class Test {
             News news5 = new News("Sports Tournament Results", "Congratulations to our team for their outstanding performance in the recent sports tournament!");
             News news6 = new News("Charity Fundraiser Success", "Thanks to your generous contributions, we raised $10,000 for the local charity.");
 
-            Intronet.getInstance().news.add(news1);
-            Intronet.getInstance().news.add(news2);
-            Intronet.getInstance().news.add(news3);
-            Intronet.getInstance().news.add(news4);
-            Intronet.getInstance().news.add(news5);
-            Intronet.getInstance().news.add(news6);
+            Intranet.getInstance().news.add(news1);
+            Intranet.getInstance().news.add(news2);
+            Intranet.getInstance().news.add(news3);
+            Intranet.getInstance().news.add(news4);
+            Intranet.getInstance().news.add(news5);
+            Intranet.getInstance().news.add(news6);
         }
 
         MainGui.menu();

@@ -6,17 +6,17 @@ import java.io.Serializable;
 
 public class Schedule implements Serializable {
     String[][] timeTable;
-    int[] lenghtOfColumn;
+    int[] lengthOfColumn;
     int dayInWeek = 7;
     int hoursForWork = 13;
     public Schedule(){
         this.timeTable = new String[hoursForWork][dayInWeek];
-        this.lenghtOfColumn = new int[8];
-        lenghtOfColumn[7] = 0;
+        this.lengthOfColumn = new int[8];
+        lengthOfColumn[7] = 0;
         fillSchedule();
     }
     public int getLenghtOfColumn(int i){
-        return lenghtOfColumn[i];
+        return lengthOfColumn[i];
     }
     public void fillSchedule(){
         for (int i = 0; i < 13;i++){
@@ -27,8 +27,8 @@ public class Schedule implements Serializable {
     }
     public void addLesson(Lesson lesson){
         timeTable[lesson.hour][Day.valueOf(lesson.day.name()).ordinal()] = lesson.toString();
-        if(lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]<lesson.toString().length()){
-            lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
+        if(lengthOfColumn[Day.valueOf(lesson.day.name()).ordinal()]<lesson.toString().length()){
+            lengthOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
         }
     }
 
@@ -73,8 +73,8 @@ public class Schedule implements Serializable {
         int hour = lesson.hour;
         int day = lesson.day.ordinal();
         this.timeTable[hour][day]=lesson.toString();
-        if(lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]<lesson.toString().length()){
-            lenghtOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
+        if(lengthOfColumn[Day.valueOf(lesson.day.name()).ordinal()]<lesson.toString().length()){
+            lengthOfColumn[Day.valueOf(lesson.day.name()).ordinal()]=lesson.toString().length();
         }
     }
 }

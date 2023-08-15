@@ -1,8 +1,8 @@
 package Frontend;
 
 import Core.Course;
-import Core.InputVerificator;
-import Core.Intronet;
+import Core.InputVerification;
+import Core.Intranet;
 import Core.Request;
 import Enums.RequestType;
 import Users.Student;
@@ -25,12 +25,12 @@ public class StudentCurrentCoursesManagment {
                 System.out.println("Choose an option:");
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter course number!");
-                    int courseNum = InputVerificator.intValueCheck(input.readLine());
+                    int courseNum = InputVerification.intValueCheck(input.readLine());
                     if(courseNum>0 && courseNum <= student.courses.size()){
-                        course = Intronet.getInstance().getCourseById((String) student.courses.keySet().toArray()[courseNum-1]);
+                        course = Intranet.getInstance().getCourseById((String) student.courses.keySet().toArray()[courseNum-1]);
                         internalStage++;
                     }
                     else {
@@ -51,7 +51,7 @@ public class StudentCurrentCoursesManagment {
                 System.out.println("[3]Rate teacher");
                 System.out.println("[4]Drop course");
                 System.out.println("[5]Back");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     SchduleDrawer.printInfoAboutCourse(course);
                     SchduleDrawer.printMaterials(course);
@@ -64,8 +64,8 @@ public class StudentCurrentCoursesManagment {
                         System.out.println("There are no teacher on course");
                     }
                     else {
-//                        double rating = InputVerificator.doubleValueCheck(input.readLine());
-                        int rating = InputVerificator.intValueCheck(input.readLine());
+//                        double rating = InputVerification.doubleValueCheck(input.readLine());
+                        int rating = InputVerification.intValueCheck(input.readLine());
                         student.rateTeacher(course,rating);
                     }
                 }
@@ -73,9 +73,9 @@ public class StudentCurrentCoursesManagment {
                     System.out.println("Chose an option:");
                     System.out.println("[1]Make request to drop");
                     System.out.println("[2]Back");
-                    command = InputVerificator.intValueCheck(input.readLine());
+                    command = InputVerification.intValueCheck(input.readLine());
                     if(command==1){
-                        Intronet.getInstance().requests.add(new Request(course.getId(),student.getId(), RequestType.DROPCOURSE,student.getFaculty()));
+                        Intranet.getInstance().requests.add(new Request(course.getId(),student.getId(), RequestType.DROPCOURSE,student.getFaculty()));
                     }
                     else if(command==2){
                         continue;

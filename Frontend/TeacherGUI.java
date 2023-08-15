@@ -1,6 +1,6 @@
 package Frontend;
 
-import Core.InputVerificator;
+import Core.InputVerification;
 import Users.Teacher;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,13 +17,13 @@ public class TeacherGUI {
             System.out.println("[5]View current courses");
             System.out.println("[6]View all rating");
             System.out.println("[7]Back");
-            command= InputVerificator.intValueCheck(input.readLine());
+            command= InputVerification.intValueCheck(input.readLine());
             if(command==1){
                 teacher.viewAllNews();
                 System.out.println("Choose an option:");
                 System.out.println("[1]Make comment");
                 System.out.println("[2]Back;");
-                command = InputVerificator.intValueCheck(input.readLine());
+                command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     teacher.makeComment(input);
                 }
