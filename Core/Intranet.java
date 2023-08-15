@@ -124,29 +124,20 @@ public class Intranet implements Serializable {
         Schedule teacherSchedule = teacher.getSchedule();
         if (!course.schedule.checkCohesion(teacherSchedule)) {
             course.teacher = teacher;
+            for (Lesson lesson:course.lessons){
+                lesson.teacher=teacher;
+            }
             teacher.courses.add(course.getId());
-            updateLessonNameForCourse(course);
             Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname + " was added to " + course.name);
         }
         else {
             System.out.println("Teacher has time cohesion!");
         }
     }
-    public void updateLessonNameForCourse(Course course){
-        for(Lesson lesson:course.lessons){
-            lesson.teacher=course.teacher;
-            course.schedule.updateLessonName(lesson);
-            for (String id : course.studentMarks.keySet()) {
-                Student student = (Student) this.getUserById(id);
-                student.schedule.updateLessonName(lesson);
-            }
-        }
-    }
 
     public void dropTeacherFromCourse(Course course, Teacher teacher){
         {
             course.teacher=null;
-            updateLessonNameForCourse(course);
             teacher.courses.remove(course.getId());
             Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname +  " was dropped from" + course.name);
         }

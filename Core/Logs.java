@@ -23,7 +23,7 @@ public class Logs {
             bufferedWriter.write(formattedDateTime + ":" + " " + userSourse.name + " " + userSourse.surname);
             bufferedWriter.newLine();
             bufferedWriter.write(text);
-            System.out.println("File written successfully.");
+            bufferedWriter.newLine();
 
             bufferedWriter.close();
 
@@ -45,7 +45,6 @@ public class Logs {
             bufferedWriter.newLine();
             bufferedWriter.write(text);
             bufferedWriter.newLine();
-            System.out.println("File written successfully.");
 
             bufferedWriter.close();
 

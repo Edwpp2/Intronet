@@ -32,7 +32,7 @@ public class SchduleDrawer {
     public static String toCell(String content,Schedule schedule,int columnNumber)
     {
         String cell ="";
-        int length = Math.max(schedule.getLenghtOfColumn(columnNumber),8);
+        int length = Math.max(schedule.getLenghtOfColumn(columnNumber),9);
         String leftAlignFormat = "| " + "%-" + (length) + "s |";
         for (int i = 0; i < 5; i++) {
             cell = String.format(leftAlignFormat, content, i * i);
@@ -55,12 +55,20 @@ public class SchduleDrawer {
         String delim = "";
         String content="";
         String topHeader="";
+        schedule.updateColumnLength();
         for(int i = 0; i < 13;i++){
             content = " " + toCell(time[i+1],schedule,7);
             topHeader = " " + toCell(time[i],schedule,7);
             for (int j = 0; j < 7;j++){
-                content += " " + toCell(schedule.getTimeTable()[i][j],schedule,j);
-                topHeader += " " + toCell(dayHeader[j],schedule,j);
+                if(schedule.getTimeTable()[i][j]!=null){
+                    content += " " + toCell(schedule.getTimeTable()[i][j].toString(),schedule,j);
+                    topHeader += " " + toCell(dayHeader[j],schedule,j);
+                }
+                else {
+                    content += " " + toCell("-",schedule,j);
+                    topHeader += " " + toCell(dayHeader[j],schedule,j);
+                }
+
             }
             delim = " " + "+" + "-".repeat(content.length() - 3) + "+";;
             print(i,content,delim,topHeader,12);

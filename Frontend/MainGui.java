@@ -37,7 +37,7 @@ public class MainGui {
                 }
             }
             else if(command==2){
-                Intranet.serializeIntranet("intronet.txt");
+                Intranet.serializeIntranet("intranet.txt");
                 input.close();
                 System.exit(0);
             }

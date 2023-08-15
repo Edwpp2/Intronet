@@ -168,12 +168,7 @@ public class ManagerUserManagmentGUI {
                         if(teacher.courses.size()>0){
                             for(String courseId : teacher.courses){
                                 Course course = Intranet.getInstance().getCourseById(courseId);
-                                if(teacher.faculty==course.faculty){
-                                    for (Lesson lesson : course.lessons){
-                                        course.schedule.updateLessonName(lesson);
-                                    }
-                                }
-                                else {
+                                if(teacher.faculty!=course.faculty){
                                     Intranet.getInstance().dropTeacherFromCourse(course,teacher);
                                 }
                             }
