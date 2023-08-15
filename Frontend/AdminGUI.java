@@ -4,7 +4,6 @@ import Core.InputVerificator;
 import Core.Intronet;
 import Users.Admin;
 import Users.User;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Vector;

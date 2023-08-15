@@ -16,9 +16,10 @@ public class Teacher extends User implements Serializable,StudyPerson{
     public HashSet<String> courses;
     public Schedule schedule;
     public Degree degree;
-    public Teacher(String login, String password, String name, String surname, Role role, Faculty faculty) {
+    public Teacher(String login, String password, String name, String surname, Role role, Faculty faculty,Degree degree) {
         super(login, password, name, surname, role, faculty);
         this.faculty = faculty;
+        this.degree = degree;
         this.schedule = new Schedule();
         this.courses = new HashSet<>();
     }

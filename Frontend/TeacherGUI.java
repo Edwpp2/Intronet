@@ -16,7 +16,7 @@ public class TeacherGUI {
             System.out.println("[4]Print schedule;");
             System.out.println("[5]View current courses");
             System.out.println("[6]View all rating");
-            System.out.println("[6]Back");
+            System.out.println("[7]Back");
             command= InputVerificator.intValueCheck(input.readLine());
             if(command==1){
                 teacher.viewAllNews();

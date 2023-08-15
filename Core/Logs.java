@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Logs {
     public static void AddToLog(String text, User userSourse){
-        String fileName = "output.txt";
+        String fileName = "logs.txt";
         try {
             LocalDateTime currentDateTime = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -32,7 +32,7 @@ public class Logs {
         }
     }
     public static void AddToLog(String text){
-        String fileName = "output.txt";
+        String fileName = "logs.txt";
         try {
             LocalDateTime currentDateTime = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -92,7 +92,7 @@ public class Logs {
         String letterPoints = toCell("Letter points", "Letter points".length());
         String gpa = toCell("GPA", 9);
 
-        String fileName = "outputa.txt";
+        String fileName = student.name + "_" + student.surname + "_" +"Transcript.txt";
         try {
             FileWriter fileWriter1 = new FileWriter(fileName,true);
             BufferedWriter bufferedWriter1 = new BufferedWriter(fileWriter1);

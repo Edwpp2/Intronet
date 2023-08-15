@@ -12,20 +12,21 @@ import Users.Teacher;
 
 import java.io.IOException;
 
-public class SchedulePrint {
+public class Test {
     public static void main(String[] args) throws IOException {
 
         if(Intronet.getInstance().users.size()==0){
             Manager manager = new Manager("login", "password", "John", "Doe", Role.MANAGER, Faculty.FIT);
+
             Student student1 = new Student("student1", "password1", "Alice", "Smith", Role.STUDENT, Faculty.FIT, Degree.BS);
             Student student2 = new Student("student2", "password2", "Bob", "Johnson", Role.STUDENT, Faculty.FEOGI, Degree.BS);
             Student student3 = new Student("student3", "password3", "Eve", "Williams", Role.STUDENT, Faculty.FIT, Degree.MS);
             Student student4 = new Student("student4", "password4", "Eldr", "Willianos", Role.STUDENT, Faculty.FIT, Degree.BS);
             Teacher teacher1 = new Teacher("teacher1_login", "teacher1_password", "Johnaa", "Doasde", Role.TEACHER, Faculty.FIT, Degree.PHD);
-            Teacher teacher2 = new Teacher("1", "1", "Jane", "Smith", Role.TEACHER, Faculty.FEOGI, Degree.MS);
-            Teacher teacher3 = new Teacher("teacher3_login", "teacher3_password", "Michael", "Johnson", Role.TEACHER, Faculty.ISE, Degree.PHD);
+            Teacher teacher2 = new Teacher("1", "1", "Jane", "Smith", Role.TEACHER, Faculty.FEOGI,Degree.PHD);
+            Teacher teacher3 = new Teacher("teacher3_login", "teacher3_password", "Michael", "Johnson", Role.TEACHER, Faculty.ISE, Degree.MS);
             Teacher teacher4 = new Teacher("teacher4_login", "teacher4_password", "Emily", "Brown", Role.TEACHER, Faculty.KMA, Degree.MS);
-            // Первый объект Course
+
             Course course1 = new Course(Faculty.FIT, "Physics 101", "Introduction to Physics", 3, 50, "PHY101");
             Course course2 = new Course(Faculty.FEOGI, "English Literature", "Classic Literature Overview", 4, 40, "ENG202");
             Course course3 = new Course(Faculty.MCM, "Computer Programming", "Introduction to Programming", 4, 60, "COMP101");
