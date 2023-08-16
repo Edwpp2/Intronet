@@ -11,19 +11,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class Intranet implements Serializable {
     private static Intranet intranet;
-    public Vector<Course> courses;
+    public HashSet<Course> courses;
     public Vector<User> users;
-    public Vector<Message> messages;
-    public Vector<Request> requests;
-    public Vector<News> news;
-    public int maxUserName = 0;
-    public int maxCourseName  = 0;
+    public HashSet<Request> requests;
+    public HashSet<News> news;
     private static final int idLength = 6;
 
     static {
@@ -46,11 +41,10 @@ public class Intranet implements Serializable {
         }
     }
     public Intranet(){
-        courses = new Vector<>();
+        courses = new HashSet<>();
         users = new Vector<>();
-        news = new Vector<>();
-        requests = new Vector<>();
-        messages = new Vector<>();
+        news = new HashSet<>();
+        requests = new HashSet<>();
     }
     public User login(BufferedReader input) throws IOException {
         System.out.println("Enter login");
@@ -75,24 +69,19 @@ public class Intranet implements Serializable {
     }
     public String generateUserId(){
         String year= "" + (Year.now().getValue()-2000);
-        return year + "B" + ("0".repeat(idLength - ("" + users.size()).length()) + ("" + users.size()));
+        System.out.println(users.size());
+        System.out.println(idLength);
+        return year + "B" + ("0".repeat(idLength - ((users.size()+1)/10)) + ("" + (users.size()+1)));
     }
     public  String generateCourseId() {
         String year= "" + (Year.now().getValue()-2000);
-        return (year) + "C" + ("0".repeat(idLength - ("" + courses.size()).length()) + ("" + courses.size()));
+        return (year) + "C" + ("0".repeat(idLength - ((courses.size()+1)/10)) + ("" + (courses.size()+1)));
     }
     public  void addCourseToSystem(Course course){
-        if(course.name.length()>maxCourseName){
-            maxCourseName = course.name.length();
-        }
         course.setId(this.generateCourseId());
         courses.add(course);
     }
     public void addUserToSystem(User user){
-        String userName = user.name + " " + user.surname;
-        if(maxUserName < userName.length()){
-            maxUserName = userName.length();
-        }
         user.setId(this.generateUserId());
         users.add(user);
     }
@@ -124,9 +113,7 @@ public class Intranet implements Serializable {
         Schedule teacherSchedule = teacher.getSchedule();
         if (!course.schedule.checkCohesion(teacherSchedule)) {
             course.teacher = teacher;
-            for (Lesson lesson:course.lessons){
-                lesson.teacher=teacher;
-            }
+            updateCourseName(course);
             teacher.courses.add(course.getId());
             Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname + " was added to " + course.name);
         }
@@ -134,11 +121,17 @@ public class Intranet implements Serializable {
             System.out.println("Teacher has time cohesion!");
         }
     }
+    public static void updateCourseName(Course course){
+        for (Lesson lesson:course.lessons){
+            lesson.teacher=course.teacher;
+        }
+    }
 
     public void dropTeacherFromCourse(Course course, Teacher teacher){
         {
             course.teacher=null;
             teacher.courses.remove(course.getId());
+            updateCourseName(course);
             Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname +  " was dropped from" + course.name);
         }
     }
@@ -229,15 +222,6 @@ public class Intranet implements Serializable {
             }
         }
         return teachers;
-    }
-    public int maxCourseName(){
-        int maxLength = 0;
-        for(Course course : courses){
-            if(maxLength<course.name.length()){
-                maxLength = course.name.length();
-            }
-        }
-        return maxLength;
     }
     public void printNews(){
         int i = 0;

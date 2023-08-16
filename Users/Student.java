@@ -102,4 +102,9 @@ public class Student extends User implements Serializable,StudyPerson {
         Intranet.addStudentToCourse(this, course);
         registeredCoursesCnt++;
     }
+
+    @Override
+    public Degree getDegree() {
+        return degree;
+    }
 }

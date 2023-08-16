@@ -53,18 +53,18 @@ public class StudentCurrentCoursesManagment {
                 System.out.println("[5]Back");
                 command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    SchduleDrawer.printInfoAboutCourse(course);
+                    SchduleDrawer.printInfoAboutCourse(course,course.name.length(),course.code.length(),0,0,false);
                     SchduleDrawer.printMaterials(course);
                 }
                 else if(command==2){
-                    SchduleDrawer.printMarksForCurrentStudent(student,course,0,1);
+                    SchduleDrawer.printMarksForCurrentStudent(student,course,0,1,(student.name + " " + student.surname).length());
                 }
                 else if(command==3){
                     if(course.teacher==null){
                         System.out.println("There are no teacher on course");
                     }
                     else {
-//                        double rating = InputVerification.doubleValueCheck(input.readLine());
+                        System.out.println("Enter integer value btween 1 and 5");
                         int rating = InputVerification.intValueCheck(input.readLine());
                         student.rateTeacher(course,rating);
                     }

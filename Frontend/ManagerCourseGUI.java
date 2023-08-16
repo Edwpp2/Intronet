@@ -10,6 +10,8 @@ import Enums.Day;
 import Users.Teacher;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
+
 public class ManagerCourseGUI {
 
     public static void menu(BufferedReader input) throws IOException {
@@ -57,7 +59,23 @@ public class ManagerCourseGUI {
                 System.out.println("[3]Back");
                 command = InputVerification.intValueCheck(input.readLine());
                 if (command == 1) {
-                    internalStage = 5;
+                    SchduleDrawer.printAvailableTeachers(course);
+                    List<Teacher> enableTeachers = Intranet.getInstance().enableTeachers(course);
+                    if(enableTeachers.size()>0){
+                        System.out.println("Enter number of teacher");
+                        int teacherNumber = InputVerification.intValueCheck(input.readLine());
+                        try {
+                            Teacher teacher = enableTeachers.get(teacherNumber-1);
+                            Intranet.getInstance().addTeacherToCourse(course, teacher);
+                            continue;
+                        }
+                        catch (ArrayIndexOutOfBoundsException e){
+                            System.out.println("WRONG NUMBER!");
+                        }
+                    }
+                    else {
+                        continue;
+                    }
                 } else if (command == 2) {
                     internalStage++;
                 } else if (command == 3) {
@@ -88,29 +106,6 @@ public class ManagerCourseGUI {
                 CourseConstructor.courseCreation(input);
                 internalStage = 0;
             }
-            if (internalStage == 5) {
-                SchduleDrawer.printAvalibleTeachers(course);
-                System.out.println("Choose an option");
-                System.out.println("[1]Chose a teacher");
-                System.out.println("[2]Back");
-                command = InputVerification.intValueCheck(input.readLine());
-                if (command == 1) {
-                    System.out.println("Enter number of teacher");
-                    int teacherNumber = InputVerification.intValueCheck(input.readLine());
-                    try {
-                        Teacher teacher = Intranet.getInstance().enableTeachers(course).get(teacherNumber-1);
-                        Intranet.getInstance().addTeacherToCourse(course, teacher);
-                        internalStage=2;
-                    }
-                    catch (ArrayIndexOutOfBoundsException e){
-                        System.out.println("WRONG NUMBER!");
-                    }
-                } else if (command == 2) {
-                    internalStage = 1;
-                } else {
-                    System.out.println("WRONG NUMBER!");
-                }
-            }
             if (internalStage == 6) {
                 System.out.println("Enter hour:");
                 int hour = InputVerification.intValueCheck(input.readLine());
@@ -123,11 +118,19 @@ public class ManagerCourseGUI {
 
                     if (index < 1 || index > 7) {
                         System.out.println("Wrong number!");
-                    } else {
+                    }
+                    else {
+
                         Day day = Day.values()[index - 1];
-                        for (Lesson lesson1 : course.lessons) {
-                            if (lesson1.day == day && lesson1.hour == hour - 9) {
-                                Intranet.dropLessonFromCourse(course, hour - 9, day);
+                        if(course.schedule.getTimeTable()[hour - 9][day.ordinal()]==null)
+                        {
+                            System.out.println("No such lesson!");
+                        }
+                        else{
+                            for (Lesson lesson1 : course.lessons) {
+                                if (lesson1.day == day && lesson1.hour == hour - 9) {
+                                    Intranet.dropLessonFromCourse(course, hour - 9, day);
+                                }
                             }
                         }
                     }

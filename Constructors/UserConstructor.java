@@ -9,9 +9,10 @@ import Frontend.SchduleDrawer;
 import Users.*;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Vector;
 
 public class UserConstructor {
-    public static void userCreation(BufferedReader input) throws IOException {
+    public static void userCreation(BufferedReader input, Vector<User> users) throws IOException {
         User user = null;
         String login = null;
         String password = null;
@@ -19,7 +20,7 @@ public class UserConstructor {
         String surname = null;
         Role role = null;
         Faculty faculty = null;
-        Degree degree;
+        Degree degree = null;
         int internalStage=0;
         boolean inProgress = true;
         boolean inEdit = false;
@@ -95,8 +96,7 @@ public class UserConstructor {
                             internalStage++;
                         }
                         else {
-                            user.role = role;
-                            internalStage=7;
+                            internalStage=6;
                         }
                     }
                 }
@@ -124,77 +124,73 @@ public class UserConstructor {
             }
             if(internalStage==6){
                 if(role == Role.ADMIN){
-                    if(!inEdit){
-                        user=new Admin(login,password,name,surname,role,faculty);
-                        internalStage++;
-                    }
-                    else {
-                        internalStage++;
-                    }
-                }
-                else if (role == Role.STUDENT){
-                    degree=null;
-                    while (degree==null){
-                        System.out.println("Choose a degree for user:");
-                        System.out.println("[1]Bachelor;\n[2]Master;\n[3]PHD");
-                        int index = InputVerification.intValueCheck(input.readLine());
-                        if(index < 0 || index > 3){
-                            System.out.println("Wrong number was entered!");
-                        }
-                        else {
-                            degree = Degree.values()[index-1];
-                            if(!inEdit){
-                                user=new Student(login,password,name,surname,role,faculty,degree);
-                            }
-                            else {
-                                ((Student) user).degree = Degree.values()[index-1];
-                            }
-                            internalStage++;
-                        }
-                    }
-
+                    user=new Admin(login,password,name,surname,role,faculty);
+                    internalStage++;
                 }
                 else if(role == Role.MANAGER){
                     user = new Manager(login,password,name,surname,role,faculty);
                     internalStage++;
                 }
                 else if(role == Role.TEACHER){
-                    degree=null;
-                    while (degree==null){
-                        System.out.println("Choose a degree for user:");
-                        System.out.println("[1]Master;\n[2]PHD");
-                        int index = InputVerification.intValueCheck(input.readLine());
-                        if(index < 0 || index > 2){
-                            System.out.println("Wrong number was entered!");
-                        }
-                        else {
-                            degree = Degree.values()[index-1];
-                            if(!inEdit){
-
-                                user = new Teacher(login,password,name,surname,role,faculty,degree);
+                    if(!inEdit){
+                        degree=null;
+                        while (degree==null){
+                            System.out.println("Choose a degree for user:");
+                            System.out.println("[1]Master;\n[2]PHD");
+                            int index = InputVerification.intValueCheck(input.readLine());
+                            if(index < 0 || index > 2){
+                                System.out.println("Wrong number was entered!");
                             }
                             else {
-                                ((Teacher) user).degree = Degree.values()[index-1];
+                                degree = Degree.values()[index];
+                                user = new Teacher(login,password,name,surname,role,faculty,degree);
+                                internalStage++;
                             }
-                            internalStage++;
                         }
+                    }
+                    else {
+                        user = new Teacher(login,password,name,surname,role,faculty,degree);
+                        internalStage++;
+                    }
+                }
+                else if (role == Role.STUDENT){
+                    if(!inEdit){
+                        degree=null;
+                        while (degree==null){
+                            System.out.println("Choose a degree for user:");
+                            System.out.println("[1]Bachelor;\n[2]Master;\n[3]PHD");
+                            int index = InputVerification.intValueCheck(input.readLine());
+                            if(index < 0 || index > 3){
+                                System.out.println("Wrong number was entered!");
+                            }
+                            else {
+                                degree = Degree.values()[index-1];
+                                user=new Student(login,password,name,surname,role,faculty,degree);
+                                internalStage++;
+                            }
+                        }
+                    }
+                    else {
+                        user=new Student(login,password,name,surname,role,faculty,degree);
+                        internalStage++;
                     }
                 }
             }
             if(internalStage==7){
                 System.out.println(user.getClass().getName());
                 user.setId("------");
-                SchduleDrawer.printInfoAboutUser(user);
+                SchduleDrawer.printUserInfo(user,0,0,(user.name + " " + user.surname).length(),Math.max(user.login.length(),"Login".length()),Math.max(user.password.length(),"Password".length()),true);
                 System.out.println("Is information correct?");
                 System.out.println("[1]Yes");
                 System.out.println("[2]No");
                 int command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    Intranet.getInstance().addUserToSystem(user);
+                    user.setId(Intranet.getInstance().generateUserId());
+                    users.add(user);
                     inProgress=false;
                     inEdit=false;
                 }
-                if(command==2){
+                else if(command==2){
                     inEdit=true;
                     internalStage++;
                 }

@@ -118,7 +118,7 @@ public class CourseConstructor {
                 internalStage++;
             }
             if(internalStage==6){
-                SchduleDrawer.printCoursPrewiev(course);
+                SchduleDrawer.printInfoAboutCourse(course,course.name.length(),course.code.length(),0,0,true);
                 System.out.println("Everything correct?");
                 System.out.println("[1]Yes");
                 System.out.println("[2]No");

@@ -5,7 +5,7 @@ import Enums.Faculty;
 import Enums.RequestType;
 import Enums.Role;
 import java.io.Serializable;
-import java.util.Vector;
+
 
 public class Manager extends User implements Serializable {
     public Manager(String login, String password, String name, String surname, Role role, Faculty faculty) {
@@ -40,11 +40,10 @@ public class Manager extends User implements Serializable {
         Intranet.getInstance().news.add(new News(title,content));
     }
     public News getNews(int number){
-        Vector<News> news = Intranet.getInstance().getInstance().news;
-        return news.get(number-1);
+        News[]news = (News[])Intranet.getInstance().news.toArray();
+        return news[number-1];
     }
-    public void removeNews(int number){
-        Vector<News> news = Intranet.getInstance().getInstance().news;
-        news.remove(number-1);
+    public void removeNews(News news){
+        Intranet.getInstance().news.remove(news);
     }
 }

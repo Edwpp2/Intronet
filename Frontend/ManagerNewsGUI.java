@@ -15,7 +15,7 @@ public class ManagerNewsGUI {
         boolean start = true;
         if(Intranet.getInstance().news.size()>1){
             start=false;
-            System.out.println("NO MESSAGE TO MANAGE!");
+            System.out.println("NO NEWS TO MANAGE!");
         }
         while (start){
             if(internalStage==0){
@@ -75,7 +75,8 @@ public class ManagerNewsGUI {
                     news.setContent(content);
                 }
                 else if(command==3){
-                    internalStage++;
+                    manager.removeNews(news);
+                    internalStage=0;
                 }
                 else if(command==4){
                     internalStage=0;
@@ -83,13 +84,6 @@ public class ManagerNewsGUI {
                 else {
                     System.out.println("WRONG NUMBER!");
                 }
-            }
-            if(internalStage==3){
-                Intranet.getInstance().printNews();
-                System.out.println("Enter number of news!");
-                int number = InputVerification.intValueCheck(input.readLine());
-                manager.removeNews(number);
-                internalStage=0;
             }
         }
     }

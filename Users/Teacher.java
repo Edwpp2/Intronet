@@ -26,24 +26,16 @@ public class Teacher extends User implements Serializable,StudyPerson{
     public Schedule getSchedule() {
         return this.schedule;
     }
-    public int maxCourseName(){
-        int maxLength = 0;
-        for(String courseId:courses){
-            Course course = Intranet.getInstance().getCourseById(courseId);
-            String name = course.name;
-            if(maxLength<name.length()){
-                maxLength = name.length();
-            }
-        }
-        return maxLength;
-    }
     @Override
     public void dropCourse(Course course) {
         Intranet.getInstance().dropTeacherFromCourse(course, this);
     }
-
     @Override
     public void addCourse(Course course) {
         Intranet.getInstance().addTeacherToCourse(course, this);
+    }
+    @Override
+    public Degree getDegree() {
+        return degree;
     }
 }

@@ -159,7 +159,7 @@ public class TeacherCurrentCOursesGui {
                 }
             }
             if(internalStage==6){
-                SchduleDrawer.printMarksForCurrentStudent(student,course,0,0);
+                SchduleDrawer.printMarksForCurrentStudent(student,course,0,0,(student.name + " " + student.surname).length());
                 System.out.println("Chose an option:");
                 System.out.println("[1]Put mark for first attestation");
                 System.out.println("[2]Put mark for first attestation");

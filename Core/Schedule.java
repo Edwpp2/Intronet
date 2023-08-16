@@ -14,7 +14,7 @@ public class Schedule implements Serializable {
         this.lengthOfColumn = new int[8];
         lengthOfColumn[7] = 0;
     }
-    public int getLenghtOfColumn(int i){
+    public int getLengthOfColumn(int i){
         return lengthOfColumn[i];
     }
     public void addLesson(Lesson lesson){

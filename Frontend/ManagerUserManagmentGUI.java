@@ -41,6 +41,7 @@ public class ManagerUserManagmentGUI {
                     internalStage++;
                 }
                 if(command==2){
+                    Intranet.getInstance().users=users;
                     start=false;
                     user = null;
                     users = null;
@@ -115,9 +116,8 @@ public class ManagerUserManagmentGUI {
                 System.out.println("[2]Change password;");
                 System.out.println("[3]Change name;");
                 System.out.println("[4]Change surname;");
-                System.out.println("[5]Change surname;");
-                System.out.println("[6]Change faculty;");
-                System.out.println("[7]Back.");
+                System.out.println("[5]Change faculty;");
+                System.out.println("[6]Back.");
                 command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter new login for use:");
@@ -137,32 +137,33 @@ public class ManagerUserManagmentGUI {
                     user.name = input.readLine();
                     teacherWasEdited = true;
                 }
+//                else if(command==5){
+//                    System.out.println("Choose role for user:");
+//                    System.out.println("[1]STUDENT;\n[2]TEACHER;\n[3]MANAGER;\n[4]ADMIN;\n[5]SYSTEM;\n[6]LIBRARIAN.");
+//                    int index = InputVerification.intValueCheck(input.readLine());
+//                    if(index < 1 || index > 6){
+//                        System.out.println("WRONG NUMBER!");
+//                    }
+//                    else {
+//                        user.role = Role.values()[index-1];
+//                        teacherWasEdited = true;
+//                        studentWasEdited = true;
+//                    }
+//                }
                 else if(command==5){
-                    System.out.println("Choose role for user:");
-                    System.out.println("[1]STUDENT;\n[2]TEACHER;\n[3]MANAGER;\n[4]ADMIN;\n[5]SYSTEM;\n[6]LIBRARIAN.");
+                    System.out.println("Choose a faculty:");
+                    System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
                     int index = InputVerification.intValueCheck(input.readLine());
-                    if(index < 1 || index > 6){
+                    if(index < 1 || index > 7){
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        user.role = Role.values()[index-1];
+                        user.faculty = Faculty.values()[index-1];
                         teacherWasEdited = true;
                         studentWasEdited = true;
                     }
                 }
                 else if(command==6){
-                    System.out.println("Choose a faculty:");
-                    System.out.println("[1]FIT;\n[2]MCM;\n[3]BS;\n[4]ISE;\n[5]KMA;\n[6]FEOGI;\n[7]SCE.");
-                    int index = InputVerification.intValueCheck(input.readLine());
-                    if(index < 1 || index > 7){
-                        System.out.println("Вы ввели не корректный номер факультета!");
-                    }
-                    else {
-                        user.faculty = Faculty.values()[index-1];
-                        teacherWasEdited = true;
-                    }
-                }
-                else if(command==7){
                     if(user.role==Role.TEACHER && teacherWasEdited){
                         Teacher teacher = (Teacher)user;
                         if(teacher.courses.size()>0){
@@ -182,6 +183,9 @@ public class ManagerUserManagmentGUI {
                                 if(student.faculty!=course.faculty){
                                     Intranet.dropStudentFromCourse(student,course);
                                 }
+                                else {
+                                    Intranet.updateCourseName(course);
+                                }
                             }
                         }
                     }
@@ -197,7 +201,7 @@ public class ManagerUserManagmentGUI {
 
             }
             if (internalStage==4){
-                UserConstructor.userCreation(input);
+                UserConstructor.userCreation(input,users);
                 internalStage=0;
             }
         }
