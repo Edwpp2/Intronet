@@ -52,9 +52,9 @@ public class Intranet implements Serializable {
         System.out.println("Enter password");
         String password = input.readLine();
         for (User user : users){
-            if(user.login.equals(login) && user.password.equals(password)){
+            if(user.getLogin().equals(login) && user.getPassword().equals(password)){
                 if(!user.isBlocked()){
-                    Logs.AddToLog("User " + user.name + " " + user.surname +  " login to system");
+                    Logs.AddToLog("User " + user.toString() +  " login to system");
                     return user;
                 }
                 else {
@@ -95,7 +95,7 @@ public class Intranet implements Serializable {
     }
     public User getUserByLogin(String login){
         for (User user : users){
-            if(user.login.equals(login)){
+            if(user.getLogin().equals(login)){
                 return user;
             }
         }
@@ -115,7 +115,7 @@ public class Intranet implements Serializable {
             course.teacher = teacher;
             updateCourseName(course);
             teacher.courses.add(course.getId());
-            Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname + " was added to " + course.name);
+            Logs.AddToLog("Teacher " + teacher.toString() + " was added to " + course.name);
         }
         else {
             System.out.println("Teacher has time cohesion!");
@@ -132,7 +132,7 @@ public class Intranet implements Serializable {
             course.teacher=null;
             teacher.courses.remove(course.getId());
             updateCourseName(course);
-            Logs.AddToLog("Teacher " + teacher.name + " " + teacher.surname +  " was dropped from" + course.name);
+            Logs.AddToLog("Teacher " + teacher.toString() +  " was dropped from" + course.name);
         }
     }
     public static void addStudentToCourse(Student student, Course course){
@@ -147,7 +147,7 @@ public class Intranet implements Serializable {
             student.courses.put(course.getId(),new Mark());
             student.credits=student.credits-course.credits;
             System.out.println(course.teacherRating.get(student.getId()));
-            Logs.AddToLog("Student " + student.name + student.surname + " was added to" + course.name);
+            Logs.AddToLog("Student " + student.toString() + " was added to" + course.name);
         }
     }
     public static  void  dropStudentFromCourse(Student student,Course course){
@@ -157,7 +157,7 @@ public class Intranet implements Serializable {
         student.courses.remove(course.getId());
         course.studentMarks.remove(student.getId());
         course.teacherRating.remove(student.getId());
-        Logs.AddToLog("Student " + student.name + student.surname + " was dropped from" + course.name);
+        Logs.AddToLog("Student " + student.toString() + " was dropped from" + course.name);
     }
     public boolean checkCohesionForStudentsOnCourse(Course course,Lesson lesson){
         if(course.studentMarks.size()>0){
@@ -217,7 +217,7 @@ public class Intranet implements Serializable {
     public List<Teacher> enableTeachers(Course course) {
         List<Teacher> teachers = new ArrayList<>();
         for (User user : users) {
-            if (user.role == Role.TEACHER && user.faculty == course.faculty && course.teacher != user) {
+            if (user.getRole() == Role.TEACHER && user.getFaculty() == course.faculty && course.teacher != user) {
                 teachers.add((Teacher) user);
             }
         }
@@ -233,7 +233,7 @@ public class Intranet implements Serializable {
     public List<Request> getFacultyRequest(Manager manager){
         List<Request> requests = new ArrayList<>();
         for (Request request: intranet.requests){
-            if(request.faculty==manager.faculty){
+            if(request.faculty==manager.getFaculty()){
                 requests.add(request);
             }
         }

@@ -2,6 +2,7 @@ package Constructors;
 
 import Core.InputVerification;
 import Core.Intranet;
+import Core.Logs;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
@@ -10,8 +11,18 @@ import Users.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Vector;
-
+/**
+ * This class is for user creation
+ *
+ * @author Eduardo
+ */
 public class UserConstructor {
+    /**
+     *
+     * @param input buffered reader for input data
+     * @param users vector of users in the system
+     * @throws IOException
+     */
     public static void userCreation(BufferedReader input, Vector<User> users) throws IOException {
         User user = null;
         String login = null;
@@ -34,7 +45,7 @@ public class UserConstructor {
                         internalStage++;
                     }
                     else {
-                        user.login=login;
+                        user.setLogin(login);
                         internalStage=7;
                     }
                 }
@@ -48,7 +59,7 @@ public class UserConstructor {
                         internalStage++;
                     }
                     else {
-                        user.password=password;
+                        user.setPassword(password);
                         internalStage=7;
                     }
                 }
@@ -62,7 +73,7 @@ public class UserConstructor {
                         internalStage++;
                     }
                     else {
-                        user.name=name;
+                        user.setName(name);
                         internalStage=7;
                     }
                 }
@@ -76,7 +87,7 @@ public class UserConstructor {
                         internalStage++;
                     }
                     else {
-                        user.surname=surname;
+                        user.setSurname(surname);
                         internalStage=7;
                     }
                 }
@@ -116,7 +127,7 @@ public class UserConstructor {
                             internalStage++;
                         }
                         else {
-                            user.faculty=faculty;
+                            user.setFaculty(faculty);
                             internalStage=7;
                         }
                     }
@@ -179,7 +190,7 @@ public class UserConstructor {
             if(internalStage==7){
                 System.out.println(user.getClass().getName());
                 user.setId("------");
-                SchduleDrawer.printUserInfo(user,0,0,(user.name + " " + user.surname).length(),Math.max(user.login.length(),"Login".length()),Math.max(user.password.length(),"Password".length()),true);
+                SchduleDrawer.printUserInfo(user,0,0,(user.toString()).length(),Math.max(user.getLogin().length(),"Login".length()),Math.max(user.getPassword().length(),"Password".length()),true);
                 System.out.println("Is information correct?");
                 System.out.println("[1]Yes");
                 System.out.println("[2]No");
@@ -189,6 +200,7 @@ public class UserConstructor {
                     users.add(user);
                     inProgress=false;
                     inEdit=false;
+                    Logs.AddToLog("User: " + user.toString() + " was added to system");
                 }
                 else if(command==2){
                     inEdit=true;
@@ -206,14 +218,14 @@ public class UserConstructor {
                 System.out.println("[4]User surname");
                 System.out.println("[5]User role");
                 System.out.println("[6]User faculty");
-                if(user.role==Role.STUDENT || user.role==Role.TEACHER){
+                if(user.getRole()==Role.STUDENT || user.getRole()==Role.TEACHER){
                     System.out.println("[7]User degree");
                 }
                 int command = InputVerification.intValueCheck(input.readLine());
-                if(command>7 && (user.role==Role.STUDENT || user.role==Role.TEACHER)){
+                if(command>7 && (user.getRole()==Role.STUDENT || user.getRole()==Role.TEACHER)){
                     System.out.println("Wrong number!");
                 }
-                else if(!(user.role==Role.STUDENT || user.role==Role.TEACHER)&& command>6){
+                else if(!(user.getRole()==Role.STUDENT || user.getRole()==Role.TEACHER)&& command>6){
                     System.out.println("Wrong number!");
                 }
                 else{
@@ -223,8 +235,6 @@ public class UserConstructor {
 
 
         }
-//        System.out.println(user.getClass().getName());
-//        user.setId(Intranet.generateUserId());
-//        SchduleDrawer.printInfoAboutUser(user);
+
     }
 }

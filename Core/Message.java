@@ -13,7 +13,7 @@ public class Message implements Cloneable, Serializable {
         this.content = content;
     }
     public String toString(){
-        return "From:" + Intranet.getInstance().getUserByLogin(userSourceLogin).name + " " + Intranet.getInstance().getUserByLogin(userSourceLogin).surname + "\n\n\n" + content;
+        return "From:" + Intranet.getInstance().getUserByLogin(userSourceLogin).toString() + "\n\n\n" + content;
     }
     @Override
     public Message clone() {

@@ -117,15 +117,15 @@ public class SchduleDrawer {
         }
         String delim = "+" + "-".repeat(topHeader.length() - 2) + "+";
         number = toCell(1+userNumber+"",3);
-        name = toCell(user.name + " " + user.surname,maxUserNameLength);
+        name = toCell(user.toString(),maxUserNameLength);
         id = toCell(user.getId(),10);
-        role = toCell(user.role.name(),7);
-        login = toCell(user.login,maxUserLogin);
-        faculty = toCell(user.faculty.toString(),11);
+        role = toCell(user.getRole().name(),7);
+        login = toCell(user.getLogin(),maxUserLogin);
+        faculty = toCell(user.getFaculty().name(),11);
         isBlocked = toCell(user.isBlocked()?"Yes":"No",7);
         if(userCreation){
-            password = toCell(user.password,maxUserPassword);
-            if(user.role==Role.STUDENT||user.role==Role.TEACHER){
+            password = toCell(user.getPassword(),maxUserPassword);
+            if(user.getRole()==Role.STUDENT||user.getRole()==Role.TEACHER){
                 degree = toCell(((StudyPerson)user).getDegree().toString(),11);
             }
             else {
@@ -205,9 +205,9 @@ public class SchduleDrawer {
             int maxUserPassword = 0;
             for(User user: Intranet.getInstance().users)
             {
-                maxUserName = Math.max(maxUserName,(user.name + " " + user.surname).length());
-                maxUserLogin = Math.max(maxUserLogin,user.login.length());
-                maxUserPassword = Math.max(maxUserPassword,user.password.length());
+                maxUserName = Math.max(maxUserName,(user.toString()).length());
+                maxUserLogin = Math.max(maxUserLogin,user.getLogin().length());
+                maxUserPassword = Math.max(maxUserPassword,user.getPassword().length());
             }
             for(int i = 0;i < users.size();i++){
                 printUserInfo(users.get(i),i,users.size(),maxUserName,maxUserLogin,maxUserPassword,false);
@@ -243,7 +243,7 @@ public class SchduleDrawer {
         for(String studentId : studentsIds)
         {
             User student = Intranet.getInstance().getUserById(studentId);
-            maxStudentName = Math.max(maxStudentName,(student.name + " " + student.surname).length());
+            maxStudentName = Math.max(maxStudentName,(student.toString()).length());
         }
         String studentName = toCell("Student name", maxStudentName);
         String number = toCell("#",1);
@@ -254,7 +254,7 @@ public class SchduleDrawer {
             int i = 0;
             for (String studentId : course.studentMarks.keySet()){
                 User student = Intranet.getInstance().getUserById(studentId);
-                studentName = toCell(student.name + " " + student.surname,maxStudentName);
+                studentName = toCell(student.toString(),maxStudentName);
                 id = toCell(student.getId(),13);
                 number = toCell(1+i+"",1);
                 String content = number + studentName + id;
@@ -284,7 +284,7 @@ public class SchduleDrawer {
             if (course.teacher == null) {
                 teacher = "Vacancy";
             } else {
-                teacher = course.teacher.name + " " + course.teacher.surname;
+                teacher = course.teacher.toString();
             }
             prerequisites = new StringBuilder("[ ");
             for (String prerec : course.prerecs) {
@@ -326,7 +326,7 @@ public class SchduleDrawer {
                 if (course.teacher == null) {
                     teacher = "Vacancy";
                 } else {
-                    teacher = course.teacher.name + " " + course.teacher.surname;
+                    teacher = course.teacher.toString();
                 }
                 prerequisites = new StringBuilder("[ ");
                 for(String prerec : course.prerecs){
@@ -419,7 +419,7 @@ public class SchduleDrawer {
         number = toCell(numberOfStudents+1+"",1);
         String finalPoints = toCell(marks.pointsForFinal + "","Points for final".length());
         String absentCount = toCell(marks.absenceCount + "","Absent count".length());
-        String studentName = toCell(student.name + " " + student.surname,maxUserName);
+        String studentName = toCell(student.toString(),maxUserName);
         String content =number + studentName + firstAtt + firstAttAverage + secondAtt + secondAttAverage + finalPoints + absentCount;
         print(numberOfStudents,content,delim,topHeader,limit);
     }
@@ -431,7 +431,7 @@ public class SchduleDrawer {
             Set<String> usersId = course.studentMarks.keySet();
             for (String userId :  usersId){
                 User user = intranet.getUserById(userId);
-                maxUserName = Math.max(maxUserName,(user.name + " " + user.surname).length());
+                maxUserName = Math.max(maxUserName,(user.toString()).length());
             }
             for(int i = 0; i < course.studentMarks.keySet().size();i++){
                 Student student = (Student) Intranet.getInstance().getUserById(((String)course.studentMarks.keySet().toArray()[i]));
@@ -484,7 +484,7 @@ public class SchduleDrawer {
         List<Teacher> teachers = Intranet.getInstance().enableTeachers(course);
         int maxNameLength = 0;
         for (Teacher teacher : teachers){
-            maxNameLength = Math.max((teacher.name + " " + teacher.surname).length(),maxNameLength);
+            maxNameLength = Math.max((teacher.toString()).length(),maxNameLength);
         }
         String number = toCell("#",3);
         String teacherName = toCell("Name",maxNameLength);
@@ -495,8 +495,8 @@ public class SchduleDrawer {
         if(teachers.size()>0){
             for(int i = 0;i < teachers.size();i++){
                 number=toCell(1+i+"",3);
-                teacherName = toCell(teachers.get(i).name + " " + teachers.get(i).surname,maxNameLength);
-                faculty = toCell(teachers.get(i).faculty.name(),8);
+                teacherName = toCell(teachers.get(i).toString(),maxNameLength);
+                faculty = toCell(teachers.get(i).getFaculty().name(),8);
                 degree = toCell(teachers.get(i).degree.name(),8);
                 String content = number + teacherName + faculty + degree;
                 print(i,content,delim,topHeader,teachers.size());
@@ -526,7 +526,7 @@ public class SchduleDrawer {
             for (String userId : news.comments.keySet()){
                 User user = Intranet.getInstance().getUserById(userId);
                 String numberNews = toCell(commentNumber+1+"",1);
-                String comment = numberNews + toCell(user.name + " " + user.surname + " : " + news.comments.get(userId),120-numberNews.length()+3);
+                String comment = numberNews + toCell(user.toString() + " : " + news.comments.get(userId),120-numberNews.length()+3);
                 System.out.println(comment);
                 System.out.println(delim);
                 commentNumber++;

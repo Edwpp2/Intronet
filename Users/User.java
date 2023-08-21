@@ -10,16 +10,21 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
+/**
+ *
+ */
 public class User implements Cloneable, Serializable{
-    boolean blocked;
-    public String login;
-    public String password;
-    public String name;
-    public String surname;
+
+    private boolean blocked;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
     private String id;
-    public Role role;
-    public Faculty faculty;
-    public Vector<Message> messages;
+    private Role role;
+    private Faculty faculty;
+    private Vector<Message> messages;
+
     public User(String login, String password, String name, String surname, Role role, Faculty faculty) {
         this.login = login;
         this.password = password;
@@ -29,6 +34,7 @@ public class User implements Cloneable, Serializable{
         this.faculty = faculty;
         messages = new Vector<>();
     }
+
     public void viewAllNews(){
         if(Intranet.getInstance().news.size()>0){
             Intranet.getInstance().printNews();
@@ -37,6 +43,7 @@ public class User implements Cloneable, Serializable{
             System.out.println("No news!");
         }
     }
+
     public void makeComment(BufferedReader input) throws IOException {
         System.out.println("Enter number of news");
         try {
@@ -55,6 +62,7 @@ public class User implements Cloneable, Serializable{
             System.out.println("Wrong number!");
         }
     }
+
     public void viewAllMessages(){
         if(this.messages.size()>0){
             for(Message message: messages){
@@ -65,21 +73,26 @@ public class User implements Cloneable, Serializable{
             System.out.println("NO MESSAGES!");
         }
     }
+
     public String getId(){
         return this.id;
     }
+
     public void  setId(String id){
         this.id = id;
     }
+
     public boolean isBlocked(){
         return this.blocked;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
         return login.equals(user.login) && password.equals(user.password) && id.equals(user.id);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(login, password, id);
@@ -92,9 +105,6 @@ public class User implements Cloneable, Serializable{
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
-    }
-    public String toString(){
-        return this.name + " " + this.surname;
     }
     public void writeMessage(BufferedReader input) throws IOException {
         User destUser;
@@ -109,5 +119,67 @@ public class User implements Cloneable, Serializable{
             Message message = new Message(login, text);
             destUser.messages.add(message);
         }
+    }
+    public String toString(){
+        return this.name + " " + this.surname + this.role.name();
+    }
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public Vector<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Vector<Message> messages) {
+        this.messages = messages;
     }
 }

@@ -22,16 +22,16 @@ public class Admin extends User {
         }
     }
     public void banUser(User user){
-        if(!user.blocked){
-            user.blocked = true;
+        if(!user.isBlocked()){
+            user.setBlocked(true);
         }
         else {
             System.out.println("User already banned");
         }
     }
     public void unbanUser(User user){
-        if(user.blocked){
-            user.blocked = false;
+        if(user.isBlocked()){
+            user.setBlocked(false);
         }
         else {
             System.out.println("User not banned");

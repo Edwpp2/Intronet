@@ -7,7 +7,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
+
+/**
+ *
+ */
 public class Course extends Discipline implements Serializable {
+
     public String id;
     public Vector<Material> materials;
     public HashMap<String,Mark> studentMarks;
@@ -46,15 +51,6 @@ public class Course extends Discipline implements Serializable {
     }
     public String getId(){
         return this.id;
-    }
-    public int maxMaterialName(){
-        int maxLength = 0;
-        for(Material material : materials){
-            if(maxLength < material.title.length()){
-                maxLength = material.title.length();
-            }
-        }
-        return maxLength;
     }
     public boolean hasPrerec(Student student){
         int prercCnt = 0;

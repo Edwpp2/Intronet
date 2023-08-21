@@ -26,7 +26,7 @@ public class Request implements Serializable {
         Course course = Intranet.getInstance().getCourseById(courseId);
         User user = Intranet.getInstance().getUserById(userId);
         operationName = requestType.name().equals("ADDCOURSE")?"add course":"drop course";
-        this.title = course.name + operationName + user.name;
+        this.title = course.name + operationName + user.getName();
         this.faculty = faculty;
     }
     @Override

@@ -21,7 +21,7 @@ public class Lesson implements Serializable {
     public String toString()
     {
         try{
-            return name + " " + "(" + teacher.name + " " + teacher.surname + " "  + room + ")";
+            return name + " " + "(" + teacher.toString() + " "  + room + ")";
         }
         catch (NullPointerException e)
         {

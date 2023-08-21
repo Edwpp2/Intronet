@@ -9,13 +9,24 @@ import Frontend.SchduleDrawer;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * Class for course creation
+ *
+ * @author Eduardo
+ */
 public class CourseConstructor {
+
+    /**
+     * Function for course creation
+     * @param input buffered reader to get input data
+     * @throws IOException
+     */
     public static void courseCreation(BufferedReader input) throws IOException {
         Course course = null;
         Faculty faculty = null;
         String title = null;
         String description = null;
-        String code = null;
+        String code;
         int credits = 0;
         int capacity = 0;
         int internalStage = 0;

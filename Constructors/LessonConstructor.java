@@ -2,12 +2,27 @@ package Constructors;
 import Core.Course;
 import Core.InputVerification;
 import Core.Lesson;
+import Core.Logs;
 import Enums.Day;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * This class is for lesson creation
+ *
+ * @author Eduardo
+ */
+
 public class LessonConstructor {
+
+    /**
+     * This is lesson creation function
+     * @param course Course to which lesson will be added
+     * @param input Buffer reader which get input data
+     * @return Lesson which will be added to course
+     * @throws IOException
+     */
     public static Lesson lessonCreation(Course course, BufferedReader input) throws IOException {
         Day day = null;
         String room=null;
@@ -37,6 +52,7 @@ public class LessonConstructor {
             }
         }
         Lesson lesson = new Lesson(day,room,hour-9);
+        Logs.AddToLog("Lesson at " +  day.name() + " " + room + " " + hour+":00 was added to " + course.name);
         if(course.teacher!=null){
             lesson.teacher=course.teacher;
         }

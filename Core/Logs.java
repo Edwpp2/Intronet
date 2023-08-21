@@ -20,7 +20,7 @@ public class Logs {
             FileWriter fileWriter = new FileWriter(fileName);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            bufferedWriter.write(formattedDateTime + ":" + " " + userSourse.name + " " + userSourse.surname);
+            bufferedWriter.write(formattedDateTime + ":" + " " + userSourse.toString());
             bufferedWriter.newLine();
             bufferedWriter.write(text);
             bufferedWriter.newLine();
@@ -91,7 +91,7 @@ public class Logs {
         String letterPoints = toCell("Letter points", "Letter points".length());
         String gpa = toCell("GPA", 9);
 
-        String fileName = student.name + "_" + student.surname + "_" +"Transcript.txt";
+        String fileName = student.getName() + "_" + student.getSurname() + "_" +"Transcript.txt";
         try {
             FileWriter fileWriter1 = new FileWriter(fileName,true);
             BufferedWriter bufferedWriter1 = new BufferedWriter(fileWriter1);
@@ -116,7 +116,6 @@ public class Logs {
                     i++;
                 }
             }
-
             bufferedWriter1.close();
         } catch (IOException e) {
             e.printStackTrace();

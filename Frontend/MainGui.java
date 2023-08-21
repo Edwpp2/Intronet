@@ -22,16 +22,16 @@ public class MainGui {
             if(command==1){
                 user = Intranet.getInstance().login(input);
                 if(user!=null){
-                    if(user.role == Role.TEACHER){
+                    if(user.getRole() == Role.TEACHER){
                         TeacherGUI.menu((Teacher) user,input);
                     }
-                    else if(user.role == Role.MANAGER){
+                    else if(user.getRole() == Role.MANAGER){
                         ManagerGUI.menu((Manager)user,input);
                     }
-                    else if(user.role==Role.STUDENT){
+                    else if(user.getRole()==Role.STUDENT){
                         StudentGUI.menu((Student) user,input);
                     }
-                    else if(user.role==Role.ADMIN){
+                    else if(user.getRole()==Role.ADMIN){
                         AdminGUI.menu((Admin) user,input);
                     }
                 }
