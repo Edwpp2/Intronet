@@ -44,16 +44,10 @@ public class TeacherGUI {
                 SchduleDrawer.printSchedule(teacher.getSchedule());
             }
             else if(command==5){
-                TeacherCurrentCOursesGui.menu(teacher,input);
+                TeacherCurrentCoursesGui.menu(teacher,input);
             }
             else if(command==6){
                 SchduleDrawer.printTeacherRatingForAllCourses(teacher);
-//                if(teacher.courses.size()>0){
-//                    SchduleDrawer.printTeacherRatingForAllCourses(teacher);
-//                }
-//                else {
-//                    System.out.println("NO COURSES!");
-//                }
             }
             else if(command==7){
                 teacher=null;

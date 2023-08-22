@@ -8,7 +8,6 @@ import Constructors.UserConstructor;
 import Core.Course;
 import Core.InputVerification;
 import Core.Intranet;
-import Core.Lesson;
 import Enums.Faculty;
 import Enums.Role;
 import Users.Student;
@@ -121,20 +120,20 @@ public class ManagerUserManagmentGUI {
                 command = InputVerification.intValueCheck(input.readLine());
                 if(command==1){
                     System.out.println("Enter new login for use:");
-                    user.name = input.readLine();
+                    user.setLogin(input.readLine());
                 }
                 else if(command==2){
-                    System.out.println("Enter new login for use:");
-                    user.name = input.readLine();
+                    System.out.println("Enter new password for use:");
+                    user.setPassword(input.readLine());
                 }
                 else if(command==3){
                     System.out.println("Enter new name for use:");
-                    user.name = input.readLine();
+                    user.setName(input.readLine());
                     teacherWasEdited = true;
                 }
                 else if(command==4){
                     System.out.println("Enter new surname for use:");
-                    user.name = input.readLine();
+                    user.setSurname(input.readLine());
                     teacherWasEdited = true;
                 }
 //                else if(command==5){
@@ -158,24 +157,24 @@ public class ManagerUserManagmentGUI {
                         System.out.println("WRONG NUMBER!");
                     }
                     else {
-                        user.faculty = Faculty.values()[index-1];
+                        user.setFaculty(Faculty.values()[index-1]);
                         teacherWasEdited = true;
                         studentWasEdited = true;
                     }
                 }
                 else if(command==6){
-                    if(user.role==Role.TEACHER && teacherWasEdited){
+                    if(user.getRole()==Role.TEACHER && teacherWasEdited){
                         Teacher teacher = (Teacher)user;
                         if(teacher.courses.size()>0){
                             for(String courseId : teacher.courses){
                                 Course course = Intranet.getInstance().getCourseById(courseId);
-                                if(teacher.faculty!=course.faculty){
+                                if(teacher.getFaculty()!=course.faculty){
                                     Intranet.getInstance().dropTeacherFromCourse(course,teacher);
                                 }
                             }
                         }
                     }
-                    else if(user.role==Role.STUDENT && studentWasEdited){
+                    else if(user.getRole()==Role.STUDENT && studentWasEdited){
                         Student student = (Student) user;
                         if(student.courses.size()>0){
                             for(String courseId : student.courses.keySet()){

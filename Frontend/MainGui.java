@@ -4,7 +4,6 @@ import Core.InputVerification;
 import Core.Intranet;
 import Enums.Role;
 import Users.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +13,7 @@ public class MainGui {
         int command;
         User user;
         while(true){
-            System.out.println("WELCOME TO INTRONET!");
+            System.out.println("WELCOME TO INTRANET!");
             System.out.println("Choose an option");
             System.out.println("[1]Login");
             System.out.println("[2]Exit");

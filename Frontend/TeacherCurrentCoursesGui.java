@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class TeacherCurrentCOursesGui {
+public class TeacherCurrentCoursesGui {
     public static void menu(Teacher teacher,BufferedReader input) throws IOException {
         int command;
         int internalStage = 0;
@@ -21,6 +21,7 @@ public class TeacherCurrentCOursesGui {
         }
         while (start){
             if(internalStage==0){
+                SchduleDrawer.printInfoAboutTeacherCourses(teacher);
                 System.out.println("Choose an option:");
                 System.out.println("[1]Choose course");
                 System.out.println("[2]Back");
@@ -41,15 +42,15 @@ public class TeacherCurrentCOursesGui {
                 }
             }
             if(internalStage==1){
-                SchduleDrawer.printInfoAboutTeacherCourses(teacher);
                 System.out.println("Enter course number");
                 int courseNum = InputVerification.intValueCheck(input.readLine());
-                try {
-                    course = Intranet.getInstance().getCourseById((String) teacher.courses.toArray()[courseNum-1]);
+                course = teacher.chooseCourse(courseNum);
+                if(course!=null)
+                {
                     internalStage++;
                 }
-                catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("Wrong number!");
+                else {
+                    internalStage--;
                 }
             }
             if(internalStage==2){
@@ -61,26 +62,7 @@ public class TeacherCurrentCOursesGui {
                 System.out.println("[5]Back");
                 command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    System.out.println("Chose an option:");
-                    System.out.println("[1]Add material");
-                    System.out.println("[2]Remove material");
-                    System.out.println("[3]Back");
-                    command = InputVerification.intValueCheck(input.readLine());
-                    if(command==1){
-                        System.out.println("Enter file name");
-                        String filename = input.readLine();
-                        course.materials.add((new Material(filename)));
-                        Logs.AddToLog(teacher.name + teacher.surname + "add material to" + course.name);
-                    }
-                    else if(command==2){
-                        internalStage=4;
-                    }
-                    else if(command==3){
-                        continue;
-                    }
-                    else {
-                        System.out.println("WRONG NUMBER!");
-                    }
+                    internalStage=7;
                 }
                 else if(command==2){
                     SchduleDrawer.printMarksForListOfStudents(course);
@@ -100,25 +82,25 @@ public class TeacherCurrentCOursesGui {
             }
             if(internalStage==3){
                 for (String id : course.studentMarks.keySet()){
-                    if(!course.studentMarks.get(id).finalHeld){
-                        System.out.println("Some students has no points for final!");
-                        continue;
-                    }
-                }
-                for (String id : course.studentMarks.keySet()){
-                    Student student1 = (Student) Intranet.getInstance().getUserById(id);
-                    if(course.studentMarks.get(id).isRetake()){
-                        Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).name + " " + Intranet.getInstance().getUserById(id).surname + " fail" + course.name);
+                    Student passedStudent = (Student) Intranet.getInstance().getUserById(id);
+                    Mark mark = course.studentMarks.get(id);
+                    if(!mark.finalHeld){
+                        System.out.println(passedStudent + " has no points for final!");
                     }
                     else {
-                        Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).name + " " + Intranet.getInstance().getUserById(id).surname + " pass" + course.name);
-                        student1.passedCoursesCnt++;
-                        student1.transcript.computeIfAbsent(student1.yearOfStudy, k -> new HashMap<>());
-                        HashMap<String,Mark> passedCourseAndMarks = student1.transcript.get(student1.yearOfStudy);
-                        passedCourseAndMarks.put(course.getId(),course.studentMarks.get(student1.getId()));
-                        student1.nextCourse();
+                        if(mark.isRetake()){
+                            Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).toString() + " fail" + course.name);
+                        }
+                        else {
+                            Logs.AddToLog("Student: " + Intranet.getInstance().getUserById(id).toString() + " pass" + course.name);
+                            passedStudent.passedCoursesCnt++;
+                            passedStudent.transcript.computeIfAbsent(passedStudent.yearOfStudy, k -> new HashMap<>());
+                            HashMap<String,Mark> passedCourseAndMarks = passedStudent.transcript.get(passedStudent.yearOfStudy);
+                            passedCourseAndMarks.put(course.getId(),course.studentMarks.get(passedStudent.getId()));
+                            passedStudent.nextCourse();
+                        }
                     }
-                    Intranet.dropStudentFromCourse(student1,course);
+                    Intranet.dropStudentFromCourse(passedStudent,course);
                 }
                 internalStage=2;
             }
@@ -133,7 +115,7 @@ public class TeacherCurrentCOursesGui {
                     catch (ArrayIndexOutOfBoundsException e){
                         System.out.println("Wrong number!");
                     }
-                    Logs.AddToLog(teacher.name + teacher.surname + "remove material from" + course.name);
+                    Logs.AddToLog(teacher + " remove material from" + course.name);
                 }
                 internalStage=2;
             }
@@ -147,7 +129,6 @@ public class TeacherCurrentCOursesGui {
                     try {
                         student = (Student) Intranet.getInstance().getUserById((String) course.studentMarks.keySet().toArray()[studentIndex-1]);
                         internalStage++;
-                        System.out.println(student.name);
                     }
                     catch (ArrayIndexOutOfBoundsException e){
                         System.out.println("WRONG NUMBER!");
@@ -159,16 +140,16 @@ public class TeacherCurrentCOursesGui {
                 }
             }
             if(internalStage==6){
-                SchduleDrawer.printMarksForCurrentStudent(student,course,0,0,(student.name + " " + student.surname).length());
+                SchduleDrawer.printMarksForCurrentStudent(student,course,0,0,(student.toString()).length());
                 System.out.println("Chose an option:");
                 System.out.println("[1]Put mark for first attestation");
                 System.out.println("[2]Put mark for first attestation");
                 System.out.println("[3]Put mark for final");
-                System.out.println("[4]Put abscense");
+                System.out.println("[4]Put absence");
                 System.out.println("[5]Back");
                 command= InputVerification.intValueCheck(input.readLine());
                 if(command==1){
-                    System.out.println("Enter mark for first attiastation");
+                    System.out.println("Enter mark for first attestation");
                     double mark = InputVerification.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 60){
                         System.out.println("WRONG MARK!");
@@ -176,11 +157,11 @@ public class TeacherCurrentCOursesGui {
                     else {
                         student.courses.get(course.getId()).putPointForFirstAtt(mark);
                         course.studentMarks.get(student.getId()).putPointForFirstAtt(mark);
-                        Logs.AddToLog(teacher.name + teacher.surname + "put" + mark + " for first att on" + course.name);
+                        Logs.AddToLog(teacher + " put" + mark + " for first att on" + course.name);
                     }
                 }
                 else if(command==2){
-                    System.out.println("Enter mark for second attiastation");
+                    System.out.println("Enter mark for second attestation");
                     double mark = InputVerification.doubleValueCheck(input.readLine());
                     if(mark<0 || mark > 60){
                         System.out.println("WRONG MARK!");
@@ -188,7 +169,7 @@ public class TeacherCurrentCOursesGui {
                     else {
                         student.courses.get(course.getId()).putPointForSecondAtt(mark);
                         course.studentMarks.get(student.getId()).putPointForSecondAtt(mark);
-                        Logs.AddToLog(teacher.name + teacher.surname + "put" + mark + " for second att on" + course.name);
+                        Logs.AddToLog(teacher + " put" + mark + " for second att on" + course.name);
                     }
                 }
                 else if(command==3){
@@ -200,11 +181,11 @@ public class TeacherCurrentCOursesGui {
                     else {
                         student.courses.get(course.getId()).putPointsForFinal(mark);
                         course.studentMarks.get(student.getId()).putPointsForFinal(mark);
-                        Logs.AddToLog(teacher.name + teacher.surname + "put" + mark + " for final on" + course.name );
+                        Logs.AddToLog(teacher + "put" + mark + " for final on" + course.name );
                     }
                 }
                 else if(command==4){
-                    Logs.AddToLog(teacher.name + teacher.surname + "put absence");
+                    Logs.AddToLog(teacher + "put absence");
                     student.courses.get(course.getId()).putAcscenseCount();
                     course.studentMarks.get(student.getId()).putAcscenseCount();
                 }
@@ -212,6 +193,25 @@ public class TeacherCurrentCOursesGui {
                     internalStage=2;
                 }
                 else{
+                    System.out.println("WRONG NUMBER!");
+                }
+            }
+            if(internalStage==7) {
+                System.out.println("Chose an option:");
+                System.out.println("[1]Add material");
+                System.out.println("[2]Remove material");
+                System.out.println("[3]Back");
+                command = InputVerification.intValueCheck(input.readLine());
+                if (command == 1) {
+                    System.out.println("Enter file name");
+                    String filename = input.readLine();
+                    course.materials.add((new Material(filename)));
+                    Logs.AddToLog(teacher + " add material to" + course.name);
+                } else if (command == 2) {
+                    internalStage = 4;
+                } else if (command == 3) {
+                    internalStage = 2;
+                } else {
                     System.out.println("WRONG NUMBER!");
                 }
             }

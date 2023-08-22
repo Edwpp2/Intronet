@@ -57,7 +57,7 @@ public class StudentCurrentCoursesManagment {
                     SchduleDrawer.printMaterials(course);
                 }
                 else if(command==2){
-                    SchduleDrawer.printMarksForCurrentStudent(student,course,0,1,(student.name + " " + student.surname).length());
+                    SchduleDrawer.printMarksForCurrentStudent(student,course,0,1,(student.toString()).length());
                 }
                 else if(command==3){
                     if(course.teacher==null){

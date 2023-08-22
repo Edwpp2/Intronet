@@ -69,7 +69,8 @@ public class Test {
             Intranet.getInstance().news.add(news5);
             Intranet.getInstance().news.add(news6);
         }
-
+        Student student1 = new Student("student1", "password1", "Alice", "Smith", Role.STUDENT, Faculty.FIT, Degree.BS);
+        System.out.println(student1);
         MainGui.menu();
     }
 

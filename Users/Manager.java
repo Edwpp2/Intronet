@@ -29,12 +29,12 @@ public class Manager extends User implements Serializable {
             person.dropCourse(course);
         }
         String requestType = request.requestType==RequestType.ADDCOURSE?"add":"drop";
-        Logs.AddToLog("Accept " + requestType + " request from " + user.name +" "+ user.surname, this);
+        Logs.AddToLog("Accept " + requestType + " request from " + user.toString(), this);
     }
     public void rejectRequest(Request request){
         Intranet.getInstance().requests.remove(request);
         User user =  Intranet.getInstance().getUserById(request.sourceId);
-        Logs.AddToLog("Reject request from " + user.name + " " + user.surname,this);
+        Logs.AddToLog("Reject request from " + user.toString(),this);
     }
     public void addNews(String title,String content){
         Intranet.getInstance().news.add(new News(title,content));

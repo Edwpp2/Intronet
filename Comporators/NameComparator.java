@@ -8,9 +8,9 @@ public class NameComparator implements Comparator<User> {
 
     @Override
     public int compare(User user1, User user2) {
-        if(user1.name.compareTo(user2.name)==0){
-            return user1.surname.compareTo(user2.surname);
+        if(user1.getName().compareTo(user2.getName())==0){
+            return user1.getName().compareTo(user2.getName());
         }
-        return user1.name.compareTo(user2.name);
+        return user1.getName().compareTo(user2.getName());
     }
 }

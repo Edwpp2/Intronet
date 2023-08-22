@@ -56,9 +56,9 @@ public class Student extends User implements Serializable,StudyPerson {
     }
     public void rateTeacher(Course course,int rating){
         if(course.teacherRating.get(this.getId())==null){
-            if(rating > 0 || rating <= 5){
+            if(rating > 0 && rating <= 5){
                 course.teacherRating.put(this.getId(),rating);
-                Logs.AddToLog("Put rating" + rating + "to" + course.teacher.name + " " + course.teacher.surname,this);
+                Logs.AddToLog("Put rating" + rating + "to" + course.toString(),this);
             }
             else {
                 System.out.println("Wrong rating!It must be less or equal to 5!");
