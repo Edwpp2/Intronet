@@ -29,8 +29,8 @@ public class StudentCurrentCoursesManagment {
                 if(command==1){
                     System.out.println("Enter course number!");
                     int courseNum = InputVerification.intValueCheck(input.readLine());
-                    if(courseNum>0 && courseNum <= student.courses.size()){
-                        course = Intranet.getInstance().getCourseById((String) student.courses.keySet().toArray()[courseNum-1]);
+                    course = student.getCourse(courseNum);
+                    if(course!=null){
                         internalStage++;
                     }
                     else {

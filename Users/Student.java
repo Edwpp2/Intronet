@@ -102,9 +102,19 @@ public class Student extends User implements Serializable,StudyPerson {
         Intranet.addStudentToCourse(this, course);
         registeredCoursesCnt++;
     }
+    public Course getCourse(int courseNum){
+        try{
+            return  (Course) (Intranet.getInstance().courses.toArray()[courseNum-1]);
+        }
+        catch (NullPointerException e){
+            System.out.println("WRONG NUMBER!");
+        }
+        return null;
+    }
 
     @Override
     public Degree getDegree() {
         return degree;
     }
+
 }
