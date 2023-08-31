@@ -1,14 +1,12 @@
 import Core.Course;
 import Core.Intranet;
 import Core.News;
+import DBconfig.DbConnect;
 import Enums.Degree;
 import Enums.Faculty;
 import Enums.Role;
 import Frontend.MainGui;
-import Users.Admin;
-import Users.Manager;
-import Users.Student;
-import Users.Teacher;
+import Users.*;
 
 import java.io.IOException;
 
@@ -69,8 +67,9 @@ public class Test {
             Intranet.getInstance().news.add(news5);
             Intranet.getInstance().news.add(news6);
         }
-        Student student1 = new Student("student1", "password1", "Alice", "Smith", Role.STUDENT, Faculty.FIT, Degree.BS);
-        System.out.println(student1);
+        for (User user : Intranet.getInstance().users){
+            DbConnect.writeToDb("users",user.getId());
+        }
         MainGui.menu();
     }
 
